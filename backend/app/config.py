@@ -47,9 +47,25 @@ class Settings(BaseSettings):
         default=None,
         validation_alias=AliasChoices("MAPBOX_STYLE"),
     )
-    ticketmaster_api_key: str | None = Field(
+    enable_places_catalog_ingestion: bool = Field(
+        default=True,
+        validation_alias=AliasChoices("ENABLE_PLACES_CATALOG_INGESTION"),
+    )
+    openclaw_enabled: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("OPENCLAW_ENABLED"),
+    )
+    openclaw_endpoint: str | None = Field(
         default=None,
-        validation_alias=AliasChoices("TICKETMASTER_API_KEY"),
+        validation_alias=AliasChoices("OPENCLAW_ENDPOINT"),
+    )
+    openclaw_api_token: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("OPENCLAW_API_TOKEN"),
+    )
+    openclaw_timeout_seconds: float = Field(
+        default=4.0,
+        validation_alias=AliasChoices("OPENCLAW_TIMEOUT_SECONDS"),
     )
     vapid_public_key: str | None = Field(
         default=None,

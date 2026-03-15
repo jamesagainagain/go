@@ -21,7 +21,11 @@ def get_event_ingestion_service() -> EventIngestionService:
     if _event_ingestion_service is None:
         settings = get_settings()
         adapters = build_default_event_source_adapters(
-            ticketmaster_api_key=settings.ticketmaster_api_key
+            include_places_catalog=settings.enable_places_catalog_ingestion,
+            openclaw_enabled=settings.openclaw_enabled,
+            openclaw_endpoint=settings.openclaw_endpoint,
+            openclaw_api_token=settings.openclaw_api_token,
+            openclaw_timeout_seconds=settings.openclaw_timeout_seconds,
         )
         _event_ingestion_service = EventIngestionService(adapters=adapters)
     return _event_ingestion_service

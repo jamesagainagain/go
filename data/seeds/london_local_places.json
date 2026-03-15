@@ -1,0 +1,222 @@
+[
+  {
+    "name": "The British Museum",
+    "address": "Great Russell St, London WC1B 3DG",
+    "borough": "Camden",
+    "lat": 51.5194,
+    "lng": -0.1270,
+    "category": "museum",
+    "tags": ["museum", "culture", "history"],
+    "source_url": "https://www.britishmuseum.org/",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "Tate Modern",
+    "address": "Bankside, London SE1 9TG",
+    "borough": "Southwark",
+    "lat": 51.5076,
+    "lng": -0.0994,
+    "category": "museum",
+    "tags": ["museum", "art", "culture"],
+    "source_url": "https://www.tate.org.uk/visit/tate-modern",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "Natural History Museum",
+    "address": "Cromwell Rd, London SW7 5BD",
+    "borough": "Kensington and Chelsea",
+    "lat": 51.4967,
+    "lng": -0.1764,
+    "category": "museum",
+    "tags": ["museum", "science", "culture"],
+    "source_url": "https://www.nhm.ac.uk/",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "V&A Museum",
+    "address": "Cromwell Rd, London SW7 2RL",
+    "borough": "Kensington and Chelsea",
+    "lat": 51.4966,
+    "lng": -0.1722,
+    "category": "museum",
+    "tags": ["museum", "design", "culture"],
+    "source_url": "https://www.vam.ac.uk/",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "Design Museum",
+    "address": "224-238 Kensington High St, London W8 6AG",
+    "borough": "Kensington and Chelsea",
+    "lat": 51.5003,
+    "lng": -0.1979,
+    "category": "museum",
+    "tags": ["museum", "design", "culture"],
+    "source_url": "https://designmuseum.org/",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "Dishoom Shoreditch",
+    "address": "7 Boundary St, London E2 7JE",
+    "borough": "Hackney",
+    "lat": 51.5258,
+    "lng": -0.0800,
+    "category": "restaurant",
+    "tags": ["restaurant", "food", "social"],
+    "source_url": "https://www.dishoom.com/",
+    "cost_hint": "£20"
+  },
+  {
+    "name": "Padella Borough Market",
+    "address": "6 Southwark St, London SE1 1TQ",
+    "borough": "Southwark",
+    "lat": 51.5052,
+    "lng": -0.0897,
+    "category": "restaurant",
+    "tags": ["restaurant", "food", "italian"],
+    "source_url": "https://www.padella.co/",
+    "cost_hint": "£15"
+  },
+  {
+    "name": "BAO Soho",
+    "address": "53 Lexington St, London W1F 9AS",
+    "borough": "Westminster",
+    "lat": 51.5137,
+    "lng": -0.1349,
+    "category": "restaurant",
+    "tags": ["restaurant", "food", "asian"],
+    "source_url": "https://baolondon.com/",
+    "cost_hint": "£18"
+  },
+  {
+    "name": "Flat Iron Covent Garden",
+    "address": "17-18 Henrietta St, London WC2E 8QH",
+    "borough": "Westminster",
+    "lat": 51.5114,
+    "lng": -0.1235,
+    "category": "restaurant",
+    "tags": ["restaurant", "food", "casual"],
+    "source_url": "https://flatironsteak.co.uk/",
+    "cost_hint": "£20"
+  },
+  {
+    "name": "Honest Burgers Soho",
+    "address": "4a Meard St, London W1F 0EF",
+    "borough": "Westminster",
+    "lat": 51.5131,
+    "lng": -0.1328,
+    "category": "restaurant",
+    "tags": ["restaurant", "food", "casual"],
+    "source_url": "https://www.honestburgers.co.uk/",
+    "cost_hint": "£16"
+  },
+  {
+    "name": "Ozone Coffee Roasters",
+    "address": "11 Leonard St, London EC2A 4AQ",
+    "borough": "Hackney",
+    "lat": 51.5249,
+    "lng": -0.0872,
+    "category": "cafe",
+    "tags": ["cafe", "coffee", "social"],
+    "source_url": "https://ozonecoffee.co.uk/",
+    "cost_hint": "£8"
+  },
+  {
+    "name": "Caravan King's Cross",
+    "address": "1 Granary Sq, London N1C 4AA",
+    "borough": "Camden",
+    "lat": 51.5357,
+    "lng": -0.1247,
+    "category": "cafe",
+    "tags": ["cafe", "food", "social"],
+    "source_url": "https://www.caravanrestaurants.co.uk/",
+    "cost_hint": "£12"
+  },
+  {
+    "name": "Notes King's Cross",
+    "address": "1 Pancras Sq, London N1C 4AG",
+    "borough": "Camden",
+    "lat": 51.5338,
+    "lng": -0.1236,
+    "category": "cafe",
+    "tags": ["cafe", "coffee", "work"],
+    "source_url": "https://notescoffee.com/",
+    "cost_hint": "£7"
+  },
+  {
+    "name": "Whitechapel Gallery",
+    "address": "77-82 Whitechapel High St, London E1 7QX",
+    "borough": "Tower Hamlets",
+    "lat": 51.5173,
+    "lng": -0.0719,
+    "category": "gallery",
+    "tags": ["gallery", "art", "culture"],
+    "source_url": "https://www.whitechapelgallery.org/",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "Saatchi Gallery",
+    "address": "Duke of York's HQ, King's Rd, London SW3 4RY",
+    "borough": "Kensington and Chelsea",
+    "lat": 51.4923,
+    "lng": -0.1585,
+    "category": "gallery",
+    "tags": ["gallery", "art", "culture"],
+    "source_url": "https://www.saatchigallery.com/",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "Greenwich Park",
+    "address": "Greenwich Park, London SE10 8QY",
+    "borough": "Greenwich",
+    "lat": 51.4769,
+    "lng": -0.0005,
+    "category": "park",
+    "tags": ["park", "outdoors", "wellness"],
+    "source_url": "https://www.royalparks.org.uk/visit/parks/greenwich-park",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "Hampstead Heath",
+    "address": "Hampstead Heath, London NW3 2PL",
+    "borough": "Camden",
+    "lat": 51.5607,
+    "lng": -0.1657,
+    "category": "park",
+    "tags": ["park", "outdoors", "wellness"],
+    "source_url": "https://www.cityoflondon.gov.uk/things-to-do/green-spaces/hampstead-heath",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "Victoria Park",
+    "address": "Old Ford Rd, London E9 7DE",
+    "borough": "Tower Hamlets",
+    "lat": 51.5360,
+    "lng": -0.0382,
+    "category": "park",
+    "tags": ["park", "outdoors", "fitness"],
+    "source_url": "https://www.towerhamlets.gov.uk/victoriapark",
+    "cost_hint": "Free"
+  },
+  {
+    "name": "Southbank Centre Food Market",
+    "address": "Belvedere Rd, London SE1 8XX",
+    "borough": "Lambeth",
+    "lat": 51.5071,
+    "lng": -0.1168,
+    "category": "food_market",
+    "tags": ["food", "market", "community"],
+    "source_url": "https://www.southbankcentre.co.uk/",
+    "cost_hint": "£15"
+  },
+  {
+    "name": "Borough Market",
+    "address": "8 Southwark St, London SE1 1TL",
+    "borough": "Southwark",
+    "lat": 51.5055,
+    "lng": -0.0910,
+    "category": "food_market",
+    "tags": ["food", "market", "community"],
+    "source_url": "https://boroughmarket.org.uk/",
+    "cost_hint": "£12"
+  }
+]

@@ -1,69 +1,116 @@
 from __future__ import annotations
 
+import json
+from datetime import UTC, datetime
+from pathlib import Path
+
 import pytest
 
-from app.services.event_sources import TicketmasterAdapter, build_default_event_source_adapters
+from app.services.event_sources import (
+    OpenClawEventSourceAdapter,
+    PlacesCatalogAdapter,
+    build_default_event_source_adapters,
+)
+from app.services.openclaw import DisabledOpenClawProvider
 
 
 @pytest.mark.services
-def test_default_event_source_adapters_include_ticketmaster():
-    adapters = build_default_event_source_adapters(ticketmaster_api_key="test-key")
-    assert len(adapters) == 1
-    assert isinstance(adapters[0], TicketmasterAdapter)
+def test_default_event_source_adapters_include_places_catalog():
+    adapters = build_default_event_source_adapters(
+        include_places_catalog=True,
+        openclaw_enabled=False,
+        openclaw_endpoint=None,
+        openclaw_api_token=None,
+        openclaw_timeout_seconds=4.0,
+    )
+    assert len(adapters) == 2
+    assert isinstance(adapters[0], PlacesCatalogAdapter)
+    assert isinstance(adapters[1], OpenClawEventSourceAdapter)
 
-    empty = build_default_event_source_adapters(ticketmaster_api_key=None)
-    assert empty == []
+    empty = build_default_event_source_adapters(
+        include_places_catalog=False,
+        openclaw_enabled=False,
+        openclaw_endpoint=None,
+        openclaw_api_token=None,
+        openclaw_timeout_seconds=4.0,
+    )
+    assert len(empty) == 1
+    assert isinstance(empty[0], OpenClawEventSourceAdapter)
 
 
 @pytest.mark.services
 @pytest.mark.asyncio
-async def test_ticketmaster_adapter_parses_events(monkeypatch: pytest.MonkeyPatch):
-    adapter = TicketmasterAdapter(api_key="test-key")
-
-    async def fake_fetch_payload(**kwargs):  # noqa: ANN003
-        del kwargs
-        return {
-            "_embedded": {
-                "events": [
-                    {
-                        "name": "London Open Mic Night",
-                        "url": "https://example.com/event-1",
-                        "info": "A beginner-friendly open mic for solo attendees.",
-                        "dates": {
-                            "start": {"dateTime": "2026-03-20T19:00:00Z"},
-                            "end": {"dateTime": "2026-03-20T21:00:00Z"},
-                        },
-                        "priceRanges": [{"min": 12.5, "currency": "GBP"}],
-                        "classifications": [
-                            {"segment": {"name": "Music"}, "genre": {"name": "Alternative"}}
-                        ],
-                        "_embedded": {
-                            "venues": [
-                                {
-                                    "name": "Southbank Centre",
-                                    "postalCode": "SE1 8XX",
-                                    "address": {"line1": "Belvedere Rd"},
-                                    "city": {"name": "London"},
-                                    "location": {"latitude": "51.5068", "longitude": "-0.1167"},
-                                }
-                            ]
-                        },
-                    }
-                ]
-            }
-        }
-
-    monkeypatch.setattr(adapter, "_fetch_payload", fake_fetch_payload)
+async def test_places_catalog_adapter_generates_events(tmp_path: Path):
+    catalog_path = tmp_path / "places.json"
+    catalog_path.write_text(
+        json.dumps(
+            [
+                {
+                    "name": "Demo Museum",
+                    "address": "Test St, London",
+                    "borough": "Camden",
+                    "lat": 51.52,
+                    "lng": -0.12,
+                    "category": "museum",
+                    "tags": ["culture"],
+                    "source_url": "https://museum.example",
+                    "cost_hint": "Free",
+                },
+                {
+                    "name": "Demo Restaurant",
+                    "address": "Food St, London",
+                    "borough": "Hackney",
+                    "lat": 51.54,
+                    "lng": -0.08,
+                    "category": "restaurant",
+                    "tags": ["food"],
+                    "source_url": "https://restaurant.example",
+                    "cost_hint": "£20",
+                },
+            ]
+        ),
+        encoding="utf-8",
+    )
+    adapter = PlacesCatalogAdapter(catalog_path=catalog_path)
     events = await adapter.fetch_events(city="london", radius_km=5, hours_ahead=24)
-    assert len(events) == 1
+    assert len(events) == 2
 
-    event = events[0]
-    assert event.source_name == "ticketmaster"
-    assert event.title == "London Open Mic Night"
-    assert event.start_time == "2026-03-20T19:00:00Z"
-    assert event.location_text == "Southbank Centre, Belvedere Rd, London, SE1 8XX"
-    assert event.lat == pytest.approx(51.5068)
-    assert event.lng == pytest.approx(-0.1167)
-    assert event.cost_text == "£12.50"
-    assert event.tags_raw is not None
-    assert "music" in event.tags_raw
+    first = events[0]
+    second = events[1]
+    assert first.source_name == "local_places"
+    assert second.source_name == "local_places"
+    assert "museum" in (first.tags_raw or [])
+    assert "restaurant" in (second.tags_raw or [])
+    assert isinstance(first.start_time, datetime)
+    assert first.start_time.tzinfo is UTC
+
+
+@pytest.mark.services
+@pytest.mark.asyncio
+async def test_places_catalog_adapter_is_london_only(tmp_path: Path):
+    catalog_path = tmp_path / "places.json"
+    catalog_path.write_text(
+        json.dumps(
+            [
+                {
+                    "name": "Demo Cafe",
+                    "address": "Cafe St, London",
+                    "lat": 51.5,
+                    "lng": -0.1,
+                    "category": "cafe",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    adapter = PlacesCatalogAdapter(catalog_path=catalog_path)
+    events = await adapter.fetch_events(city="manchester", radius_km=5, hours_ahead=24)
+    assert events == []
+
+
+@pytest.mark.services
+@pytest.mark.asyncio
+async def test_openclaw_framework_adapter_is_non_blocking_when_disabled():
+    adapter = OpenClawEventSourceAdapter(provider=DisabledOpenClawProvider())
+    events = await adapter.fetch_events(city="london", radius_km=5, hours_ahead=24)
+    assert events == []

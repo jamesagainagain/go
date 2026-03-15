@@ -99,15 +99,38 @@ def test_task_lock_fails_safe_when_redis_unavailable(monkeypatch: pytest.MonkeyP
 
 
 @pytest.mark.tasks
-def test_event_ingestion_service_registers_ticketmaster_from_settings(
+def test_event_ingestion_service_registers_local_places_from_settings(
     monkeypatch: pytest.MonkeyPatch,
 ):
     class FakeSettings:
-        ticketmaster_api_key = "demo-key"
+        enable_places_catalog_ingestion = True
+        openclaw_enabled = False
+        openclaw_endpoint = None
+        openclaw_api_token = None
+        openclaw_timeout_seconds = 4.0
 
     monkeypatch.setattr(ingest_events, "get_settings", lambda: FakeSettings())
     ingest_events.set_event_ingestion_service(None)  # type: ignore[arg-type]
 
     service = ingest_events.get_event_ingestion_service()
-    assert "ticketmaster" in service.available_providers()
+    assert "local_places" in service.available_providers()
+    ingest_events.set_event_ingestion_service(None)  # type: ignore[arg-type]
+
+
+@pytest.mark.tasks
+def test_event_ingestion_service_can_disable_local_places(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    class FakeSettings:
+        enable_places_catalog_ingestion = False
+        openclaw_enabled = False
+        openclaw_endpoint = None
+        openclaw_api_token = None
+        openclaw_timeout_seconds = 4.0
+
+    monkeypatch.setattr(ingest_events, "get_settings", lambda: FakeSettings())
+    ingest_events.set_event_ingestion_service(None)  # type: ignore[arg-type]
+
+    service = ingest_events.get_event_ingestion_service()
+    assert "local_places" not in service.available_providers()
     ingest_events.set_event_ingestion_service(None)  # type: ignore[arg-type]
