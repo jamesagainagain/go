@@ -1,0 +1,2269 @@
+{
+  "generated_at": "2026-03-15T13:38:29.544186+00:00",
+  "seed": 20260315,
+  "opportunities": [
+    {
+      "opportunity_id": "demo-opp-001",
+      "title": "Life Drawing at The Art House",
+      "scenario": "post_work_drift",
+      "zone": "shoreditch",
+      "tier": "structured",
+      "starts_at": "2026-03-18T18:30:00Z",
+      "social_proof_snapshot": {
+        "total_expected": 19,
+        "solo_count": 6,
+        "familiar_cluster_count": 2,
+        "top_familiar_clusters": [
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-10",
+            "count": 3
+          },
+          {
+            "cluster_id": "bloomsbury_students-cluster-05",
+            "count": 2
+          },
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-09",
+            "count": 1
+          }
+        ]
+      },
+      "attendees": [
+        {
+          "user_id": "demo-user-0195",
+          "display_name": "Theo Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0192",
+          "display_name": "Elena Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0149",
+          "display_name": "Ivy Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0055",
+          "display_name": "Theo Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0182",
+          "display_name": "Noah Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0036",
+          "display_name": "Mila Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0042",
+          "display_name": "Noah Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0198",
+          "display_name": "Sana Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0150",
+          "display_name": "Aria Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0070",
+          "display_name": "Aria Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0138",
+          "display_name": "Sana Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0171",
+          "display_name": "Omar Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0040",
+          "display_name": "Freya Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0108",
+          "display_name": "Hugo Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0184",
+          "display_name": "Luca Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0096",
+          "display_name": "Mila Smith",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0039",
+          "display_name": "Kai Khan",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0148",
+          "display_name": "Hugo Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0117",
+          "display_name": "Adam Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0200",
+          "display_name": "Freya Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0078",
+          "display_name": "Sana Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0044",
+          "display_name": "Luca Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "demo-opp-002",
+      "title": "Canal Walk + Coffee Meetup",
+      "scenario": "post_work_drift",
+      "zone": "shoreditch",
+      "tier": "recurring_pattern",
+      "starts_at": "2026-03-18T18:15:00Z",
+      "social_proof_snapshot": {
+        "total_expected": 26,
+        "solo_count": 12,
+        "familiar_cluster_count": 4,
+        "top_familiar_clusters": [
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-07",
+            "count": 3
+          },
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-09",
+            "count": 3
+          },
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-06",
+            "count": 2
+          }
+        ]
+      },
+      "attendees": [
+        {
+          "user_id": "demo-user-0179",
+          "display_name": "Kai Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0166",
+          "display_name": "Leo Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0136",
+          "display_name": "Mila Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0109",
+          "display_name": "Ivy Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0159",
+          "display_name": "Kai Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0160",
+          "display_name": "Freya Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0162",
+          "display_name": "Noah Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0155",
+          "display_name": "Theo Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0188",
+          "display_name": "Hugo Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0141",
+          "display_name": "Ava Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0175",
+          "display_name": "Theo Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0189",
+          "display_name": "Ivy Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0126",
+          "display_name": "Leo Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0121",
+          "display_name": "Ava Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0186",
+          "display_name": "Leo Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0134",
+          "display_name": "Layla Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0112",
+          "display_name": "Elena Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0176",
+          "display_name": "Mila Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0180",
+          "display_name": "Freya Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0151",
+          "display_name": "Omar Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0148",
+          "display_name": "Hugo Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0119",
+          "display_name": "Kai Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0110",
+          "display_name": "Aria Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0104",
+          "display_name": "Luca Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0167",
+          "display_name": "Nora Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0105",
+          "display_name": "Zara Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0184",
+          "display_name": "Luca Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0131",
+          "display_name": "Omar Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0173",
+          "display_name": "Ethan Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0182",
+          "display_name": "Noah Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0156",
+          "display_name": "Mila Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0133",
+          "display_name": "Ethan Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "demo-opp-003",
+      "title": "Beginner Bouldering Social",
+      "scenario": "post_work_drift",
+      "zone": "shoreditch",
+      "tier": "structured",
+      "starts_at": "2026-03-19T19:00:00Z",
+      "social_proof_snapshot": {
+        "total_expected": 19,
+        "solo_count": 13,
+        "familiar_cluster_count": 1,
+        "top_familiar_clusters": [
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-02",
+            "count": 2
+          },
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-03",
+            "count": 1
+          },
+          {
+            "cluster_id": "bloomsbury_students-cluster-06",
+            "count": 1
+          }
+        ]
+      },
+      "attendees": [
+        {
+          "user_id": "demo-user-0121",
+          "display_name": "Ava Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0074",
+          "display_name": "Layla Ali",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0054",
+          "display_name": "Layla Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0110",
+          "display_name": "Aria Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0125",
+          "display_name": "Zara Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0013",
+          "display_name": "Ethan Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0156",
+          "display_name": "Mila Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0011",
+          "display_name": "Omar Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0100",
+          "display_name": "Freya Smith",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0117",
+          "display_name": "Adam Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0167",
+          "display_name": "Nora Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0122",
+          "display_name": "Noah Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0023",
+          "display_name": "Mia Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0163",
+          "display_name": "Mia Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0076",
+          "display_name": "Mila Ali",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0195",
+          "display_name": "Theo Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0199",
+          "display_name": "Kai Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0077",
+          "display_name": "Adam Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0123",
+          "display_name": "Mia Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0112",
+          "display_name": "Elena Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0150",
+          "display_name": "Aria Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0126",
+          "display_name": "Leo Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0131",
+          "display_name": "Omar Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0197",
+          "display_name": "Adam Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "demo-opp-004",
+      "title": "Victoria Park Morning Run",
+      "scenario": "weekend_morning_void",
+      "zone": "parks",
+      "tier": "recurring_pattern",
+      "starts_at": "2026-03-21T09:30:00Z",
+      "social_proof_snapshot": {
+        "total_expected": 20,
+        "solo_count": 8,
+        "familiar_cluster_count": 4,
+        "top_familiar_clusters": [
+          {
+            "cluster_id": "weekend_park_goers-cluster-09",
+            "count": 3
+          },
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-06",
+            "count": 2
+          },
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-10",
+            "count": 2
+          }
+        ]
+      },
+      "attendees": [
+        {
+          "user_id": "demo-user-0154",
+          "display_name": "Layla Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0283",
+          "display_name": "Mia Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0109",
+          "display_name": "Ivy Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0194",
+          "display_name": "Layla Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0160",
+          "display_name": "Freya Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0288",
+          "display_name": "Hugo Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0176",
+          "display_name": "Mila Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0190",
+          "display_name": "Aria Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0230",
+          "display_name": "Aria Evans",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0281",
+          "display_name": "Ava Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0174",
+          "display_name": "Layla Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0195",
+          "display_name": "Theo Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0173",
+          "display_name": "Ethan Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0153",
+          "display_name": "Ethan Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0135",
+          "display_name": "Theo Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0187",
+          "display_name": "Nora Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0240",
+          "display_name": "Freya Evans",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0124",
+          "display_name": "Luca Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0118",
+          "display_name": "Sana Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0162",
+          "display_name": "Noah Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0131",
+          "display_name": "Omar Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0183",
+          "display_name": "Mia Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0200",
+          "display_name": "Freya Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0268",
+          "display_name": "Hugo Walker",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0229",
+          "display_name": "Ivy Evans",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0264",
+          "display_name": "Luca Walker",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0286",
+          "display_name": "Leo Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0235",
+          "display_name": "Theo Evans",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0242",
+          "display_name": "Noah Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0289",
+          "display_name": "Ivy Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0266",
+          "display_name": "Leo Walker",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0133",
+          "display_name": "Ethan Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0294",
+          "display_name": "Layla Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0193",
+          "display_name": "Ethan Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "demo-opp-005",
+      "title": "Columbia Road Flower Walk",
+      "scenario": "weekend_morning_void",
+      "zone": "shoreditch",
+      "tier": "structured",
+      "starts_at": "2026-03-21T10:15:00Z",
+      "social_proof_snapshot": {
+        "total_expected": 16,
+        "solo_count": 7,
+        "familiar_cluster_count": 2,
+        "top_familiar_clusters": [
+          {
+            "cluster_id": "bloomsbury_students-cluster-04",
+            "count": 2
+          },
+          {
+            "cluster_id": "weekend_park_goers-cluster-09",
+            "count": 2
+          },
+          {
+            "cluster_id": "weekend_park_goers-cluster-07",
+            "count": 1
+          }
+        ]
+      },
+      "attendees": [
+        {
+          "user_id": "demo-user-0033",
+          "display_name": "Ethan Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0089",
+          "display_name": "Ivy Smith",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0243",
+          "display_name": "Mia Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0060",
+          "display_name": "Freya Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0264",
+          "display_name": "Luca Walker",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0294",
+          "display_name": "Layla Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0288",
+          "display_name": "Hugo Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0045",
+          "display_name": "Zara Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0035",
+          "display_name": "Theo Khan",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0032",
+          "display_name": "Elena Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0225",
+          "display_name": "Zara Evans",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0281",
+          "display_name": "Ava Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0246",
+          "display_name": "Leo Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0063",
+          "display_name": "Mia Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0240",
+          "display_name": "Freya Evans",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0029",
+          "display_name": "Ivy Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0054",
+          "display_name": "Layla Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0275",
+          "display_name": "Theo Walker",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0011",
+          "display_name": "Omar Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0244",
+          "display_name": "Luca Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0019",
+          "display_name": "Kai Patel",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-02"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "demo-opp-006",
+      "title": "Lakeside Sketch Session",
+      "scenario": "weekend_morning_void",
+      "zone": "parks",
+      "tier": "solo_nudge",
+      "starts_at": "2026-03-22T10:00:00Z",
+      "social_proof_snapshot": {
+        "total_expected": 31,
+        "solo_count": 13,
+        "familiar_cluster_count": 6,
+        "top_familiar_clusters": [
+          {
+            "cluster_id": "weekend_park_goers-cluster-03",
+            "count": 2
+          },
+          {
+            "cluster_id": "weekend_park_goers-cluster-05",
+            "count": 2
+          },
+          {
+            "cluster_id": "bloomsbury_students-cluster-01",
+            "count": 2
+          }
+        ]
+      },
+      "attendees": [
+        {
+          "user_id": "demo-user-0221",
+          "display_name": "Ava Evans",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0251",
+          "display_name": "Omar Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0243",
+          "display_name": "Mia Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0073",
+          "display_name": "Ethan Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0292",
+          "display_name": "Elena Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0067",
+          "display_name": "Nora Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0002",
+          "display_name": "Noah Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0281",
+          "display_name": "Ava Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0043",
+          "display_name": "Mia Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0035",
+          "display_name": "Theo Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0097",
+          "display_name": "Adam Smith",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0278",
+          "display_name": "Sana Walker",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0079",
+          "display_name": "Kai Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0083",
+          "display_name": "Mia Smith",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0086",
+          "display_name": "Leo Smith",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0220",
+          "display_name": "Freya Morris",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0052",
+          "display_name": "Elena Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0298",
+          "display_name": "Sana Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0065",
+          "display_name": "Zara Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0226",
+          "display_name": "Leo Evans",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0038",
+          "display_name": "Sana Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0262",
+          "display_name": "Noah Walker",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0252",
+          "display_name": "Elena Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0267",
+          "display_name": "Nora Walker",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0013",
+          "display_name": "Ethan Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0300",
+          "display_name": "Freya Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0068",
+          "display_name": "Hugo Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0245",
+          "display_name": "Zara Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0204",
+          "display_name": "Luca Morris",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0246",
+          "display_name": "Leo Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0274",
+          "display_name": "Layla Walker",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0260",
+          "display_name": "Freya Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0004",
+          "display_name": "Luca Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0077",
+          "display_name": "Adam Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "demo-opp-007",
+      "title": "Last-Minute Ramen Group",
+      "scenario": "cancelled_plan_gap",
+      "zone": "shoreditch",
+      "tier": "micro_coordination",
+      "starts_at": "2026-03-20T19:10:00Z",
+      "social_proof_snapshot": {
+        "total_expected": 12,
+        "solo_count": 5,
+        "familiar_cluster_count": 0,
+        "top_familiar_clusters": [
+          {
+            "cluster_id": "weekend_park_goers-cluster-09",
+            "count": 1
+          },
+          {
+            "cluster_id": "weekend_park_goers-cluster-01",
+            "count": 1
+          },
+          {
+            "cluster_id": "weekend_park_goers-cluster-05",
+            "count": 1
+          }
+        ]
+      },
+      "attendees": [
+        {
+          "user_id": "demo-user-0281",
+          "display_name": "Ava Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0124",
+          "display_name": "Luca Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0206",
+          "display_name": "Leo Morris",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0172",
+          "display_name": "Elena Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0244",
+          "display_name": "Luca Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0245",
+          "display_name": "Zara Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0220",
+          "display_name": "Freya Morris",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0191",
+          "display_name": "Omar Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0285",
+          "display_name": "Zara Nguyen",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0246",
+          "display_name": "Leo Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0178",
+          "display_name": "Sana Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0110",
+          "display_name": "Aria Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0120",
+          "display_name": "Freya Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0203",
+          "display_name": "Mia Morris",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0229",
+          "display_name": "Ivy Evans",
+          "cohort": "weekend_park_goers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0114",
+          "display_name": "Layla Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0143",
+          "display_name": "Mia Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0255",
+          "display_name": "Theo Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0252",
+          "display_name": "Elena Lopez",
+          "cohort": "weekend_park_goers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "weekend_park_goers-cluster-06"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "demo-opp-008",
+      "title": "Drop-In Co-Study at Senate House",
+      "scenario": "cancelled_plan_gap",
+      "zone": "bloomsbury",
+      "tier": "micro_coordination",
+      "starts_at": "2026-03-20T18:45:00Z",
+      "social_proof_snapshot": {
+        "total_expected": 26,
+        "solo_count": 11,
+        "familiar_cluster_count": 4,
+        "top_familiar_clusters": [
+          {
+            "cluster_id": "bloomsbury_students-cluster-05",
+            "count": 3
+          },
+          {
+            "cluster_id": "bloomsbury_students-cluster-07",
+            "count": 3
+          },
+          {
+            "cluster_id": "bloomsbury_students-cluster-08",
+            "count": 3
+          }
+        ]
+      },
+      "attendees": [
+        {
+          "user_id": "demo-user-0018",
+          "display_name": "Sana Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0084",
+          "display_name": "Luca Smith",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0029",
+          "display_name": "Ivy Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0041",
+          "display_name": "Ava Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0061",
+          "display_name": "Ava Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0058",
+          "display_name": "Sana Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0091",
+          "display_name": "Omar Smith",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0054",
+          "display_name": "Layla Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0059",
+          "display_name": "Kai Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0046",
+          "display_name": "Leo Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0045",
+          "display_name": "Zara Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0033",
+          "display_name": "Ethan Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0017",
+          "display_name": "Adam Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0048",
+          "display_name": "Hugo Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0069",
+          "display_name": "Ivy Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0038",
+          "display_name": "Sana Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0065",
+          "display_name": "Zara Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0087",
+          "display_name": "Nora Smith",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0024",
+          "display_name": "Luca Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0080",
+          "display_name": "Freya Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0075",
+          "display_name": "Theo Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0076",
+          "display_name": "Mila Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0070",
+          "display_name": "Aria Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0003",
+          "display_name": "Mia Patel",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0053",
+          "display_name": "Ethan Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0085",
+          "display_name": "Zara Smith",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0004",
+          "display_name": "Luca Patel",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0051",
+          "display_name": "Omar Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0023",
+          "display_name": "Mia Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0002",
+          "display_name": "Noah Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0093",
+          "display_name": "Ethan Smith",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-10"
+        }
+      ]
+    },
+    {
+      "opportunity_id": "demo-opp-009",
+      "title": "Open Mic Backup Plan",
+      "scenario": "cancelled_plan_gap",
+      "zone": "shoreditch",
+      "tier": "structured",
+      "starts_at": "2026-03-20T20:00:00Z",
+      "social_proof_snapshot": {
+        "total_expected": 22,
+        "solo_count": 9,
+        "familiar_cluster_count": 4,
+        "top_familiar_clusters": [
+          {
+            "cluster_id": "bloomsbury_students-cluster-03",
+            "count": 2
+          },
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-09",
+            "count": 2
+          },
+          {
+            "cluster_id": "shoreditch_remote_workers-cluster-08",
+            "count": 2
+          }
+        ]
+      },
+      "attendees": [
+        {
+          "user_id": "demo-user-0021",
+          "display_name": "Ava Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0185",
+          "display_name": "Zara Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0023",
+          "display_name": "Mia Khan",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0037",
+          "display_name": "Adam Khan",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0011",
+          "display_name": "Omar Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0171",
+          "display_name": "Omar Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0115",
+          "display_name": "Theo Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0004",
+          "display_name": "Luca Patel",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0198",
+          "display_name": "Sana Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0049",
+          "display_name": "Ivy Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0019",
+          "display_name": "Kai Patel",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0195",
+          "display_name": "Theo Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-10"
+        },
+        {
+          "user_id": "demo-user-0168",
+          "display_name": "Hugo Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0151",
+          "display_name": "Omar Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0120",
+          "display_name": "Freya Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0081",
+          "display_name": "Ava Smith",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0009",
+          "display_name": "Ivy Patel",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0076",
+          "display_name": "Mila Ali",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0182",
+          "display_name": "Noah Reed",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-09"
+        },
+        {
+          "user_id": "demo-user-0159",
+          "display_name": "Kai Hughes",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0026",
+          "display_name": "Leo Khan",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-03"
+        },
+        {
+          "user_id": "demo-user-0106",
+          "display_name": "Leo Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-01"
+        },
+        {
+          "user_id": "demo-user-0053",
+          "display_name": "Ethan Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-06"
+        },
+        {
+          "user_id": "demo-user-0073",
+          "display_name": "Ethan Ali",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0179",
+          "display_name": "Kai Singh",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-08"
+        },
+        {
+          "user_id": "demo-user-0114",
+          "display_name": "Layla Taylor",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": false,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-02"
+        },
+        {
+          "user_id": "demo-user-0040",
+          "display_name": "Freya Khan",
+          "cohort": "bloomsbury_students",
+          "response": "interested",
+          "solo": false,
+          "familiar_cluster": "bloomsbury_students-cluster-04"
+        },
+        {
+          "user_id": "demo-user-0044",
+          "display_name": "Luca Sharma",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-05"
+        },
+        {
+          "user_id": "demo-user-0063",
+          "display_name": "Mia Ali",
+          "cohort": "bloomsbury_students",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "bloomsbury_students-cluster-07"
+        },
+        {
+          "user_id": "demo-user-0140",
+          "display_name": "Freya Baker",
+          "cohort": "shoreditch_remote_workers",
+          "response": "going",
+          "solo": true,
+          "familiar_cluster": "shoreditch_remote_workers-cluster-04"
+        }
+      ]
+    }
+  ],
+  "demo_walkthrough": [
+    {
+      "step": 1,
+      "scenario": "post_work_drift",
+      "request_user_id": "demo-user-0001",
+      "request_user_display_name": "Ava Patel",
+      "opportunity_id": "demo-opp-001",
+      "expected_social_proof": "19 people likely going, 6 going solo"
+    },
+    {
+      "step": 2,
+      "scenario": "weekend_morning_void",
+      "request_user_id": "demo-user-0101",
+      "request_user_display_name": "Ava Taylor",
+      "opportunity_id": "demo-opp-004",
+      "expected_social_proof": "20 people likely going, 8 going solo"
+    },
+    {
+      "step": 3,
+      "scenario": "cancelled_plan_gap",
+      "request_user_id": "demo-user-0101",
+      "request_user_display_name": "Ava Taylor",
+      "opportunity_id": "demo-opp-007",
+      "expected_social_proof": "12 people likely going, 5 going solo"
+    }
+  ]
+}

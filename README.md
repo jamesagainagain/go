@@ -1,4 +1,4 @@
-# FirstMove
+# go! 
 
 An agentic system that competes with your sofa — and wins. Activation engine from screen to street.
 
