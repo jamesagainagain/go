@@ -12,13 +12,13 @@ export function SocialProof({ data, className = "" }: SocialProofProps) {
 
   return (
     <div
-      className={`inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-800 ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full bg-accent/20 px-3 py-1 text-sm text-accent ${className}`}
       role="status"
     >
       <span aria-hidden>👥</span>
       <span>{data.text}</span>
       {data.familiar_face && (
-        <span className="text-amber-600" title="Someone you know is going">
+        <span className="text-accent" title="Someone you know is going">
           ✓
         </span>
       )}

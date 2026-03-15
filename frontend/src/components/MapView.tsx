@@ -43,7 +43,7 @@ export function MapView({
 
     const map = new mapboxgl.Map({
       container: containerRef.current,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: "mapbox://styles/mapbox/dark-v11",
       center: [centerLng, centerLat],
       zoom: 14,
     });
@@ -167,7 +167,7 @@ export function MapView({
   if (error) {
     return (
       <div
-        className={`flex items-center justify-center rounded-lg bg-gray-100 p-8 text-gray-500 ${className}`}
+        className={`flex items-center justify-center rounded-xl bg-bg-card border border-white/10 p-8 text-text-muted ${className}`}
       >
         {error}
         {walkMinutes != null && (
@@ -179,9 +179,9 @@ export function MapView({
 
   return (
     <div className={`relative ${className}`}>
-      <div ref={containerRef} className="h-48 w-full rounded-lg" />
+      <div ref={containerRef} className="h-48 w-full rounded-xl overflow-hidden" />
       {walkMinutes != null && (
-        <div className="absolute bottom-2 left-2 rounded bg-white/90 px-2 py-1 text-sm font-medium shadow">
+        <div className="absolute bottom-2 left-2 rounded-lg bg-black/60 px-2 py-1 text-sm font-medium text-white">
           ~{walkMinutes} min walk
         </div>
       )}

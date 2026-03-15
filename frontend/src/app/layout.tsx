@@ -27,8 +27,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className="antialiased">
+      <head>
+        <meta name="mobile-web-app-capable" content="yes" />
+      </head>
+      <body className="bg-bg-deep text-text-primary font-sans">
+        {children}
+      </body>
     </html>
   );
 }

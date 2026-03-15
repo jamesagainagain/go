@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { ActivationCardResponse, Opportunity } from "@/types/api";
+import type { ActivationCardResponse } from "@/types/api";
 import { SocialProof } from "./SocialProof";
 import { MapView } from "./MapView";
 
@@ -48,7 +48,7 @@ export function ActivationCard({
   compact = false,
 }: ActivationCardProps) {
   const [dismissing, setDismissing] = useState(false);
-  const { activation_id, opportunity, stage, expires_at } = activation;
+  const { activation_id, opportunity } = activation;
   const opp = opportunity;
 
   const handleDismiss = () => {
@@ -66,19 +66,17 @@ export function ActivationCard({
     onDismiss?.();
   };
 
-  const primaryLabel =
-    opp.commitment_action?.label ?? "I'm going";
+  const primaryLabel = opp.commitment_action?.label ?? "I'm going";
 
   return (
     <article
-      className="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
+      className="relative overflow-hidden rounded-xl border border-white/10 bg-bg-card"
       role="article"
     >
-      {/* Dismiss - easy but not accidental */}
       <button
         type="button"
         onClick={handleDismiss}
-        className="absolute right-2 top-2 z-10 rounded-full p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
+        className="absolute right-2 top-2 z-10 rounded-full p-1.5 text-text-muted transition hover:bg-white/10 hover:text-text-primary"
         aria-label="Dismiss"
       >
         <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,35 +85,22 @@ export function ActivationCard({
       </button>
 
       <div className="p-4">
-        {/* What */}
-        <h2 className="pr-8 text-lg font-semibold text-gray-900">{opp.title}</h2>
-
-        {/* When + Where */}
-        <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0 text-sm text-gray-600">
+        <h2 className="pr-8 text-lg font-semibold text-text-primary">{opp.title}</h2>
+        <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0 text-sm text-text-muted">
           <span>{formatTime(opp.starts_at)}</span>
           <span>{opp.venue?.name}</span>
-          <span className="text-amber-600">{formatLeaveBy(opp.leave_by)}</span>
+          <span className="text-accent">{formatLeaveBy(opp.leave_by)}</span>
         </div>
-
-        {/* Body - what to expect */}
-        <p className="mt-2 line-clamp-3 text-sm text-gray-700">{opp.body}</p>
-
-        {/* How to get there */}
-        <p className="mt-1 text-sm text-gray-500">{opp.travel_description}</p>
-
-        {/* Who - social proof */}
+        <p className="mt-2 line-clamp-3 text-sm text-text-primary">{opp.body}</p>
+        <p className="mt-1 text-sm text-text-muted">{opp.travel_description}</p>
         {opp.social_proof && (
           <div className="mt-2">
             <SocialProof data={opp.social_proof} />
           </div>
         )}
-
-        {/* Cost */}
-        <p className="mt-2 text-sm font-medium text-gray-700">
+        <p className="mt-2 text-sm font-medium text-text-primary">
           {formatCost(opp.cost_pence)}
         </p>
-
-        {/* Map - reassurance */}
         {!compact && (
           <div className="mt-3">
             <MapView
@@ -127,19 +112,17 @@ export function ActivationCard({
             />
           </div>
         )}
-
-        {/* Primary action - exactly one */}
         <div className="mt-4 flex gap-2">
           <button
             type="button"
             onClick={handlePrimary}
-            className="flex-1 rounded-lg bg-amber-500 px-4 py-2.5 font-medium text-white transition hover:bg-amber-600"
+            className="flex-1 rounded-xl bg-accent px-4 py-2.5 font-medium text-black transition hover:bg-amber-500"
           >
             {primaryLabel}
           </button>
           <Link
             href={`/activation/${activation_id}`}
-            className="rounded-lg border border-gray-300 px-4 py-2.5 font-medium text-gray-700 transition hover:bg-gray-50"
+            className="rounded-xl border border-white/20 px-4 py-2.5 font-medium text-text-primary transition hover:bg-white/5"
           >
             Details
           </Link>

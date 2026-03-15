@@ -1,67 +1,23 @@
-"use client";
+import Link from "next/link";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { OnboardingFlow } from "@/components/OnboardingFlow";
-import { register, isAuthenticated } from "@/lib/api";
-import { useNotifications } from "@/hooks/useNotifications";
-import { getCurrentPosition } from "@/lib/geo";
-import type { OnboardingData } from "@/components/OnboardingFlow";
-
-export default function HomePage() {
-  const router = useRouter();
-  const { requestAndSubscribe } = useNotifications();
-
-  useEffect(() => {
-    if (isAuthenticated()) {
-      router.replace("/dashboard");
-    }
-  }, [router]);
-
-  const handleComplete = async (data: OnboardingData) => {
-    await register({
-      email: data.email,
-      display_name: data.displayName,
-      password: data.password,
-      comfort_level: data.comfortLevel,
-      preferences: data.interests,
-      timezone: data.timezone,
-    });
-    router.replace("/dashboard");
-  };
-
-  const handleRequestNotifications = async () => {
-    return requestAndSubscribe();
-  };
-
-  const handleRequestLocation = async () => {
-    try {
-      const pos = await getCurrentPosition();
-      return { lat: pos.lat, lng: pos.lng };
-    } catch {
-      return null;
-    }
-  };
-
-  if (typeof window !== "undefined" && isAuthenticated()) {
-    return null;
-  }
-
+export default function Page() {
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-lg pt-12">
-        <h1 className="mb-8 text-center text-2xl font-bold text-gray-900">
+    <div className="ambient-bg min-h-screen flex flex-col items-center justify-center px-6">
+      <main className="relative z-10 flex flex-col items-center text-center max-w-2xl">
+        <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight">
           FirstMove
         </h1>
-        <p className="mb-8 text-center text-gray-600">
-          From screen to street — we&apos;ll nudge you at the right moment.
+        <p className="mt-6 text-lg md:text-xl text-text-muted leading-relaxed">
+          The gap between &quot;I could&quot; and &quot;I am&quot; has seven
+          friction points. We collapse them to one.
         </p>
-        <OnboardingFlow
-          onComplete={handleComplete}
-          onRequestNotifications={handleRequestNotifications}
-          onRequestLocation={handleRequestLocation}
-        />
-      </div>
-    </main>
+        <Link
+          href="/setup"
+          className="mt-10 inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-black bg-accent rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_var(--accent-glow)] hover:scale-[1.02]"
+        >
+          Get Started
+        </Link>
+      </main>
+    </div>
   );
 }

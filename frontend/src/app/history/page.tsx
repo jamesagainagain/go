@@ -1,29 +1,18 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { PhoneFrame } from "@/components/PhoneFrame";
 import { Timeline } from "@/components/Timeline";
 import { useActivation, useActivationHistory } from "@/hooks/useActivation";
-import { isAuthenticated } from "@/lib/api";
 
 export default function HistoryPage() {
-  const router = useRouter();
   const { submitFeedback } = useActivation();
   const { items, loading, error, fetchHistory } = useActivationHistory();
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !isAuthenticated()) {
-      router.replace("/");
-      return;
-    }
-  }, [router]);
-
-  useEffect(() => {
-    if (isAuthenticated()) {
-      fetchHistory();
-    }
-  }, []);
+    fetchHistory();
+  }, [fetchHistory]);
 
   const handleFeedback = (
     id: string,
@@ -39,25 +28,21 @@ export default function HistoryPage() {
     fetchHistory();
   };
 
-  if (typeof window !== "undefined" && !isAuthenticated()) {
-    return null;
-  }
-
-  return (
-    <main className="min-h-screen bg-gray-50">
-      <header className="border-b border-gray-200 bg-white px-4 py-3">
-        <div className="mx-auto flex max-w-lg items-center justify-between">
-          <Link href="/dashboard" className="text-sm text-gray-600 hover:text-gray-900">
+  const content = (
+    <div className="min-h-screen bg-bg-phone">
+      <header className="border-b border-white/10 bg-bg-card px-4 py-3 sticky top-0 z-10">
+        <div className="flex items-center justify-between">
+          <Link href="/dashboard" className="text-sm text-accent hover:text-amber-400">
             ← Back
           </Link>
-          <h1 className="text-lg font-semibold text-gray-900">History</h1>
+          <h1 className="text-lg font-semibold text-text-primary">History</h1>
           <div className="w-12" />
         </div>
       </header>
 
-      <div className="mx-auto max-w-lg p-4">
+      <div className="p-4">
         {error && (
-          <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+          <div className="mb-4 rounded-xl bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-400">
             {error}
           </div>
         )}
@@ -67,6 +52,8 @@ export default function HistoryPage() {
           loading={loading}
         />
       </div>
-    </main>
+    </div>
   );
+
+  return <PhoneFrame>{content}</PhoneFrame>;
 }

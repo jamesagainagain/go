@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getUsersMe, patchUsersMe, logout, isAuthenticated } from "@/lib/api";
+import { PhoneFrame } from "@/components/PhoneFrame";
+import { getUsersMe, patchUsersMe, logout } from "@/lib/api";
 import { useNotifications } from "@/hooks/useNotifications";
+import { MOCK_USER_PROFILE } from "@/lib/mock-data";
 import type { UserProfile, ComfortLevel, PreferenceInput } from "@/types/api";
 
 const COMFORT_OPTIONS: { value: ComfortLevel; label: string }[] = [
@@ -19,10 +21,11 @@ const INTEREST_CATEGORIES = [
   "food",
   "music",
   "study",
-  "creative",
-  "outdoor",
-  "social",
+  "nature",
+  "nightlife",
   "wellness",
+  "comedy",
+  "tech",
 ];
 
 export default function SettingsPage() {
@@ -37,21 +40,19 @@ export default function SettingsPage() {
   const { permission, requestAndSubscribe, loading: notifLoading } = useNotifications();
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !isAuthenticated()) {
-      router.replace("/");
-      return;
-    }
-  }, [router]);
-
-  useEffect(() => {
-    if (!isAuthenticated()) return;
     getUsersMe()
       .then((p) => {
         setProfile(p);
         setDisplayName(p.display_name ?? "");
         setComfortLevel((p.comfort_level as ComfortLevel) ?? "prefer_others");
+        setPreferences(new Set((p.preferences ?? []).map((pr) => pr.category)));
+      })
+      .catch(() => {
+        setProfile(MOCK_USER_PROFILE as UserProfile);
+        setDisplayName(MOCK_USER_PROFILE.display_name ?? "");
+        setComfortLevel(MOCK_USER_PROFILE.comfort_level);
         setPreferences(
-          new Set((p.preferences ?? []).map((pr) => pr.category))
+          new Set(MOCK_USER_PROFILE.preferences?.map((p) => p.category) ?? [])
         );
       })
       .finally(() => setLoading(false));
@@ -79,6 +80,8 @@ export default function SettingsPage() {
         comfort_level: comfortLevel,
         preferences: prefs,
       });
+    } catch {
+      // Backend may not be running
     } finally {
       setSaving(false);
     }
@@ -89,121 +92,120 @@ export default function SettingsPage() {
     router.replace("/");
   };
 
-  if (typeof window !== "undefined" && !isAuthenticated()) {
-    return null;
-  }
-
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-gray-50 p-4">
-        <div className="mx-auto max-w-lg">
-          <div className="animate-pulse rounded-lg bg-white p-8">
-            <div className="h-6 w-1/2 rounded bg-gray-200" />
-          </div>
-        </div>
-      </main>
-    );
-  }
-
-  return (
-    <main className="min-h-screen bg-gray-50">
-      <header className="border-b border-gray-200 bg-white px-4 py-3">
-        <div className="mx-auto flex max-w-lg items-center justify-between">
-          <Link href="/dashboard" className="text-sm text-gray-600 hover:text-gray-900">
+  const content = (
+    <div className="min-h-screen bg-bg-phone">
+      <header className="border-b border-white/10 bg-bg-card px-4 py-3 sticky top-0 z-10">
+        <div className="flex items-center justify-between">
+          <Link href="/dashboard" className="text-sm text-accent hover:text-amber-400">
             ← Back
           </Link>
-          <h1 className="text-lg font-semibold text-gray-900">Settings</h1>
+          <h1 className="text-lg font-semibold text-text-primary">Settings</h1>
           <div className="w-12" />
         </div>
       </header>
 
-      <div className="mx-auto max-w-lg space-y-6 p-4">
-        <section className="rounded-lg border border-gray-200 bg-white p-4">
-          <h2 className="mb-3 font-medium text-gray-900">Profile</h2>
-          <input
-            type="text"
-            placeholder="Display name"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2"
-          />
-        </section>
-
-        <section className="rounded-lg border border-gray-200 bg-white p-4">
-          <h2 className="mb-3 font-medium text-gray-900">Comfort level</h2>
-          <div className="space-y-2">
-            {COMFORT_OPTIONS.map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => setComfortLevel(opt.value)}
-                className={`block w-full rounded-lg border px-4 py-2 text-left text-sm ${
-                  comfortLevel === opt.value
-                    ? "border-amber-500 bg-amber-50"
-                    : "border-gray-200"
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
+      <div className="p-4 space-y-6">
+        {loading ? (
+          <div className="animate-pulse rounded-xl bg-bg-card p-8">
+            <div className="h-6 w-1/2 rounded bg-white/10" />
           </div>
-        </section>
+        ) : (
+          <>
+            <section className="rounded-xl border border-white/10 bg-bg-card p-4">
+              <h2 className="mb-3 font-medium text-text-primary">Profile</h2>
+              <input
+                type="text"
+                placeholder="Display name"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                className="w-full rounded-xl border border-white/10 bg-bg-card-hover px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
+              />
+            </section>
 
-        <section className="rounded-lg border border-gray-200 bg-white p-4">
-          <h2 className="mb-3 font-medium text-gray-900">Interests</h2>
-          <div className="flex flex-wrap gap-2">
-            {INTEREST_CATEGORIES.map((cat) => (
+            <section className="rounded-xl border border-white/10 bg-bg-card p-4">
+              <h2 className="mb-3 font-medium text-text-primary">Comfort level</h2>
+              <div className="space-y-2">
+                {COMFORT_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setComfortLevel(opt.value)}
+                    className={`block w-full rounded-xl border px-4 py-2 text-left text-sm transition-colors ${
+                      comfortLevel === opt.value
+                        ? "border-accent bg-accent/10 text-accent"
+                        : "border-white/10 bg-bg-card-hover text-text-primary hover:bg-white/5"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-xl border border-white/10 bg-bg-card p-4">
+              <h2 className="mb-3 font-medium text-text-primary">Interests</h2>
+              <div className="flex flex-wrap gap-2">
+                {INTEREST_CATEGORIES.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => togglePreference(cat)}
+                    className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                      preferences.has(cat)
+                        ? "bg-accent text-black"
+                        : "bg-bg-card-hover text-text-muted hover:text-text-primary"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-xl border border-white/10 bg-bg-card p-4">
+              <h2 className="mb-3 font-medium text-text-primary">Notifications</h2>
+              <p className="mb-2 text-sm text-text-muted">
+                Status:{" "}
+                {permission === "granted"
+                  ? "Enabled"
+                  : permission === "denied"
+                    ? "Blocked"
+                    : "Not set"}
+              </p>
+              {permission !== "granted" && (
+                <button
+                  type="button"
+                  onClick={requestAndSubscribe}
+                  disabled={notifLoading}
+                  className="rounded-xl bg-accent px-4 py-2 text-sm font-medium text-black hover:bg-amber-500 disabled:opacity-50"
+                >
+                  {notifLoading ? "..." : "Enable push notifications"}
+                </button>
+              )}
+            </section>
+
+            <div className="flex gap-2">
               <button
-                key={cat}
                 type="button"
-                onClick={() => togglePreference(cat)}
-                className={`rounded-full px-3 py-1 text-sm ${
-                  preferences.has(cat)
-                    ? "bg-amber-500 text-white"
-                    : "bg-gray-100 text-gray-600"
-                }`}
+                onClick={handleSave}
+                disabled={saving}
+                className="flex-1 rounded-xl bg-accent px-4 py-2 font-medium text-black hover:bg-amber-500 disabled:opacity-50"
               >
-                {cat}
+                {saving ? "Saving..." : "Save changes"}
               </button>
-            ))}
-          </div>
-        </section>
-
-        <section className="rounded-lg border border-gray-200 bg-white p-4">
-          <h2 className="mb-3 font-medium text-gray-900">Notifications</h2>
-          <p className="mb-2 text-sm text-gray-600">
-            Status: {permission === "granted" ? "Enabled" : permission === "denied" ? "Blocked" : "Not set"}
-          </p>
-          {permission !== "granted" && (
-            <button
-              type="button"
-              onClick={requestAndSubscribe}
-              disabled={notifLoading}
-              className="rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600 disabled:opacity-50"
-            >
-              {notifLoading ? "..." : "Enable push notifications"}
-            </button>
-          )}
-        </section>
-
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={saving}
-            className="flex-1 rounded-lg bg-amber-500 px-4 py-2 font-medium text-white hover:bg-amber-600 disabled:opacity-50"
-          >
-            {saving ? "Saving..." : "Save changes"}
-          </button>
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 hover:bg-gray-50"
-          >
-            Log out
-          </button>
-        </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="rounded-xl border border-white/20 px-4 py-2 font-medium text-text-primary hover:bg-white/5"
+              >
+                Log out
+              </button>
+            </div>
+          </>
+        )}
       </div>
-    </main>
+    </div>
   );
+
+  return <PhoneFrame>{content}</PhoneFrame>;
 }
