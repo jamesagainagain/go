@@ -20,10 +20,10 @@ export function PhoneSetupView({ onSetupComplete }: PhoneSetupViewProps) {
   }, []);
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#06060c]">
+    <div className="phone-demo-accent flex h-full w-full flex-col bg-[#06060c]">
       {/* go! header */}
       <div className="flex items-center gap-2.5 border-b border-white/5 px-4 py-3">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#f59e0b] to-[#d97706]">
+        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#626262] to-[#94a3b8]">
           <span className="text-[10px] font-bold text-white">go!</span>
         </div>
         <span className="text-base font-semibold tracking-tight text-white">
@@ -57,7 +57,7 @@ export function PhoneSetupView({ onSetupComplete }: PhoneSetupViewProps) {
             <button
               type="button"
               onClick={onSetupComplete}
-              className="w-full rounded-xl bg-gradient-to-r from-[#f59e0b] to-[#d97706] px-6 py-3 text-sm font-semibold text-black transition-all hover:shadow-lg hover:shadow-amber-500/20 active:scale-[0.98]"
+              className="w-full rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/15 active:scale-[0.98]"
             >
               Continue
             </button>

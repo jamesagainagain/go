@@ -36,7 +36,7 @@ export function DemoActivationCard({ opportunity, onTapToGo }: DemoActivationCar
       <button
         type="button"
         onClick={onTapToGo}
-        className="mt-4 w-full rounded-xl bg-orange-500 px-4 py-3 font-semibold text-white transition hover:bg-orange-600"
+        className="mt-4 w-full rounded-xl bg-slate-800 px-4 py-3 font-semibold text-white transition hover:bg-slate-700"
       >
         {primaryLabel}
       </button>

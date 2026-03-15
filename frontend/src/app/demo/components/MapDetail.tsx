@@ -73,7 +73,7 @@ export function MapDetail({ opportunity, className = "" }: MapDetailProps) {
     markersRef.current.push(userMarker);
 
     // Venue pin
-    const venueMarker = new mapboxgl.Marker({ color: "#f97316" })
+    const venueMarker = new mapboxgl.Marker({ color: "#64748b" })
       .setLngLat([destLng, destLat])
       .addTo(map);
     markersRef.current.push(venueMarker);
@@ -120,7 +120,7 @@ export function MapDetail({ opportunity, className = "" }: MapDetailProps) {
                 "line-cap": "round",
               },
               paint: {
-                "line-color": "#f97316",
+                "line-color": "#64748b",
                 "line-width": 4,
               },
             });

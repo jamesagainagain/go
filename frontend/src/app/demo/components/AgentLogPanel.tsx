@@ -6,7 +6,7 @@ const AGENT_COLORS: Record<string, string> = {
   context: "text-blue-400",
   discovery: "text-green-400",
   social_proof: "text-purple-400",
-  commitment: "text-orange-400",
+  commitment: "text-slate-400",
   momentum: "text-red-400",
 };
 

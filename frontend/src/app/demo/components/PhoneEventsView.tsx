@@ -36,7 +36,7 @@ export function PhoneEventsView() {
 
       {/* go! header */}
       <div className="flex items-center gap-2.5 border-b border-white/5 px-4 py-2.5">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#f59e0b] to-[#d97706]">
+        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#626262] to-[#94a3b8]">
           <span className="text-[10px] font-bold text-white">go!</span>
         </div>
         <span className="text-base font-semibold tracking-tight text-white">
@@ -93,7 +93,7 @@ export function PhoneEventsView() {
                   </p>
                 </div>
                 <div className="shrink-0 text-right">
-                  <span className="text-[11px] font-medium text-amber-400">
+                  <span className="text-[11px] font-medium text-slate-300">
                     {event.time}
                   </span>
                   <p className="mt-0.5 text-[9px] text-white/30">
@@ -106,7 +106,7 @@ export function PhoneEventsView() {
                 <div className="mt-2.5 flex gap-2 border-t border-white/5 pt-2.5">
                   <button
                     type="button"
-                    className="flex-1 rounded-lg bg-gradient-to-r from-[#f59e0b] to-[#d97706] py-1.5 text-[11px] font-semibold text-black"
+                    className="flex-1 rounded-lg border border-white/20 bg-white/10 py-1.5 text-[11px] font-semibold text-white hover:bg-white/15"
                     onClick={(e) => e.stopPropagation()}
                   >
                     Hold my spot

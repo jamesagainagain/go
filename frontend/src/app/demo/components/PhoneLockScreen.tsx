@@ -63,7 +63,7 @@ export function PhoneLockScreen({ onNotificationClick }: PhoneLockScreenProps) {
             className="w-full animate-[slideUp_0.4s_ease-out] rounded-2xl border border-white/10 bg-white/15 p-3.5 text-left backdrop-blur-2xl transition-colors hover:bg-white/20 active:scale-[0.98]"
           >
             <div className="flex items-start gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#f59e0b] to-[#d97706]">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#626262] to-[#94a3b8]">
                 <span className="text-xs font-bold text-white">go!</span>
               </div>
               <div className="min-w-0 flex-1">

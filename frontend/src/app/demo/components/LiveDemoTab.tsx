@@ -72,9 +72,9 @@ export function LiveDemoTab() {
                 onClick={handleWake}
                 className="group flex flex-col items-center gap-3"
               >
-                <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-white/20 bg-white/5 transition-all group-hover:border-amber-400/50 group-hover:bg-amber-400/10">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-white/20 bg-white/5 transition-all group-hover:border-slate-400/50 group-hover:bg-slate-400/10">
                   <svg
-                    className="h-7 w-7 text-white/50 transition-colors group-hover:text-amber-400"
+                    className="h-7 w-7 text-white/50 transition-colors group-hover:text-slate-300"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
