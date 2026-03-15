@@ -189,6 +189,7 @@ and covered with tests:
 
 - Normalization failures now produce per-record error entries
   (`normalize:<source>:<index>`) including title and parse reason.
+- Venue point writes now guard against invalid lat/lng ranges before PostGIS insert.
 - Added regression test for invalid-record skip + granular error reporting.
 
 ## Verification Commands

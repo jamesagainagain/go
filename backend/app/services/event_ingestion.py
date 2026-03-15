@@ -369,4 +369,6 @@ def _event_richness(event: NormalizedEvent) -> int:
 def _build_point(lat: float | None, lng: float | None) -> WKTElement | None:
     if lat is None or lng is None:
         return None
+    if lat < -90 or lat > 90 or lng < -180 or lng > 180:
+        return None
     return WKTElement(f"POINT({lng} {lat})", srid=4326)

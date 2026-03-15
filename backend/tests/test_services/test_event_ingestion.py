@@ -7,6 +7,7 @@ import pytest
 from app.services.event_ingestion import (
     EventIngestionService,
     RawEvent,
+    _build_point,
     parse_cost_to_pence,
 )
 from app.services.geocoding import GeocodeResult
@@ -161,3 +162,9 @@ def test_parse_cost_to_pence_handles_common_formats():
     assert parse_cost_to_pence("5 GBP") == 500
     assert parse_cost_to_pence("£12.50") == 1250
     assert parse_cost_to_pence("250p") == 250
+
+
+def test_build_point_rejects_out_of_range_coordinates():
+    assert _build_point(51.5, -0.12) is not None
+    assert _build_point(91, -0.12) is None
+    assert _build_point(51.5, -181) is None
