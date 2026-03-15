@@ -1,0 +1,560 @@
+openapi: 3.0.3
+info:
+  title: FirstMove API
+  description: Activation engine API — from screen to street
+  version: 1.0.0
+
+servers:
+  - url: /api/v1
+    description: API v1 base path
+
+tags:
+  - name: auth
+    description: Authentication
+  - name: users
+    description: User profile and preferences
+  - name: activations
+    description: Activation checks and responses
+  - name: events
+    description: Event browsing (fallback)
+  - name: push
+    description: Web Push subscriptions
+  - name: webhooks
+    description: External webhooks
+
+paths:
+  # --- AUTH ---
+  /auth/register:
+    post:
+      tags: [auth]
+      summary: Create account
+      description: Create account with email and preferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          description: Email already registered
+
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: JWT login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+
+  # --- USERS ---
+  /users/me:
+    get:
+      tags: [users]
+      summary: Get profile and preferences
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+    patch:
+      tags: [users]
+      summary: Update preferences, location, comfort level
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdateRequest"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /users/me/location:
+    post:
+      tags: [users]
+      summary: Update real-time location
+      description: Called frequently when user opens app
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LocationUpdateRequest"
+      responses:
+        "200":
+          description: Location updated
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  # --- ACTIVATIONS ---
+  /activations/check:
+    post:
+      tags: [activations]
+      summary: Trigger activation check
+      description: Runs agent pipeline, returns opportunity or null
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ActivationCheckRequest"
+      responses:
+        "200":
+          description: Activation check result
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/ActivationCardResponse"
+                  - $ref: "#/components/schemas/NoOpportunityResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /activations/current:
+    get:
+      tags: [activations]
+      summary: Get current pending activation
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: Current activation or null
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/ActivationCardResponse"
+                  - type: object
+                    properties:
+                      activation_id: { type: "null" }
+                      opportunity: { type: "null" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /activations/{id}/respond:
+    post:
+      tags: [activations]
+      summary: Accept, dismiss, or snooze an activation
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ActivationRespondRequest"
+      responses:
+        "200":
+          description: Response recorded
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /activations/{id}/feedback:
+    post:
+      tags: [activations]
+      summary: Post-attendance feedback
+      description: Rating and attended status after event
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeedbackRequest"
+      responses:
+        "200":
+          description: Feedback recorded
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /activations/history:
+    get:
+      tags: [activations]
+      summary: Past activations with outcomes
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+      responses:
+        "200":
+          description: Activation history
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActivationHistoryResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  # --- EVENTS ---
+  /events/nearby:
+    get:
+      tags: [events]
+      summary: Browse events near location (fallback)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema: { type: number, format: float }
+        - name: lng
+          in: query
+          required: true
+          schema: { type: number, format: float }
+        - name: radius_km
+          in: query
+          schema: { type: number, default: 5 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+      responses:
+        "200":
+          description: Events near location
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventsNearbyResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  # --- PUSH ---
+  /push/subscribe:
+    post:
+      tags: [push]
+      summary: Register Web Push subscription
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PushSubscribeRequest"
+      responses:
+        "200":
+          description: Subscription registered
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  # --- WEBHOOKS ---
+  /webhooks/calendar:
+    post:
+      tags: [webhooks]
+      summary: Google Calendar change notification
+      description: Receives calendar change webhooks from Google
+      security: []  # Uses webhook verification, not Bearer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Google Calendar push notification payload
+      responses:
+        "200":
+          description: Webhook processed
+        "400":
+          description: Invalid webhook payload
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    BadRequest:
+      description: Invalid request body
+    Unauthorized:
+      description: Missing or invalid JWT
+    NotFound:
+      description: Resource not found
+
+  schemas:
+    # --- Auth ---
+    RegisterRequest:
+      type: object
+      required: [email]
+      properties:
+        email: { type: string, format: email }
+        display_name: { type: string, maxLength: 100 }
+        password: { type: string, minLength: 8 }
+        comfort_level:
+          $ref: "#/components/schemas/ComfortLevel"
+        preferences:
+          type: array
+          items:
+            $ref: "#/components/schemas/PreferenceInput"
+        timezone: { type: string, default: "Europe/London" }
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string }
+
+    AuthResponse:
+      type: object
+      properties:
+        access_token: { type: string }
+        token_type: { type: string, example: "bearer" }
+        user:
+          $ref: "#/components/schemas/UserProfile"
+
+    # --- User ---
+    UserProfile:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string }
+        display_name: { type: string }
+        comfort_level: { $ref: "#/components/schemas/ComfortLevel" }
+        willingness_radius_km: { type: number }
+        activation_stage: { $ref: "#/components/schemas/ActivationStage" }
+        timezone: { type: string }
+        location_lat: { type: number }
+        location_lng: { type: number }
+        location_updated_at: { type: string, format: date-time }
+        preferences:
+          type: array
+          items:
+            $ref: "#/components/schemas/Preference"
+        created_at: { type: string, format: date-time }
+
+    UserUpdateRequest:
+      type: object
+      properties:
+        display_name: { type: string }
+        comfort_level: { $ref: "#/components/schemas/ComfortLevel" }
+        willingness_radius_km: { type: number }
+        timezone: { type: string }
+        preferences:
+          type: array
+          items:
+            $ref: "#/components/schemas/PreferenceInput"
+
+    LocationUpdateRequest:
+      type: object
+      required: [lat, lng]
+      properties:
+        lat: { type: number }
+        lng: { type: number }
+
+    Preference:
+      type: object
+      properties:
+        category: { type: string }
+        weight: { type: number, minimum: 0, maximum: 1 }
+        explicit: { type: boolean }
+
+    PreferenceInput:
+      type: object
+      required: [category]
+      properties:
+        category: { type: string }
+        weight: { type: number, minimum: 0, maximum: 1, default: 0.5 }
+        explicit: { type: boolean, default: true }
+
+    ComfortLevel:
+      type: string
+      enum: [solo_ok, prefer_others, need_familiar]
+
+    ActivationStage:
+      type: string
+      enum: [suggest, recommend, precommit, activate]
+
+    # --- Activations ---
+    ActivationCheckRequest:
+      type: object
+      description: Optional. Location can be sent here or use last known.
+      properties:
+        lat: { type: number }
+        lng: { type: number }
+
+    ActivationCardResponse:
+      type: object
+      required: [activation_id, opportunity, stage, expires_at]
+      properties:
+        activation_id: { type: string, format: uuid }
+        opportunity:
+          $ref: "#/components/schemas/Opportunity"
+        stage: { $ref: "#/components/schemas/ActivationStage" }
+        expires_at: { type: string, format: date-time }
+
+    NoOpportunityResponse:
+      type: object
+      properties:
+        activation_id: { type: "null" }
+        opportunity: { type: "null" }
+        message: { type: string, example: "No suitable opportunity right now" }
+
+    Opportunity:
+      type: object
+      required: [title, body, tier, walk_minutes, travel_description, starts_at, leave_by, cost_pence, venue]
+      properties:
+        title: { type: string }
+        body: { type: string }
+        tier: { $ref: "#/components/schemas/OpportunityTier" }
+        walk_minutes: { type: integer }
+        travel_description: { type: string }
+        starts_at: { type: string, format: date-time }
+        leave_by: { type: string, format: date-time }
+        cost_pence: { type: integer }
+        venue:
+          $ref: "#/components/schemas/VenueSummary"
+        social_proof:
+          $ref: "#/components/schemas/SocialProof"
+        commitment_action:
+          $ref: "#/components/schemas/CommitmentAction"
+        route_polyline: { type: string, description: "Encoded polyline for map" }
+
+    OpportunityTier:
+      type: string
+      enum: [structured, recurring_pattern, micro_coordination, solo_nudge]
+
+    VenueSummary:
+      type: object
+      properties:
+        name: { type: string }
+        lat: { type: number }
+        lng: { type: number }
+        address: { type: string }
+
+    SocialProof:
+      type: object
+      properties:
+        text: { type: string, example: "4 others going solo" }
+        total_expected: { type: integer }
+        solo_count: { type: integer }
+        familiar_face: { type: boolean }
+
+    CommitmentAction:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [one_tap_rsvp, deep_link, internal_going, none]
+        label: { type: string, example: "Hold my spot" }
+        url: { type: string, format: uri, description: "For deep_link type" }
+
+    ActivationRespondRequest:
+      type: object
+      required: [response]
+      properties:
+        response:
+          type: string
+          enum: [accepted, dismissed, expired, snoozed]
+
+    FeedbackRequest:
+      type: object
+      required: [attended]
+      properties:
+        attended: { type: boolean }
+        rating: { type: integer, minimum: 1, maximum: 5 }
+        feedback_text: { type: string }
+
+    ActivationHistoryResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ActivationHistoryItem"
+        total: { type: integer }
+
+    ActivationHistoryItem:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        opportunity: { $ref: "#/components/schemas/Opportunity" }
+        shown_at: { type: string, format: date-time }
+        response: { type: string, enum: [accepted, dismissed, expired, snoozed] }
+        attended: { type: boolean }
+        rating: { type: integer }
+        feedback_text: { type: string }
+
+    # --- Events ---
+    EventsNearbyResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/EventSummary"
+
+    EventSummary:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        description: { type: string }
+        starts_at: { type: string, format: date-time }
+        ends_at: { type: string, format: date-time }
+        cost_pence: { type: integer }
+        tags: { type: array, items: { type: string } }
+        venue: { $ref: "#/components/schemas/VenueSummary" }
+        tier: { $ref: "#/components/schemas/OpportunityTier" }
+
+    # --- Push ---
+    PushSubscribeRequest:
+      type: object
+      description: Web Push PushSubscription object from browser
+      required: [endpoint, keys]
+      properties:
+        endpoint: { type: string }
+        expirationTime: { type: number, nullable: true }
+        keys:
+          type: object
+          required: [p256dh, auth]
+          properties:
+            p256dh: { type: string }
+            auth: { type: string }

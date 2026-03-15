@@ -2,6 +2,12 @@
 
 An agentic system that competes with your sofa — and wins. Activation engine from screen to street.
 
+## API Specification
+
+**Unified API spec:** `docs/api-spec.yaml` (OpenAPI 3.0)
+
+Frontend and backend must both implement against this spec. See `docs/API.md` for a quick reference.
+
 ## Structure
 
 - `backend/` — FastAPI, LangGraph agents, Celery tasks
