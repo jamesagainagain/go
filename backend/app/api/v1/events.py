@@ -11,7 +11,7 @@ from app.database import get_db_session
 from app.models import OpportunityTier, User
 from app.schemas.event import EventsNearbyResponse, EventSummary
 from app.schemas.opportunity import VenueSummary
-from app.utils.security import get_current_user
+from app.utils.security import get_optional_user
 
 router = APIRouter(prefix="/events", tags=["events"])
 
@@ -72,7 +72,7 @@ async def events_nearby(
     lng: float = Query(...),
     radius_km: float = Query(default=5, gt=0, le=50),
     limit: int = Query(default=20, ge=1, le=100),
-    current_user: User = Depends(get_current_user),
+    current_user: User | None = Depends(get_optional_user),
     session: AsyncSession = Depends(get_db_session),
 ) -> EventsNearbyResponse:
     del current_user

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { RECOMMENDED_EVENTS, LONDON_EVENTS } from "@/lib/mock-data";
+import { useEventsNearby } from "@/hooks/useEventsNearby";
 import { GoEventMap } from "@/components/GoEventMap";
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -21,6 +21,8 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 export function PhoneEventsView() {
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const { events } = useEventsNearby();
+  const recommendedEvents = events.slice(0, 5);
 
   return (
     <div className="flex h-full w-full flex-col bg-[#06060c]">
@@ -66,7 +68,7 @@ export function PhoneEventsView() {
 
         {/* Event cards */}
         <div className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1">
-          {RECOMMENDED_EVENTS.map((event) => (
+          {recommendedEvents.map((event) => (
             <button
               key={event.id}
               type="button"
@@ -136,7 +138,7 @@ export function PhoneEventsView() {
           </h3>
           <div className="h-[180px] overflow-hidden rounded-xl border border-white/10">
             <GoEventMap
-              events={LONDON_EVENTS}
+              events={events}
               selectedEventId={selectedEventId ?? undefined}
             />
           </div>

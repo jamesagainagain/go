@@ -41,6 +41,7 @@ export function GoEventMap({ events, selectedEventId }: GoEventMapProps) {
       style: "mapbox://styles/mapbox/dark-v11",
       center: [-0.1, 51.513],
       zoom: 12.5,
+      attributionControl: false,
     });
 
     mapRef.current = map;

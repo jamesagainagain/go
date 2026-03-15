@@ -2,7 +2,7 @@ services:
   api:
     build: ./backend
     ports:
-      - "8000:8000"
+      - "8001:8000"  # host:container (8001 avoids conflict with local uvicorn on 8000)
     depends_on:
       - db
       - redis

@@ -46,6 +46,7 @@ export function MapView({
       style: "mapbox://styles/mapbox/dark-v11",
       center: [centerLng, centerLat],
       zoom: 14,
+      attributionControl: false,
     });
 
     mapRef.current = map;
@@ -56,6 +57,7 @@ export function MapView({
       map.remove();
       mapRef.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- map init runs once on mount
   }, []);
 
   useEffect(() => {

@@ -22,47 +22,7 @@ export function VoiceMode({ onComplete }: VoiceModeProps) {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const startRecording = useCallback(async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const recorder = new MediaRecorder(stream);
-      const chunks: Blob[] = [];
-
-      recorder.ondataavailable = (e) => {
-        if (e.data.size > 0) chunks.push(e.data);
-      };
-
-      recorder.onstop = async () => {
-        stream.getTracks().forEach((t) => t.stop());
-        if (chunks.length === 0) {
-          setIsProcessing(false);
-          return;
-        }
-        const blob = new Blob(chunks, { type: "audio/webm" });
-        await sendAudio(blob);
-        setIsProcessing(false);
-      };
-
-      recorder.start();
-      mediaRecorderRef.current = recorder;
-      setIsRecording(true);
-      setIsProcessing(true);
-    } catch (err) {
-      console.error("Mic access error:", err);
-      setIsProcessing(false);
-      alert("Could not access microphone. Please allow mic access.");
-    }
-  }, []);
-
-  const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      mediaRecorderRef.current = null;
-      setIsRecording(false);
-    }
-  }, [isRecording]);
-
-  const sendAudio = async (blob: Blob) => {
+  const sendAudio = useCallback(async (blob: Blob) => {
     const formData = new FormData();
     formData.append("audio", blob, "audio.webm");
     formData.append(
@@ -96,7 +56,47 @@ export function VoiceMode({ onComplete }: VoiceModeProps) {
       audio.onended = () => setIsPlaying(false);
       await audio.play();
     }
-  };
+  }, [turns]);
+
+  const startRecording = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      const chunks: Blob[] = [];
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.push(e.data);
+      };
+
+      recorder.onstop = async () => {
+        stream.getTracks().forEach((t) => t.stop());
+        if (chunks.length === 0) {
+          setIsProcessing(false);
+          return;
+        }
+        const blob = new Blob(chunks, { type: "audio/webm" });
+        await sendAudio(blob);
+        setIsProcessing(false);
+      };
+
+      recorder.start();
+      mediaRecorderRef.current = recorder;
+      setIsRecording(true);
+      setIsProcessing(true);
+    } catch (err) {
+      console.error("Mic access error:", err);
+      setIsProcessing(false);
+      alert("Could not access microphone. Please allow mic access.");
+    }
+  }, [sendAudio]);
+
+  const stopRecording = useCallback(() => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current = null;
+      setIsRecording(false);
+    }
+  }, [isRecording]);
 
   const lastAssistantText = turns.filter((t) => t.role === "assistant").pop()?.content ?? "";
   const isReady =

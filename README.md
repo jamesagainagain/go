@@ -17,9 +17,10 @@ Frontend and backend must both implement against this spec. See `docs/API.md` fo
 ## Setup
 
 1. Copy `.env.example` to `.env` and fill in your values
-2. `make up` - start Docker services
-3. `make seed` - load demo data
-4. `make test` - run tests
+2. `make install` - create backend venv and install Python deps (first time only)
+3. `make up` - start Docker services (Postgres, Redis)
+4. `make seed` - load demo data (requires Supabase; see `.env.example` for `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY`)
+5. `make test` - run backend tests
 
 ## Tech Stack
 

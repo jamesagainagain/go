@@ -94,7 +94,7 @@ export function useAgentStream() {
         startSimulatedStream(onFinalMessage);
       }
     },
-    [clearStream, isStreaming, startSimulatedStream]
+    [clearStream, startSimulatedStream]
   );
 
   useEffect(() => {
