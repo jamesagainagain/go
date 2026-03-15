@@ -47,7 +47,7 @@ const APPS: AppIcon[] = [
   },
   {
     id: "go",
-    name: "Go",
+    name: "go!",
     gradient: "from-[#f59e0b] to-[#d97706]",
     icon: "",
   },
@@ -77,7 +77,7 @@ export function IPadHomeScreen({ onOpenApp }: IPadHomeScreenProps) {
                 className={`w-[60px] h-[60px] md:w-[72px] md:h-[72px] rounded-[16px] md:rounded-[18px] bg-gradient-to-br ${app.gradient} flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 group-active:scale-95`}
               >
                 {app.id === "go" ? (
-                  <span className="text-white text-xl md:text-2xl font-bold tracking-tight">Go</span>
+                  <span className="text-white text-xl md:text-2xl font-bold tracking-tight">go!</span>
                 ) : (
                   <svg
                     className="w-7 h-7 md:w-8 md:h-8 text-white"

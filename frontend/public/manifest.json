@@ -1,6 +1,6 @@
 {
-  "name": "FirstMove",
-  "short_name": "FirstMove",
+  "name": "go!",
+  "short_name": "go!",
   "description": "Activation engine - from screen to street",
   "start_url": "/",
   "display": "standalone",

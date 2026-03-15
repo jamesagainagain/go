@@ -64,15 +64,15 @@ export function IPadLockScreen({
               className="w-full rounded-2xl bg-white/15 backdrop-blur-2xl border border-white/10 p-4 text-left hover:bg-white/20 transition-colors active:scale-[0.98]"
             >
               <div className="flex items-start gap-3">
-                {/* Go app icon */}
+                {/* go! app icon */}
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#f59e0b] to-[#d97706] flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm font-bold">Go</span>
+                  <span className="text-white text-sm font-bold">go!</span>
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <span className="text-white/90 text-sm font-semibold">
-                      Go
+                      go!
                     </span>
                     <span className="text-white/40 text-xs">now</span>
                   </div>

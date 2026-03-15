@@ -1,4 +1,4 @@
-/* Service worker for Web Push - FirstMove PWA */
+/* Service worker for Web Push - go! PWA */
 
 self.addEventListener("push", (event) => {
   if (!event.data) return;
@@ -7,10 +7,10 @@ self.addEventListener("push", (event) => {
   try {
     data = event.data.json();
   } catch {
-    data = { title: "FirstMove", body: event.data.text() || "New opportunity" };
+    data = { title: "go!", body: event.data.text() || "New opportunity" };
   }
 
-  const title = data.title || "FirstMove";
+  const title = data.title || "go!";
   const body = data.body || "You have a new opportunity";
   const activationId = data.activation_id || data.activationId;
   const url = activationId ? `/activation/${activationId}` : "/dashboard";

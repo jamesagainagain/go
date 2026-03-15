@@ -3,14 +3,14 @@ import "./globals.css";
 import { ParticleField } from "@/components/particle-field-1";
 
 export const metadata: Metadata = {
-  title: "FirstMove - From screen to street",
+  title: "go! - From screen to street",
   description: "Activation engine - we nudge you at the right moment",
   manifest: "/manifest.json",
   icons: { icon: "/icon.svg" },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "FirstMove",
+    title: "go!",
   },
 };
 

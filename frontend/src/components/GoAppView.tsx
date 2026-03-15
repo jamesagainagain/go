@@ -34,13 +34,13 @@ export function GoAppView({ mode, setupContent, onSetupComplete }: GoAppViewProp
     <div className="w-full h-full flex flex-col bg-[#06060c]">
       <IPadStatusBar time="5:45 PM" />
 
-      {/* Go header */}
+      {/* go! header */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#f59e0b] to-[#d97706] flex items-center justify-center">
-            <span className="text-white text-xs font-bold">Go</span>
+            <span className="text-white text-xs font-bold">go!</span>
           </div>
-          <span className="text-white text-lg font-semibold tracking-tight">Go</span>
+          <span className="text-white text-lg font-semibold tracking-tight">go!</span>
         </div>
         {mode === "events" && (
           <span className="text-white/40 text-sm">Tuesday evening</span>

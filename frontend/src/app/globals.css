@@ -40,6 +40,26 @@ body {
 }
 
 /* Subtle ambient gradient pulse for landing */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes gradient-pulse {
   0%,
   100% {
@@ -63,4 +83,131 @@ body {
     ),
     var(--bg-deep);
   animation: gradient-pulse 8s ease-in-out infinite;
+}
+
+/* ── M2 Glow Design System ── */
+
+@keyframes glow-blur {
+  to {
+    filter: blur(3vmin);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes glow-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.demo-bg {
+  background: linear-gradient(135deg, #1e1e24 10%, #050505 60%);
+  background-size: 200% 200%;
+  animation: glow-shift 8s ease-in-out infinite;
+}
+
+.glow-box {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(135deg, #1e1e24 10%, #050505 60%);
+}
+
+.glow-box::before,
+.glow-box::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  background: radial-gradient(circle at 0 0, hsl(27deg 93% 60%), transparent),
+    radial-gradient(circle at 100% 0, #00a6ff, transparent),
+    radial-gradient(circle at 0 100%, #ff0056, transparent),
+    radial-gradient(circle at 100% 100%, #6500ff, transparent);
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.glow-box::before {
+  inset: -10px;
+  filter: blur(2vmin);
+  z-index: -2;
+  animation: glow-blur 3s ease-in-out alternate infinite;
+}
+
+.glow-box-subtle {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(135deg, #1e1e24 10%, #050505 60%);
+}
+
+.glow-box-subtle::before,
+.glow-box-subtle::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  background: radial-gradient(circle at 0 0, hsl(27deg 93% 60%), transparent),
+    radial-gradient(circle at 100% 0, #00a6ff, transparent),
+    radial-gradient(circle at 0 100%, #ff0056, transparent),
+    radial-gradient(circle at 100% 100%, #6500ff, transparent);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.glow-box-subtle::before {
+  inset: -6px;
+  filter: blur(1.5vmin);
+  z-index: -2;
+  opacity: 0.35;
+}
+
+.gradient-text {
+  background-image: linear-gradient(to right, #626262, #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-bright {
+  background-image: linear-gradient(to right, #888, #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-warm {
+  background-image: linear-gradient(to right, hsl(27deg 93% 60%), #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.wordmark-safe {
+  display: inline-block;
+  line-height: 1.1;
+  padding-bottom: 0.08em;
+}
+
+.gradient-underline {
+  background: linear-gradient(
+    to right,
+    hsl(27deg 93% 60%),
+    #00a6ff,
+    #ff0056,
+    #6500ff
+  );
+}
+
+.ambient-glow-backdrop {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 30% 40%, hsl(27deg 93% 60% / 0.08), transparent 50%),
+    radial-gradient(circle at 70% 60%, #00a6ff10, transparent 50%),
+    radial-gradient(circle at 50% 80%, #6500ff08, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
 }

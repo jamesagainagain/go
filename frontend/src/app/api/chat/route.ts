@@ -3,7 +3,7 @@ import { openai } from "@ai-sdk/openai";
 
 export const maxDuration = 30;
 
-const SYSTEM_PROMPT = `You are FirstMove's onboarding assistant. Your job is to learn about the user through friendly conversation.
+const SYSTEM_PROMPT = `You are go!'s onboarding assistant. Your job is to learn about the user through friendly conversation.
 
 Extract the following (when the user shares them):
 - interests: categories like art, sport, food, music, nature, study, nightlife, wellness, comedy, tech
