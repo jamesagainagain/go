@@ -20,12 +20,15 @@ def get_event_ingestion_service() -> EventIngestionService:
     global _event_ingestion_service
     if _event_ingestion_service is None:
         settings = get_settings()
+        openclaw_api_token = settings.openclaw_api_token or getattr(settings, "openai_api_key", None)
+        openclaw_model = getattr(settings, "openai_model_fast", "gpt-4o-mini")
         adapters = build_default_event_source_adapters(
             include_places_catalog=settings.enable_places_catalog_ingestion,
             openclaw_enabled=settings.openclaw_enabled,
             openclaw_endpoint=settings.openclaw_endpoint,
-            openclaw_api_token=settings.openclaw_api_token,
+            openclaw_api_token=openclaw_api_token,
             openclaw_timeout_seconds=settings.openclaw_timeout_seconds,
+            openclaw_model=openclaw_model,
         )
         _event_ingestion_service = EventIngestionService(adapters=adapters)
     return _event_ingestion_service

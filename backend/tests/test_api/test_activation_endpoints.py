@@ -120,6 +120,15 @@ def test_activation_respond_feedback_and_history(client: TestClient):
         json={"attended": True, "rating": 5, "feedback_text": "Great energy"},
     )
     assert feedback_response.status_code == 200
+    feedback_payload = feedback_response.json()
+    assert feedback_payload["status"] == "ok"
+    assert feedback_payload["review"]
+
+    profile_response = client.get("/api/v1/users/me", headers=headers)
+    assert profile_response.status_code == 200
+    profile_payload = profile_response.json()
+    assert profile_payload["activation_stage"] in {"recommend", "precommit", "activate"}
+    assert profile_payload["preferences"]
 
     history_response = client.get(
         "/api/v1/activations/history?limit=5&offset=0",

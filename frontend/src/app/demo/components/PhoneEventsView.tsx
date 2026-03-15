@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { RECOMMENDED_EVENTS, LONDON_EVENTS } from "@/lib/mock-data";
+import { useEffect, useMemo, useState } from "react";
+import { getDemoEventAttendees, getDemoEventsNearby } from "@/lib/api";
+import { LONDON_EVENTS, RECOMMENDED_EVENTS, type MapEvent } from "@/lib/mock-data";
 import { GoEventMap } from "@/components/GoEventMap";
+import type { EventAttendee, EventSummary } from "@/types/api";
 
 const CATEGORY_COLORS: Record<string, string> = {
   art: "#a78bfa",
@@ -19,7 +21,93 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export function PhoneEventsView() {
+  const [events, setEvents] = useState<DemoUiEvent[]>(() =>
+    RECOMMENDED_EVENTS.map((event) => ({
+      ...event,
+      tags: [event.category],
+      attendeeHint: 18,
+    }))
+  );
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [attendeesByEvent, setAttendeesByEvent] = useState<
+    Record<string, { totalExpected: number; soloCount: number; attendees: EventAttendee[] }>
+  >({});
+  const [attendeeLoadingEventId, setAttendeeLoadingEventId] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadEvents() {
+      try {
+        const response = await getDemoEventsNearby(51.5274, -0.0777, 8, 8);
+        const backendEvents = response.events ?? [];
+        if (!backendEvents.length || !mounted) return;
+        const mapped = backendEvents.map(mapEventSummaryToUiEvent);
+        setEvents(mapped);
+      } catch {
+        // Keep mock events if backend demo endpoint is unavailable.
+      }
+    }
+
+    void loadEvents();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const selectedEvent = useMemo(
+    () => events.find((event) => event.id === selectedEventId) ?? null,
+    [events, selectedEventId]
+  );
+
+  useEffect(() => {
+    if (!selectedEvent) return;
+    if (attendeesByEvent[selectedEvent.id]) return;
+    const targetEvent = selectedEvent;
+
+    let mounted = true;
+    async function loadAttendees() {
+      setAttendeeLoadingEventId(targetEvent.id);
+      try {
+        const payload = await getDemoEventAttendees(
+          targetEvent.id,
+          targetEvent.title,
+          targetEvent.tags,
+          targetEvent.attendeeHint
+        );
+        if (!mounted) return;
+        setAttendeesByEvent((prev) => ({
+          ...prev,
+          [targetEvent.id]: {
+            totalExpected: payload.total_expected,
+            soloCount: payload.solo_count,
+            attendees: payload.attendees.slice(0, 6),
+          },
+        }));
+      } catch {
+        if (!mounted) return;
+        setAttendeesByEvent((prev) => ({
+          ...prev,
+          [targetEvent.id]: {
+            totalExpected: 0,
+            soloCount: 0,
+            attendees: [],
+          },
+        }));
+      } finally {
+        if (mounted) {
+          setAttendeeLoadingEventId((current) =>
+            current === targetEvent.id ? null : current
+          );
+        }
+      }
+    }
+
+    void loadAttendees();
+    return () => {
+      mounted = false;
+    };
+  }, [selectedEvent, attendeesByEvent]);
 
   return (
     <div className="flex h-full w-full flex-col bg-[#06060c]">
@@ -61,7 +149,7 @@ export function PhoneEventsView() {
 
         {/* Event cards */}
         <div className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1">
-          {RECOMMENDED_EVENTS.map((event) => (
+          {events.map((event) => (
             <button
               key={event.id}
               type="button"
@@ -120,6 +208,39 @@ export function PhoneEventsView() {
                   </button>
                 </div>
               )}
+              {selectedEventId === event.id && (
+                <div className="mt-2 space-y-1.5 text-[10px] text-white/70">
+                  {attendeeLoadingEventId === event.id ? (
+                    <p className="text-white/50">Loading who&apos;s going...</p>
+                  ) : (
+                    <>
+                      <p className="text-white/60">
+                        {attendeesByEvent[event.id]?.totalExpected ?? 0} likely going,{" "}
+                        {attendeesByEvent[event.id]?.soloCount ?? 0} going solo
+                      </p>
+                      {(attendeesByEvent[event.id]?.attendees ?? []).map((attendee) => (
+                        <div
+                          key={`${event.id}-${attendee.user_id}`}
+                          className="rounded-md bg-white/[0.04] px-2 py-1"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-white/85">
+                              {attendee.display_name}
+                            </span>
+                            <span className="text-white/45">
+                              {attendee.response}
+                              {attendee.solo ? " · solo" : ""}
+                            </span>
+                          </div>
+                          <p className="mt-0.5 text-white/50">
+                            {attendee.interests.slice(0, 3).join(" · ")}
+                          </p>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </div>
+              )}
             </button>
           ))}
         </div>
@@ -131,7 +252,7 @@ export function PhoneEventsView() {
           </h3>
           <div className="h-[180px] overflow-hidden rounded-xl border border-white/10">
             <GoEventMap
-              events={LONDON_EVENTS}
+              events={events.length ? events : LONDON_EVENTS}
               selectedEventId={selectedEventId ?? undefined}
             />
           </div>
@@ -139,4 +260,49 @@ export function PhoneEventsView() {
       </div>
     </div>
   );
+}
+
+type DemoUiEvent = MapEvent & {
+  tags: string[];
+  attendeeHint?: number;
+};
+
+function mapEventSummaryToUiEvent(event: EventSummary): DemoUiEvent {
+  const title = event.title ?? "Nearby event";
+  const tags = event.tags ?? [];
+  const category = inferCategory(tags, title);
+  const startsAt = event.starts_at ? new Date(event.starts_at) : new Date();
+  const hours = startsAt.getHours();
+  const mins = `${startsAt.getMinutes()}`.padStart(2, "0");
+  return {
+    id: event.id ?? title.toLowerCase().replace(/\s+/g, "-"),
+    title,
+    lat: event.venue?.lat ?? 51.5274,
+    lng: event.venue?.lng ?? -0.0777,
+    category,
+    time: `${hours % 12 || 12}:${mins} ${hours >= 12 ? "PM" : "AM"}`,
+    venue: event.venue?.name ?? "London venue",
+    description: event.description ?? "Solo-friendly nearby event.",
+    tags,
+    attendeeHint: 18,
+  };
+}
+
+function inferCategory(tags: string[], title: string): MapEvent["category"] {
+  const haystack = `${tags.join(" ")} ${title}`.toLowerCase();
+  if (haystack.includes("art") || haystack.includes("gallery")) return "art";
+  if (haystack.includes("run") || haystack.includes("fitness") || haystack.includes("yoga"))
+    return "sport";
+  if (haystack.includes("music") || haystack.includes("open mic") || haystack.includes("dj"))
+    return "music";
+  if (haystack.includes("food") || haystack.includes("ramen") || haystack.includes("coffee"))
+    return "food";
+  if (haystack.includes("study") || haystack.includes("workshop")) return "study";
+  if (haystack.includes("park") || haystack.includes("walk") || haystack.includes("outdoor"))
+    return "nature";
+  if (haystack.includes("night") || haystack.includes("club")) return "nightlife";
+  if (haystack.includes("wellness")) return "wellness";
+  if (haystack.includes("comedy")) return "comedy";
+  if (haystack.includes("tech")) return "tech";
+  return "social";
 }

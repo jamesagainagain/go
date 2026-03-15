@@ -13,6 +13,7 @@ def build_default_event_source_adapters(
     openclaw_endpoint: str | None,
     openclaw_api_token: str | None,
     openclaw_timeout_seconds: float,
+    openclaw_model: str = "gpt-4o-mini",
 ) -> list[EventSourceAdapter]:
     adapters: list[EventSourceAdapter] = []
     if include_places_catalog:
@@ -24,6 +25,7 @@ def build_default_event_source_adapters(
                 endpoint=openclaw_endpoint,
                 api_token=openclaw_api_token,
                 timeout_seconds=openclaw_timeout_seconds,
+                model=openclaw_model,
             )
         )
     )

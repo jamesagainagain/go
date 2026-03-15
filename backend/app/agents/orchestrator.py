@@ -5,6 +5,7 @@ from pathlib import Path
 from app.agents.commitment_agent import run_commitment_agent
 from app.agents.context_agent import run_context_agent
 from app.agents.discovery_agent import run_discovery_agent
+from app.agents.llm_referee_agent import run_llm_referee_agent
 from app.agents.momentum_agent import run_momentum_agent
 from app.agents.social_proof_agent import run_social_proof_agent
 from app.agents.types import ActivationState
@@ -31,7 +32,7 @@ def load_prompt(prompt_name: str) -> str:
 
 
 def run_activation_pipeline(state: ActivationState) -> ActivationState:
-    _ = {
+    prompt_bundle = {
         "context": load_prompt("context.txt"),
         "discovery": load_prompt("discovery.txt"),
         "social_proof": load_prompt("social_proof.txt"),
@@ -50,4 +51,5 @@ def run_activation_pipeline(state: ActivationState) -> ActivationState:
     state = run_social_proof_agent(state)
     state = run_commitment_agent(state)
     state = run_momentum_agent(state)
+    state = run_llm_referee_agent(state, prompts=prompt_bundle)
     return state

@@ -180,6 +180,24 @@ export interface EventSummary {
   tier?: OpportunityTier;
 }
 
+export interface EventAttendee {
+  user_id: string;
+  display_name: string;
+  response: "going" | "interested";
+  solo: boolean;
+  comfort_level: ComfortLevel;
+  cohort?: string | null;
+  interests: string[];
+}
+
+export interface EventAttendeesResponse {
+  event_key: string;
+  event_title: string;
+  total_expected: number;
+  solo_count: number;
+  attendees: EventAttendee[];
+}
+
 // --- Push ---
 export interface PushSubscribeRequest {
   endpoint: string;

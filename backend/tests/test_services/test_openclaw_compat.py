@@ -7,6 +7,7 @@ import pytest
 from app.services.openclaw import (
     DisabledOpenClawProvider,
     HttpOpenClawProvider,
+    OpenAIChatCompletionsOpenClawProvider,
     OpenClawSuggestion,
     build_openclaw_provider,
 )
@@ -35,6 +36,17 @@ def test_openclaw_provider_can_build_http_variant():
         timeout_seconds=2.0,
     )
     assert isinstance(provider, HttpOpenClawProvider)
+
+
+@pytest.mark.services
+def test_openclaw_provider_can_build_openai_variant():
+    provider = build_openclaw_provider(
+        enabled=True,
+        endpoint="https://api.openai.com/v1/chat/completions",
+        api_token="token",
+        timeout_seconds=2.0,
+    )
+    assert isinstance(provider, OpenAIChatCompletionsOpenClawProvider)
 
 
 @pytest.mark.services
@@ -70,3 +82,38 @@ async def test_openclaw_http_provider_parses_valid_payload(monkeypatch: pytest.M
     assert isinstance(first, OpenClawSuggestion)
     assert first.title == "OpenClaw local nudge"
     assert first.starts_at == datetime(2026, 3, 20, 18, 0, tzinfo=UTC)
+
+
+@pytest.mark.services
+@pytest.mark.asyncio
+async def test_openclaw_openai_provider_parses_valid_payload(monkeypatch: pytest.MonkeyPatch):
+    provider = OpenAIChatCompletionsOpenClawProvider(
+        endpoint="https://api.openai.com/v1/chat/completions",
+        api_token="token",
+    )
+
+    async def fake_fetch_payload(**kwargs):  # noqa: ANN003
+        del kwargs
+        return [
+            {
+                "title": "OpenAI generated social run",
+                "description": "Easy meetup in the park.",
+                "starts_at": "2026-03-21T09:30:00Z",
+                "location_text": "Victoria Park",
+                "lat": 51.5360,
+                "lng": -0.0382,
+                "category": "recurring_pattern",
+                "source_url": "https://example.com/openai-run",
+                "cost_hint": "Free",
+                "tags": ["fitness", "community"],
+            }
+        ]
+
+    monkeypatch.setattr(provider, "_fetch_payload", fake_fetch_payload)
+    suggestions = await provider.fetch_suggestions(city="london", hours_ahead=12)
+
+    assert len(suggestions) == 1
+    first = suggestions[0]
+    assert isinstance(first, OpenClawSuggestion)
+    assert first.title == "OpenAI generated social run"
+    assert first.starts_at == datetime(2026, 3, 21, 9, 30, tzinfo=UTC)

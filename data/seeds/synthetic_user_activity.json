@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-15T13:38:29.544186+00:00",
+  "generated_at": "2026-03-15T17:37:29.016203+00:00",
   "seed": 20260315,
   "opportunities": [
     {
@@ -11,7 +11,7 @@
       "starts_at": "2026-03-18T18:30:00Z",
       "social_proof_snapshot": {
         "total_expected": 19,
-        "solo_count": 6,
+        "solo_count": 8,
         "familiar_cluster_count": 2,
         "top_familiar_clusters": [
           {
@@ -98,7 +98,7 @@
           "display_name": "Aria Hughes",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "shoreditch_remote_workers-cluster-05"
         },
         {
@@ -154,7 +154,7 @@
           "display_name": "Mila Smith",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "bloomsbury_students-cluster-10"
         },
         {
@@ -224,11 +224,11 @@
             "count": 3
           },
           {
-            "cluster_id": "shoreditch_remote_workers-cluster-09",
-            "count": 3
+            "cluster_id": "shoreditch_remote_workers-cluster-06",
+            "count": 2
           },
           {
-            "cluster_id": "shoreditch_remote_workers-cluster-06",
+            "cluster_id": "shoreditch_remote_workers-cluster-09",
             "count": 2
           }
         ]
@@ -311,7 +311,7 @@
           "display_name": "Ava Hughes",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "shoreditch_remote_workers-cluster-05"
         },
         {
@@ -447,7 +447,7 @@
           "display_name": "Luca Reed",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "shoreditch_remote_workers-cluster-09"
         },
         {
@@ -722,19 +722,19 @@
       "starts_at": "2026-03-21T09:30:00Z",
       "social_proof_snapshot": {
         "total_expected": 20,
-        "solo_count": 8,
-        "familiar_cluster_count": 4,
+        "solo_count": 11,
+        "familiar_cluster_count": 3,
         "top_familiar_clusters": [
           {
             "cluster_id": "weekend_park_goers-cluster-09",
             "count": 3
           },
           {
-            "cluster_id": "shoreditch_remote_workers-cluster-06",
+            "cluster_id": "shoreditch_remote_workers-cluster-10",
             "count": 2
           },
           {
-            "cluster_id": "shoreditch_remote_workers-cluster-10",
+            "cluster_id": "shoreditch_remote_workers-cluster-04",
             "count": 2
           }
         ]
@@ -745,7 +745,7 @@
           "display_name": "Layla Hughes",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "shoreditch_remote_workers-cluster-06"
         },
         {
@@ -873,7 +873,7 @@
           "display_name": "Freya Evans",
           "cohort": "weekend_park_goers",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "weekend_park_goers-cluster-04"
         },
         {
@@ -897,7 +897,7 @@
           "display_name": "Noah Singh",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "shoreditch_remote_workers-cluster-07"
         },
         {
@@ -1023,7 +1023,7 @@
       "starts_at": "2026-03-21T10:15:00Z",
       "social_proof_snapshot": {
         "total_expected": 16,
-        "solo_count": 7,
+        "solo_count": 6,
         "familiar_cluster_count": 2,
         "top_familiar_clusters": [
           {
@@ -1035,7 +1035,7 @@
             "count": 2
           },
           {
-            "cluster_id": "weekend_park_goers-cluster-07",
+            "cluster_id": "bloomsbury_students-cluster-09",
             "count": 1
           }
         ]
@@ -1054,7 +1054,7 @@
           "display_name": "Ivy Smith",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-09"
         },
         {
@@ -1078,7 +1078,7 @@
           "display_name": "Luca Walker",
           "cohort": "weekend_park_goers",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "weekend_park_goers-cluster-07"
         },
         {
@@ -1150,7 +1150,7 @@
           "display_name": "Mia Ali",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-07"
         },
         {
@@ -1220,8 +1220,8 @@
       "starts_at": "2026-03-22T10:00:00Z",
       "social_proof_snapshot": {
         "total_expected": 31,
-        "solo_count": 13,
-        "familiar_cluster_count": 6,
+        "solo_count": 11,
+        "familiar_cluster_count": 8,
         "top_familiar_clusters": [
           {
             "cluster_id": "weekend_park_goers-cluster-03",
@@ -1232,7 +1232,7 @@
             "count": 2
           },
           {
-            "cluster_id": "bloomsbury_students-cluster-01",
+            "cluster_id": "bloomsbury_students-cluster-08",
             "count": 2
           }
         ]
@@ -1267,7 +1267,7 @@
           "display_name": "Ethan Ali",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-08"
         },
         {
@@ -1403,7 +1403,7 @@
           "display_name": "Sana Khan",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-04"
         },
         {
@@ -1521,7 +1521,7 @@
       "starts_at": "2026-03-20T19:10:00Z",
       "social_proof_snapshot": {
         "total_expected": 12,
-        "solo_count": 5,
+        "solo_count": 6,
         "familiar_cluster_count": 0,
         "top_familiar_clusters": [
           {
@@ -1632,7 +1632,7 @@
           "display_name": "Aria Taylor",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "shoreditch_remote_workers-cluster-01"
         },
         {
@@ -1664,7 +1664,7 @@
           "display_name": "Layla Taylor",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "shoreditch_remote_workers-cluster-02"
         },
         {
@@ -1672,7 +1672,7 @@
           "display_name": "Mia Hughes",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "shoreditch_remote_workers-cluster-05"
         },
         {
@@ -1702,20 +1702,20 @@
       "starts_at": "2026-03-20T18:45:00Z",
       "social_proof_snapshot": {
         "total_expected": 26,
-        "solo_count": 11,
-        "familiar_cluster_count": 4,
+        "solo_count": 7,
+        "familiar_cluster_count": 6,
         "top_familiar_clusters": [
+          {
+            "cluster_id": "bloomsbury_students-cluster-07",
+            "count": 4
+          },
           {
             "cluster_id": "bloomsbury_students-cluster-05",
             "count": 3
           },
           {
-            "cluster_id": "bloomsbury_students-cluster-07",
-            "count": 3
-          },
-          {
-            "cluster_id": "bloomsbury_students-cluster-08",
-            "count": 3
+            "cluster_id": "bloomsbury_students-cluster-02",
+            "count": 2
           }
         ]
       },
@@ -1725,7 +1725,7 @@
           "display_name": "Sana Patel",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-02"
         },
         {
@@ -1733,7 +1733,7 @@
           "display_name": "Luca Smith",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-09"
         },
         {
@@ -1757,7 +1757,7 @@
           "display_name": "Ava Ali",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-07"
         },
         {
@@ -1845,7 +1845,7 @@
           "display_name": "Sana Khan",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-04"
         },
         {
@@ -1877,7 +1877,7 @@
           "display_name": "Freya Ali",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "bloomsbury_students-cluster-08"
         },
         {
@@ -1949,7 +1949,7 @@
           "display_name": "Mia Khan",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-03"
         },
         {
@@ -1979,7 +1979,7 @@
       "starts_at": "2026-03-20T20:00:00Z",
       "social_proof_snapshot": {
         "total_expected": 22,
-        "solo_count": 9,
+        "solo_count": 7,
         "familiar_cluster_count": 4,
         "top_familiar_clusters": [
           {
@@ -2106,7 +2106,7 @@
           "display_name": "Omar Hughes",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "shoreditch_remote_workers-cluster-06"
         },
         {
@@ -2122,7 +2122,7 @@
           "display_name": "Ava Smith",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-09"
         },
         {
@@ -2202,7 +2202,7 @@
           "display_name": "Layla Taylor",
           "cohort": "shoreditch_remote_workers",
           "response": "going",
-          "solo": false,
+          "solo": true,
           "familiar_cluster": "shoreditch_remote_workers-cluster-02"
         },
         {
@@ -2226,7 +2226,7 @@
           "display_name": "Mia Ali",
           "cohort": "bloomsbury_students",
           "response": "going",
-          "solo": true,
+          "solo": false,
           "familiar_cluster": "bloomsbury_students-cluster-07"
         },
         {
@@ -2247,7 +2247,7 @@
       "request_user_id": "demo-user-0001",
       "request_user_display_name": "Ava Patel",
       "opportunity_id": "demo-opp-001",
-      "expected_social_proof": "19 people likely going, 6 going solo"
+      "expected_social_proof": "19 people likely going, 8 going solo"
     },
     {
       "step": 2,
@@ -2255,7 +2255,7 @@
       "request_user_id": "demo-user-0101",
       "request_user_display_name": "Ava Taylor",
       "opportunity_id": "demo-opp-004",
-      "expected_social_proof": "20 people likely going, 8 going solo"
+      "expected_social_proof": "20 people likely going, 11 going solo"
     },
     {
       "step": 3,
@@ -2263,7 +2263,7 @@
       "request_user_id": "demo-user-0101",
       "request_user_display_name": "Ava Taylor",
       "opportunity_id": "demo-opp-007",
-      "expected_social_proof": "12 people likely going, 5 going solo"
+      "expected_social_proof": "12 people likely going, 6 going solo"
     }
   ]
 }

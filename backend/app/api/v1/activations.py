@@ -24,6 +24,7 @@ from app.schemas.activation import (
 from app.schemas.opportunity import Opportunity as OpportunitySchema
 from app.schemas.opportunity import SocialProof, VenueSummary
 from app.services.booking import build_commitment_action
+from app.services.openclaw_profile_loop import maybe_apply_openclaw_profile_updates
 from app.utils.security import get_current_user
 
 router = APIRouter(prefix="/activations", tags=["activations"])
@@ -292,15 +293,23 @@ async def check_activations(
     session: AsyncSession = Depends(get_db_session),
 ) -> ActivationCardResponse | NoOpportunityResponse:
     location_updated = False
+    profile_signal_updated = False
     if payload and payload.lat is not None and payload.lng is not None:
         current_user.location_lat = payload.lat
         current_user.location_lng = payload.lng
         current_user.location_updated_at = datetime.now(UTC)
         location_updated = True
 
+    profile_note = await maybe_apply_openclaw_profile_updates(
+        session=session,
+        user=current_user,
+    )
+    if profile_note is not None:
+        profile_signal_updated = True
+
     pending_activation = await _find_pending_activation(session=session, user_id=current_user.id)
     if pending_activation:
-        if location_updated:
+        if location_updated or profile_signal_updated:
             await session.commit()
         fallback_lat, fallback_lng = _fallback_coordinates(current_user)
         venue_coordinates_cache: dict[UUID, tuple[float | None, float | None]] = {}

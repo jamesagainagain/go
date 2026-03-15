@@ -16,6 +16,7 @@ import type {
   FeedbackRequest,
   ActivationHistoryResponse,
   EventsNearbyResponse,
+  EventAttendeesResponse,
   PushSubscribeRequest,
 } from "@/types/api";
 
@@ -193,6 +194,34 @@ export async function getEventsNearby(
   return fetchApi<EventsNearbyResponse>(
     `/events/nearby?lat=${lat}&lng=${lng}&radius_km=${radiusKm}&limit=${limit}`
   );
+}
+
+export async function getDemoEventsNearby(
+  lat: number,
+  lng: number,
+  radiusKm = 8,
+  limit = 8
+): Promise<EventsNearbyResponse> {
+  return fetchApi<EventsNearbyResponse>(
+    `/events/demo/nearby?lat=${lat}&lng=${lng}&radius_km=${radiusKm}&limit=${limit}`
+  );
+}
+
+export async function getDemoEventAttendees(
+  eventKey: string,
+  title: string,
+  tags: string[],
+  attendeeHint?: number
+): Promise<EventAttendeesResponse> {
+  const query = new URLSearchParams({
+    event_key: eventKey,
+    title,
+    tags: tags.join(","),
+  });
+  if (typeof attendeeHint === "number") {
+    query.set("attendee_hint", `${attendeeHint}`);
+  }
+  return fetchApi<EventAttendeesResponse>(`/events/demo/attendees?${query.toString()}`);
 }
 
 // --- Push ---

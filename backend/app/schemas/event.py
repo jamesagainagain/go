@@ -5,7 +5,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.enums import OpportunityTier
+from app.models.enums import ComfortLevel, OpportunityTier
 from app.schemas.opportunity import VenueSummary
 
 
@@ -25,3 +25,21 @@ class EventSummary(BaseModel):
 
 class EventsNearbyResponse(BaseModel):
     events: list[EventSummary]
+
+
+class EventAttendee(BaseModel):
+    user_id: str
+    display_name: str
+    response: str
+    solo: bool
+    comfort_level: ComfortLevel
+    cohort: str | None = None
+    interests: list[str] = Field(default_factory=list)
+
+
+class EventAttendeesResponse(BaseModel):
+    event_key: str
+    event_title: str
+    total_expected: int
+    solo_count: int
+    attendees: list[EventAttendee]

@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from typing import Protocol
 
 import httpx
+
+DEFAULT_OPENAI_CHAT_COMPLETIONS_ENDPOINT = "https://api.openai.com/v1/chat/completions"
+DEFAULT_OPENCLAW_MODEL = "gpt-4o-mini"
 
 
 @dataclass(slots=True)
@@ -87,14 +91,106 @@ class HttpOpenClawProvider:
         return [item for item in payload if isinstance(item, dict)]
 
 
+class OpenAIChatCompletionsOpenClawProvider:
+    def __init__(
+        self,
+        *,
+        endpoint: str | None,
+        api_token: str,
+        timeout_seconds: float = 4.0,
+        model: str = DEFAULT_OPENCLAW_MODEL,
+    ) -> None:
+        self._endpoint = _normalize_openai_endpoint(endpoint)
+        self._api_token = api_token
+        self._timeout_seconds = timeout_seconds
+        self._model = model
+
+    async def fetch_suggestions(
+        self,
+        *,
+        city: str,
+        hours_ahead: int,
+    ) -> list[OpenClawSuggestion]:
+        payload = await self._fetch_payload(city=city, hours_ahead=hours_ahead)
+        suggestions: list[OpenClawSuggestion] = []
+        for item in payload:
+            parsed = _parse_suggestion(item)
+            if parsed is not None:
+                suggestions.append(parsed)
+        return suggestions
+
+    async def _fetch_payload(self, *, city: str, hours_ahead: int) -> list[dict]:
+        timeout = httpx.Timeout(self._timeout_seconds)
+        headers = {
+            "Authorization": f"Bearer {self._api_token}",
+            "Content-Type": "application/json",
+        }
+        body = {
+            "model": self._model,
+            "temperature": 0.2,
+            "max_tokens": 500,
+            "response_format": {"type": "json_object"},
+            "messages": [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are OpenClaw for FirstMove. Return JSON only with key "
+                        "'suggestions', containing 3-8 nearby opportunities. "
+                        "Each suggestion item must contain: "
+                        "title, description, starts_at (ISO8601), location_text, lat, lng, "
+                        "category, source_url, cost_hint, tags."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"City: {city}\n"
+                        f"Time window: next {hours_ahead} hours.\n"
+                        "Focus on low-friction social, cultural, fitness, food, and community options."
+                    ),
+                },
+            ],
+        }
+        try:
+            async with httpx.AsyncClient(timeout=timeout) as client:
+                response = await client.post(self._endpoint, headers=headers, json=body)
+                response.raise_for_status()
+                payload = response.json()
+        except (httpx.HTTPError, ValueError):
+            return []
+
+        content = _extract_openai_chat_content(payload)
+        if not content:
+            return []
+        try:
+            parsed = json.loads(content)
+        except json.JSONDecodeError:
+            return []
+
+        suggestions = parsed.get("suggestions", parsed if isinstance(parsed, list) else [])
+        if not isinstance(suggestions, list):
+            return []
+        return [item for item in suggestions if isinstance(item, dict)]
+
+
 def build_openclaw_provider(
     *,
     enabled: bool,
     endpoint: str | None,
     api_token: str | None,
     timeout_seconds: float = 4.0,
+    model: str = DEFAULT_OPENCLAW_MODEL,
 ) -> OpenClawProvider:
-    if not enabled or not endpoint or not api_token:
+    if not enabled or not api_token:
+        return DisabledOpenClawProvider()
+    if _is_openai_endpoint(endpoint):
+        return OpenAIChatCompletionsOpenClawProvider(
+            endpoint=endpoint,
+            api_token=api_token,
+            timeout_seconds=timeout_seconds,
+            model=model,
+        )
+    if not endpoint:
         return DisabledOpenClawProvider()
     return HttpOpenClawProvider(
         endpoint=endpoint,
@@ -190,3 +286,52 @@ def build_placeholder_suggestions(*, city: str, hours_ahead: int) -> list[OpenCl
             tags=["openclaw", "placeholder"],
         )
     ]
+
+
+def _extract_openai_chat_content(payload: object) -> str | None:
+    if not isinstance(payload, dict):
+        return None
+    choices = payload.get("choices")
+    if not isinstance(choices, list) or not choices:
+        return None
+    first = choices[0]
+    if not isinstance(first, dict):
+        return None
+    message = first.get("message")
+    if not isinstance(message, dict):
+        return None
+    content = message.get("content")
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        text_parts: list[str] = []
+        for part in content:
+            if isinstance(part, dict):
+                text = part.get("text")
+                if isinstance(text, str):
+                    text_parts.append(text)
+        if text_parts:
+            return "".join(text_parts)
+    return None
+
+
+def _is_openai_endpoint(endpoint: str | None) -> bool:
+    if endpoint is None:
+        return True
+    normalized = endpoint.strip().lower()
+    return "api.openai.com" in normalized
+
+
+def _normalize_openai_endpoint(endpoint: str | None) -> str:
+    if not endpoint:
+        return DEFAULT_OPENAI_CHAT_COMPLETIONS_ENDPOINT
+    value = endpoint.rstrip("/")
+    if "/v1/" in value:
+        return value
+    if value.endswith("/v1/chat/completions"):
+        return value
+    if value.endswith("/v1"):
+        return f"{value}/chat/completions"
+    if value.startswith("https://api.openai.com"):
+        return f"{value}/v1/chat/completions"
+    return value
