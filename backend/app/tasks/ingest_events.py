@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import asyncio
 
+from app.config import get_settings
 from app.database import get_session_factory
 from app.services.event_ingestion import EventIngestionService
+from app.services.event_sources import build_default_event_source_adapters
 from app.tasks import (
     TaskLockBackendUnavailableError,
     acquire_task_lock,
@@ -17,7 +19,11 @@ _event_ingestion_service: EventIngestionService | None = None
 def get_event_ingestion_service() -> EventIngestionService:
     global _event_ingestion_service
     if _event_ingestion_service is None:
-        _event_ingestion_service = EventIngestionService()
+        settings = get_settings()
+        adapters = build_default_event_source_adapters(
+            ticketmaster_api_key=settings.ticketmaster_api_key
+        )
+        _event_ingestion_service = EventIngestionService(adapters=adapters)
     return _event_ingestion_service
 
 

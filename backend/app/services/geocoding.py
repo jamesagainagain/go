@@ -7,6 +7,7 @@ from urllib.parse import quote_plus
 import httpx
 
 from app.config import get_settings
+from app.services.venue_resolver import LondonVenueCatalog, get_london_venue_catalog
 
 STATIC_LOCATION_LOOKUP = {
     "shoreditch": (51.5247, -0.0794),
@@ -29,12 +30,19 @@ class Geocoder(Protocol):
 
 
 class GeocodingService:
-    def __init__(self, *, mapbox_token: str | None = None, timeout_seconds: float = 2.0) -> None:
+    def __init__(
+        self,
+        *,
+        mapbox_token: str | None = None,
+        timeout_seconds: float = 2.0,
+        venue_catalog: LondonVenueCatalog | None = None,
+    ) -> None:
         settings = get_settings()
         self._mapbox_token = (
             mapbox_token if mapbox_token is not None else settings.mapbox_access_token
         )
         self._timeout_seconds = timeout_seconds
+        self._venue_catalog = venue_catalog or get_london_venue_catalog()
 
     async def geocode(self, location_text: str) -> GeocodeResult | None:
         query = location_text.strip()
@@ -50,6 +58,14 @@ class GeocodingService:
         return await self._lookup_mapbox(query)
 
     def _match_static_location(self, location_text: str) -> GeocodeResult | None:
+        catalog_match = self._venue_catalog.find_match(location_text, min_score=0.9)
+        if catalog_match is not None:
+            return GeocodeResult(
+                lat=catalog_match.entry.lat,
+                lng=catalog_match.entry.lng,
+                source="catalog",
+            )
+
         lowered = location_text.lower()
         for key, coordinates in STATIC_LOCATION_LOOKUP.items():
             if key in lowered:

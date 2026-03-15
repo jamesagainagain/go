@@ -47,6 +47,10 @@ class Settings(BaseSettings):
         default=None,
         validation_alias=AliasChoices("MAPBOX_STYLE"),
     )
+    ticketmaster_api_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("TICKETMASTER_API_KEY"),
+    )
     vapid_public_key: str | None = Field(
         default=None,
         validation_alias=AliasChoices("VAPID_PUBLIC_KEY"),

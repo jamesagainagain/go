@@ -96,3 +96,18 @@ def test_task_lock_fails_safe_when_redis_unavailable(monkeypatch: pytest.MonkeyP
     monkeypatch.setattr(tasks_module.Redis, "from_url", raise_on_connect)
     with pytest.raises(TaskLockBackendUnavailableError):
         tasks_module.acquire_task_lock("task-lock:test", ttl_seconds=60)
+
+
+@pytest.mark.tasks
+def test_event_ingestion_service_registers_ticketmaster_from_settings(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    class FakeSettings:
+        ticketmaster_api_key = "demo-key"
+
+    monkeypatch.setattr(ingest_events, "get_settings", lambda: FakeSettings())
+    ingest_events.set_event_ingestion_service(None)  # type: ignore[arg-type]
+
+    service = ingest_events.get_event_ingestion_service()
+    assert "ticketmaster" in service.available_providers()
+    ingest_events.set_event_ingestion_service(None)  # type: ignore[arg-type]

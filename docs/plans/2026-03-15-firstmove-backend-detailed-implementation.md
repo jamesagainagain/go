@@ -157,6 +157,37 @@ Pending tasks remain the same in intent:
 
 Task 12 must preserve the already-fixed baseline regressions as mandatory checks.
 
+## London Real Event + Venue Data Track (Added Before Execution)
+
+You requested London-first realism for places/events with custom geolocation control.
+This is now an explicit execution track mapped to remaining tasks:
+
+- Strategy: **hybrid**
+  - real London event providers for live ingestion
+  - curated London venue catalog with canonical lat/lng overrides
+  - deterministic fallback dataset for demo continuity
+
+- Task 12 extension (test/contract matrix):
+  - add detailed `data/seeds/london_venues.json` catalog coverage + schema tests
+  - add source-adapter tests for real event provider payload parsing
+  - add regression tests proving `/events/nearby` returns real ingested London events
+
+- Task 13 extension (hardening):
+  - add venue resolver priority: curated catalog > provider coordinates > geocoder fallback
+  - add London-boundary coordinate guardrails and observability for provider failures
+
+- Task 14 extension (release gate):
+  - run E2E smoke proving London real-source ingestion populates venue-aware payloads
+  - validate fallback behavior when provider key/network is unavailable
+
+- Task 15 constraint:
+  - keep OpenClaw seams deferred and unchanged by this data-track work
+
+Sync note:
+
+- Implementation continues in `/Users/james/go/.worktrees/james`.
+- We will sync progress into `/Users/james/go` at stage checkpoints after Task 12/13/14.
+
 ## Deferred Bug Backlog Status
 
 The previously deferred backlog from the full-codebase scan has now been implemented
@@ -199,4 +230,5 @@ Run from branch workspace:
 - `cd /Users/james/go/backend && ruff check .`
 - `cd /Users/james/go/backend && pytest -q`
 - `cd /Users/james/go/backend && python3 -m scripts.seed_demo_social_proof --users 300 --seed 20260315`
+- `cd /Users/james/go/backend && python3 -m scripts.seed_london_venues`
 

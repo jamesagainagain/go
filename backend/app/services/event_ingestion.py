@@ -16,6 +16,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Event, OpportunityTier, Venue
 from app.services.geocoding import Geocoder, GeocodeResult, GeocodingService
+from app.services.venue_resolver import VenueCatalogEntry, get_london_venue_catalog
 from app.utils.geo import haversine_km
 from app.utils.llm import estimate_solo_friendly_score, extract_tags_from_text
 from app.utils.time_helpers import parse_datetime
@@ -79,6 +80,7 @@ class EventIngestionService:
         self._geocoder = geocoder or GeocodingService()
         self._request_timeout_seconds = request_timeout_seconds
         self._max_retries = max_retries
+        self._venue_catalog = get_london_venue_catalog()
 
     def register_provider(self, name: str, adapter: EventSourceAdapter) -> None:
         self._adapters[name] = adapter
@@ -151,9 +153,14 @@ class EventIngestionService:
             raise ValueError(f"Invalid start_time `{raw_event.start_time}`")
         ends_at = parse_datetime(raw_event.end_time)
 
+        catalog_entry = self._resolve_catalog_entry(raw_event.location_text)
         geocode_result: GeocodeResult | None = None
         lat = raw_event.lat
         lng = raw_event.lng
+        if (lat is None or lng is None) and catalog_entry is not None:
+            lat = catalog_entry.lat
+            lng = catalog_entry.lng
+
         if (lat is None or lng is None) and raw_event.location_text:
             geocode_result = await self._geocoder.geocode(raw_event.location_text)
             if geocode_result is not None:
@@ -278,22 +285,64 @@ class EventIngestionService:
         if not event.location_text:
             return None
 
-        venue_name = event.location_text[:255]
+        catalog_entry = self._resolve_catalog_entry(event.location_text)
+        if catalog_entry is not None:
+            venue_name = catalog_entry.name[:255]
+        else:
+            venue_name = event.location_text[:255]
+
         result = await session.execute(select(Venue).where(Venue.name == venue_name))
         venue = result.scalar_one_or_none()
-        location_point = _build_point(event.lat, event.lng)
+        if catalog_entry is not None:
+            location_point = _build_point(catalog_entry.lat, catalog_entry.lng)
+        else:
+            location_point = _build_point(event.lat, event.lng)
+
+        source_url = event.source_url
+        if catalog_entry is not None and catalog_entry.source_url:
+            source_url = catalog_entry.source_url
+
+        vibe_tags: list[str] | None = None
+        if catalog_entry is not None and catalog_entry.vibe_tags:
+            vibe_tags = list(catalog_entry.vibe_tags)
+
         if venue is None:
             venue = Venue(
                 name=venue_name,
-                address=event.location_text,
-                source_url=event.source_url,
+                address=catalog_entry.address if catalog_entry is not None else event.location_text,
                 location=location_point,
+                venue_type=catalog_entry.venue_type if catalog_entry is not None else None,
+                capacity_estimate=(
+                    catalog_entry.capacity_estimate if catalog_entry is not None else None
+                ),
+                vibe_tags=vibe_tags,
+                source_url=source_url,
             )
             session.add(venue)
             await session.flush()
         elif venue.location is None and location_point is not None:
             venue.location = location_point
+        elif catalog_entry is not None:
+            if venue.address is None and catalog_entry.address:
+                venue.address = catalog_entry.address
+            if venue.venue_type is None and catalog_entry.venue_type:
+                venue.venue_type = catalog_entry.venue_type
+            if venue.capacity_estimate is None and catalog_entry.capacity_estimate is not None:
+                venue.capacity_estimate = catalog_entry.capacity_estimate
+            if venue.vibe_tags is None and vibe_tags:
+                venue.vibe_tags = vibe_tags
+            if venue.source_url is None and source_url:
+                venue.source_url = source_url
         return venue.id
+
+    def _resolve_catalog_entry(self, location_text: str | None) -> VenueCatalogEntry | None:
+        if not location_text:
+            return None
+
+        match = self._venue_catalog.find_match(location_text)
+        if match is None:
+            return None
+        return match.entry
 
     def _normalize_tags(self, tags_raw: list[str] | None, text: str) -> list[str]:
         cleaned = [tag.strip().lower() for tag in (tags_raw or []) if tag.strip()]
