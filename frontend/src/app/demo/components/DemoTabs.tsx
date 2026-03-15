@@ -15,7 +15,7 @@ interface DemoTabsProps {
 
 export function DemoTabs({ activeTab, onTabChange }: DemoTabsProps) {
   return (
-    <header className="glow-box-subtle w-fit shrink-0 rounded-2xl px-6 py-4">
+    <header className="glow-box-subtle demo-tabs-banner w-fit shrink-0 rounded-2xl px-6 py-4">
       <nav
         className="flex items-center justify-center gap-8"
         role="tablist"
@@ -29,10 +29,10 @@ export function DemoTabs({ activeTab, onTabChange }: DemoTabsProps) {
             aria-controls={`tabpanel-${i}`}
             id={`tab-${i}`}
             onClick={() => onTabChange(i)}
-            className={`px-3 py-2 text-sm font-medium transition-colors ${
+            className={`px-3 py-2 text-base font-medium transition-colors ${
               activeTab === i
-                ? "tab-shimmer-active" 
-                : "text-stone-600 hover:text-stone-800"
+                ? "tab-shimmer-active"
+                : "text-white hover:text-white/90"
             }`}
           >
             {label}

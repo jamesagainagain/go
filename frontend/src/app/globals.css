@@ -67,6 +67,16 @@
   opacity: 0.25;
 }
 
+/* Demo tabs banner: slightly thicker bottom dark edge for 3D effect */
+.demo-soft .demo-tabs-banner {
+  box-shadow:
+    0 1px 2px hsl(var(--glass-shadow-soft)),
+    0 4px 16px hsl(var(--glass-shadow-soft)),
+    inset 0 0 0 1px hsl(var(--glass-inner-soft)),
+    inset 0 1px 0 hsl(0 0% 100% / 0.5),
+    inset 0 -2px 0 hsl(0 0% 0% / 0.1);
+}
+
 .demo-soft .liquid-glass-card {
   background: hsl(var(--glass-bg-soft));
   backdrop-filter: blur(80px) saturate(2.2);
@@ -432,7 +442,7 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: tab-shimmer 3s linear infinite;
+  animation: tab-shimmer 6s linear infinite;
 }
 
 /* Tab pill: liquid glass + glow border */
