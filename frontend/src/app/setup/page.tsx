@@ -41,7 +41,7 @@ export default function SetupPage() {
           Tell us about you
         </h1>
         <p className="text-text-muted mb-6">
-          Pick how you&apos;d like to share — quick questions, a chat, or
+          Pick how you&apos;d like to share - quick questions, a chat, or
           voice.
         </p>
 

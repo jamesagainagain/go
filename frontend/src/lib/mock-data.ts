@@ -43,7 +43,7 @@ export const RECOMMENDED_EVENTS: MapEvent[] = [
     time: "5:30 PM",
     venue: "Borough Market",
     description:
-      "World-class street food vendors closing up — last chance for fresh Korean BBQ and craft beer. 12 min walk.",
+      "World-class street food vendors closing up - last chance for fresh Korean BBQ and craft beer. 12 min walk.",
   },
   {
     id: "r3",
@@ -158,7 +158,7 @@ export const MOCK_ACTIVATION: ActivationCardResponse = {
   activation_id: "mock-activation-1",
   opportunity: {
     title: "Live Jazz at Ronnie Scott's",
-    body: "Intimate jazz session in Soho's legendary venue. Solo-friendly bar seating. The Tuesday night resident band is playing — warm, relaxed crowd.",
+    body: "Intimate jazz session in Soho's legendary venue. Solo-friendly bar seating. The Tuesday night resident band is playing - warm, relaxed crowd.",
     tier: "structured",
     walk_minutes: 8,
     travel_description: "8 min walk through Soho",

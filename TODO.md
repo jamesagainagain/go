@@ -1,8 +1,8 @@
-# go! — Hackathon TODO
+# go! - Hackathon TODO
 
 ## Backend
 
-- [ ] Read `02_system_architecture.pdf` for full spec — data model, agent architecture, API design, deployment
+- [ ] Read `02_system_architecture.pdf` for full spec - data model, agent architecture, API design, deployment
 - [ ] Implement the activation endpoint that accepts a user ID + location, runs the agent pipeline, and returns an activation card
 - [ ] Implement the 5-agent LangGraph pipeline (Context → Discovery → Social Proof → Commitment → Momentum) as described in the architecture doc
 - [ ] Implement agent log streaming (SSE or WebSocket) so the frontend can display real-time pipeline progress
@@ -14,11 +14,11 @@
 
 ## Frontend
 
-- [x] `/demo` route — tabbed UI shell with 6 tabs, keyboard navigation
+- [x] `/demo` route - tabbed UI shell with 6 tabs, keyboard navigation
 - [x] Tab 1: Title screen
 - [x] Tab 2: 7 friction points + "See go! fix this" transition button
 - [x] Tab 3: Doom timeline
-- [x] Tab 4: Split view — phone mockup (left) + agent terminal (right), wired to live backend
+- [x] Tab 4: Split view - phone mockup (left) + agent terminal (right), wired to live backend
 - [x] Tab 5: Agent pipeline diagram
 - [x] Tab 6: Closing tagline
 - [x] PhoneMockup component (pure CSS/Tailwind iPhone frame, no iframe)

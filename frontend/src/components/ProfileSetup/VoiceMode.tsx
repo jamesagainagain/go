@@ -14,13 +14,102 @@ interface Turn {
   content: string;
 }
 
+interface VoiceProfileIngest {
+  applied?: boolean;
+  inferred_preferences?: string[];
+  comfort_level?: string | null;
+  willingness_radius_km?: number | null;
+}
+
+interface VoiceApiResponse {
+  transcript: string;
+  response_text: string;
+  audio_base64: string | null;
+  profile_ingest?: VoiceProfileIngest;
+}
+
+function toComfortLevel(value: string | null | undefined): ComfortLevel | null {
+  if (
+    value === "solo_ok" ||
+    value === "prefer_others" ||
+    value === "need_familiar"
+  ) {
+    return value;
+  }
+  return null;
+}
+
 export function VoiceMode({ onComplete }: VoiceModeProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [turns, setTurns] = useState<Turn[]>([]);
+  const [inferredProfile, setInferredProfile] = useState<{
+    interests: string[];
+    comfort_level: ComfortLevel;
+    radius_km: number;
+  } | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const sendAudio = useCallback(async (blob: Blob) => {
+    const formData = new FormData();
+    formData.append("audio", blob, "audio.webm");
+    formData.append(
+      "history",
+      JSON.stringify(turns.map((t) => ({ role: t.role, content: t.content })))
+    );
+
+    const token = localStorage.getItem("access_token");
+    const headers: HeadersInit = {};
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    const res = await fetch("/api/voice", {
+      method: "POST",
+      headers,
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || "Voice request failed");
+    }
+
+    const data = (await res.json()) as VoiceApiResponse;
+    const { transcript, response_text, audio_base64, profile_ingest } = data;
+
+    setTurns((prev) => [
+      ...prev,
+      { role: "user", content: transcript },
+      { role: "assistant", content: response_text },
+    ]);
+    if (profile_ingest?.applied) {
+      setInferredProfile((prev) => ({
+        interests:
+          profile_ingest.inferred_preferences?.length
+            ? profile_ingest.inferred_preferences
+            : prev?.interests ?? ["music", "art"],
+        comfort_level:
+          toComfortLevel(profile_ingest.comfort_level) ??
+          prev?.comfort_level ??
+          "solo_ok",
+        radius_km:
+          typeof profile_ingest.willingness_radius_km === "number"
+            ? profile_ingest.willingness_radius_km
+            : prev?.radius_km ?? 2.5,
+      }));
+    }
+
+    if (audio_base64) {
+      const audio = new Audio(`data:audio/mp3;base64,${audio_base64}`);
+      audioRef.current = audio;
+      setIsPlaying(true);
+      audio.onended = () => setIsPlaying(false);
+      await audio.play();
+    }
+  }, [turns]);
 
   const startRecording = useCallback(async () => {
     try {
@@ -39,8 +128,14 @@ export function VoiceMode({ onComplete }: VoiceModeProps) {
           return;
         }
         const blob = new Blob(chunks, { type: "audio/webm" });
-        await sendAudio(blob);
-        setIsProcessing(false);
+        try {
+          await sendAudio(blob);
+        } catch (err) {
+          console.error("Voice request failed:", err);
+          alert("Could not process voice input. Please try again.");
+        } finally {
+          setIsProcessing(false);
+        }
       };
 
       recorder.start();
@@ -52,7 +147,7 @@ export function VoiceMode({ onComplete }: VoiceModeProps) {
       setIsProcessing(false);
       alert("Could not access microphone. Please allow mic access.");
     }
-  }, []);
+  }, [sendAudio]);
 
   const stopRecording = useCallback(() => {
     if (mediaRecorderRef.current && isRecording) {
@@ -62,52 +157,20 @@ export function VoiceMode({ onComplete }: VoiceModeProps) {
     }
   }, [isRecording]);
 
-  const sendAudio = async (blob: Blob) => {
-    const formData = new FormData();
-    formData.append("audio", blob, "audio.webm");
-    formData.append(
-      "history",
-      JSON.stringify(turns.map((t) => ({ role: t.role, content: t.content })))
-    );
-
-    const res = await fetch("/api/voice", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      throw new Error(data.error || "Voice request failed");
-    }
-
-    const data = await res.json();
-    const { transcript, response_text, audio_base64 } = data;
-
-    setTurns((prev) => [
-      ...prev,
-      { role: "user", content: transcript },
-      { role: "assistant", content: response_text },
-    ]);
-
-    if (audio_base64) {
-      const audio = new Audio(`data:audio/mp3;base64,${audio_base64}`);
-      audioRef.current = audio;
-      setIsPlaying(true);
-      audio.onended = () => setIsPlaying(false);
-      await audio.play();
-    }
-  };
-
   const lastAssistantText = turns.filter((t) => t.role === "assistant").pop()?.content ?? "";
   const isReady =
     lastAssistantText.toLowerCase().includes("ready to see") ||
     lastAssistantText.toLowerCase().includes("got a good picture");
 
   const handleComplete = () => {
+    const fallbackInterests = ["music", "art"];
     onComplete({
-      interests: ["music", "art"],
-      comfort_level: "solo_ok" as ComfortLevel,
-      radius_km: 2.5,
+      interests:
+        inferredProfile?.interests.length
+          ? inferredProfile.interests
+          : fallbackInterests,
+      comfort_level: inferredProfile?.comfort_level ?? ("solo_ok" as ComfortLevel),
+      radius_km: inferredProfile?.radius_km ?? 2.5,
       timing: ["evening", "late_night"],
       latent_intents: lastAssistantText,
     });

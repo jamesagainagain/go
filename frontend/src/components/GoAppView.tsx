@@ -3,7 +3,8 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IPadStatusBar } from "./iPadStatusBar";
-import { RECOMMENDED_EVENTS, LONDON_EVENTS, type MapEvent } from "@/lib/mock-data";
+import { useEventsNearby } from "@/hooks/useEventsNearby";
+import type { MapEvent } from "@/lib/mock-data";
 import { GoEventMap } from "./GoEventMap";
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -29,6 +30,8 @@ interface GoAppViewProps {
 export function GoAppView({ mode, setupContent, onSetupComplete }: GoAppViewProps) {
   const [selectedEvent, setSelectedEvent] = useState<MapEvent | null>(null);
   const [mapExpanded, setMapExpanded] = useState(false);
+  const { events } = useEventsNearby();
+  const recommendedEvents = events.slice(0, 5);
 
   return (
     <div className="w-full h-full flex flex-col bg-[#06060c]">
@@ -55,7 +58,7 @@ export function GoAppView({ mode, setupContent, onSetupComplete }: GoAppViewProp
               Tell us about you
             </h2>
             <p className="text-white/50 text-sm mb-5">
-              Pick how you&apos;d like to share — questions, chat, or voice.
+              Pick how you&apos;d like to share - questions, chat, or voice.
             </p>
             {setupContent}
             {onSetupComplete && (
@@ -78,13 +81,13 @@ export function GoAppView({ mode, setupContent, onSetupComplete }: GoAppViewProp
                 Hey! 5 events for you right now
               </h2>
               <p className="text-white/50 text-sm mt-1">
-                Based on your interests — all within 15 min walk
+                Based on your interests - all within 15 min walk
               </p>
             </div>
 
             {/* Event cards */}
             <div className="space-y-3">
-              {RECOMMENDED_EVENTS.map((event) => (
+              {recommendedEvents.map((event) => (
                 <motion.button
                   key={event.id}
                   type="button"
@@ -170,7 +173,7 @@ export function GoAppView({ mode, setupContent, onSetupComplete }: GoAppViewProp
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="rounded-xl overflow-hidden border border-white/10"
               >
-                <GoEventMap events={LONDON_EVENTS} selectedEventId={selectedEvent?.id} />
+                <GoEventMap events={events} selectedEventId={selectedEvent?.id} />
               </motion.div>
             </div>
           </div>

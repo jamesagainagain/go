@@ -46,6 +46,7 @@ export function MapDetail({ opportunity, className = "" }: MapDetailProps) {
       style: "mapbox://styles/mapbox/light-v11",
       center: [USER_LNG, USER_LAT],
       zoom: 14,
+      attributionControl: false,
     });
 
     mapRef.current = map;

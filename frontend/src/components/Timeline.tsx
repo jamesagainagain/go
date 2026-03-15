@@ -31,7 +31,7 @@ function formatResponse(response?: string): string {
     case "snoozed":
       return "Snoozed";
     default:
-      return "—";
+      return "-";
   }
 }
 

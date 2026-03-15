@@ -18,6 +18,7 @@ from app.database import get_db_session
 from app.models import User
 
 bearer_scheme = HTTPBearer(auto_error=True)
+bearer_scheme_optional = HTTPBearer(auto_error=False)
 
 
 def hash_password(password: str) -> str:
@@ -88,3 +89,24 @@ async def get_current_user(
             detail="Missing or invalid JWT",
         )
     return user
+
+
+async def get_optional_user(
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme_optional),
+    session: AsyncSession = Depends(get_db_session),
+) -> User | None:
+    """Return current user if valid JWT present, else None. For endpoints that work with or without auth."""
+    if not credentials:
+        return None
+    settings = get_settings()
+    try:
+        payload = jwt.decode(credentials.credentials, settings.secret_key, algorithms=["HS256"])
+        user_id = payload.get("sub")
+        if not user_id:
+            return None
+    except (JWTError, ValueError):
+        return None
+    result = await session.execute(
+        select(User).options(selectinload(User.preferences)).where(User.id == UUID(user_id))
+    )
+    return result.scalar_one_or_none()

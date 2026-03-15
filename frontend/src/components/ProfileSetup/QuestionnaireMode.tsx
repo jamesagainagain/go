@@ -186,7 +186,7 @@ export function QuestionnaireMode({ onComplete }: QuestionnaireModeProps) {
               How far will you walk?
             </h3>
             <p className="text-sm text-text-muted mb-6">
-              {data.radius_km} km — about {Math.round(data.radius_km * 12)} min
+              {data.radius_km} km - about {Math.round(data.radius_km * 12)} min
               walk
             </p>
             <input

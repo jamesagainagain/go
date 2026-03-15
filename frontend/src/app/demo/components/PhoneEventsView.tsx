@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { getDemoEventAttendees, getDemoEventsNearby } from "@/lib/api";
 import { LONDON_EVENTS, RECOMMENDED_EVENTS, type MapEvent } from "@/lib/mock-data";
@@ -124,9 +125,13 @@ export function PhoneEventsView() {
 
       {/* go! header */}
       <div className="flex items-center gap-2.5 border-b border-white/5 px-4 py-2.5">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#626262] to-[#94a3b8]">
-          <span className="text-[10px] font-bold text-white">go!</span>
-        </div>
+        <Image
+          src="/icon.svg"
+          alt="go!"
+          width={28}
+          height={28}
+          className="h-7 w-7 shrink-0 rounded-lg object-contain"
+        />
         <span className="text-base font-semibold tracking-tight text-white">
           go!
         </span>
@@ -143,7 +148,7 @@ export function PhoneEventsView() {
             Hey! 5 events for you right now
           </h2>
           <p className="mt-0.5 text-[11px] text-white/50">
-            Based on your interests — all within 15 min walk
+            Based on your interests - all within 15 min walk
           </p>
         </div>
 

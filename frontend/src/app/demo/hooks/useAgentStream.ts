@@ -17,7 +17,7 @@ const SIMULATED_LOGS: Omit<AgentLogEntry, "status">[] = [
   { agent: "social_proof", message: "2 candidates have solo attendees" },
   { agent: "commitment", message: "preparing one-tap RSVP" },
   { agent: "momentum", message: "ranking by user history..." },
-  { agent: "momentum", message: "selected: Open Mic @ The Old Blue Last — confidence: 0.91" },
+  { agent: "momentum", message: "selected: Open Mic @ The Old Blue Last - confidence: 0.91" },
 ];
 
 const STAGGER_MS = 400;
@@ -51,7 +51,7 @@ export function useAgentStream() {
             },
           ]);
           if (i === SIMULATED_LOGS.length - 1 && onFinalMessage) {
-            const match = entry.message.match(/selected: (.+?) —/);
+            const match = entry.message.match(/selected: (.+?) -/);
             if (match) onFinalMessage(match[1]);
           }
         }, (i + 1) * STAGGER_MS);
@@ -94,7 +94,7 @@ export function useAgentStream() {
         startSimulatedStream(onFinalMessage);
       }
     },
-    [clearStream, isStreaming, startSimulatedStream]
+    [clearStream, startSimulatedStream]
   );
 
   useEffect(() => {

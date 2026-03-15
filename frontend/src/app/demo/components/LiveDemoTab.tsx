@@ -39,12 +39,12 @@ export function LiveDemoTab() {
 
   return (
     <div
-      className="flex flex-1 overflow-hidden"
+      className="flex flex-1 overflow-visible"
       role="tabpanel"
-      id="tabpanel-3"
-      aria-labelledby="tab-3"
+      id="tabpanel-2"
+      aria-labelledby="tab-2"
     >
-      {/* Left: Phone mockup */}
+      {/* Left: Phone mockup - overflow-visible so glow extends behind banner */}
       <div className="flex flex-1 items-center justify-center overflow-visible p-6">
         <PhoneMockup>
           {/* Setup */}

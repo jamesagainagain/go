@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: FirstMove API
-  description: Activation engine API — from screen to street
+  description: Activation engine API - from screen to street
   version: 1.0.0
 
 servers:

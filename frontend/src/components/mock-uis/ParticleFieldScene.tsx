@@ -3,41 +3,71 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
+function getSize(container: HTMLDivElement) {
+  const { width, height } = container.getBoundingClientRect();
+  return {
+    width: width || window.innerWidth,
+    height: height || window.innerHeight,
+  };
+}
+
 export function ParticleFieldScene() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
+    const { width, height } = getSize(container);
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      width / height,
+      0.1,
+      1000
+    );
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 1);
-    containerRef.current.appendChild(renderer.domElement);
+    renderer.setClearColor(0x000000, 0);
+    container.appendChild(renderer.domElement);
 
-    const particleCount = 1200;
+    // Glow palette - visible on peach background
+    const particleColors = [
+      new THREE.Color(0xf59e0b), // amber
+      new THREE.Color(0x00a6ff), // blue
+      new THREE.Color(0xff0056), // magenta
+      new THREE.Color(0x6500ff), // purple
+    ];
+
+    const particleCount = 800;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
 
-    for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 20;
-      positions[i + 1] = (Math.random() - 0.5) * 20;
-      positions[i + 2] = (Math.random() - 0.5) * 20;
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 20;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+
+      const c = particleColors[i % particleColors.length];
+      colors[i * 3] = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
     }
 
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
     geometry.computeBoundingSphere();
 
     const material = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.04,
+      size: 0.045,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.85,
       sizeAttenuation: true,
+      vertexColors: true,
     });
 
     const particles = new THREE.Points(geometry, material);
@@ -53,23 +83,33 @@ export function ParticleFieldScene() {
     animate();
 
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      const { width, height } = getSize(container);
+      camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(width, height);
     };
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(container);
     window.addEventListener("resize", handleResize);
 
     return () => {
+      resizeObserver.disconnect();
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(rafId);
       renderer.dispose();
       geometry.dispose();
       material.dispose();
-      if (containerRef.current?.contains(renderer.domElement)) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
       }
     };
   }, []);
 
-  return <div ref={containerRef} className="absolute inset-0 w-full h-full" />;
+  return (
+    <div
+      ref={containerRef}
+      className="absolute inset-0 w-full h-full min-h-[200px]"
+    />
+  );
 }

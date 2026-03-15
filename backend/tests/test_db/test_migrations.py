@@ -61,5 +61,17 @@ def test_live_upgrade_and_downgrade_when_db_available():
     if not db_url:
         pytest.skip("No TEST_MIGRATION_DB_URL/SUPABASE_DB_URL/DATABASE_URL configured.")
 
+    # Skip if DB is unreachable (Docker not running, wrong credentials, etc.)
+    try:
+        import asyncio
+        import asyncpg
+        from sqlalchemy.engine import make_url
+        url = make_url(db_url)
+        # asyncpg uses postgresql:// not postgresql+asyncpg://
+        pg_url = url.set(drivername="postgresql").render_as_string(hide_password=False)
+        asyncio.run(asyncpg.connect(pg_url)).close()
+    except Exception:
+        pytest.skip("Database unreachable (run 'make up' for Docker Postgres).")
+
     assert run_alembic_command("upgrade", "head", render_sql=False, db_url=db_url) == 0
     assert run_alembic_command("downgrade", "base", render_sql=False, db_url=db_url) == 0

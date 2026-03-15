@@ -53,6 +53,7 @@ export function EventMap({
       style: "mapbox://styles/mapbox/dark-v11",
       center: [-0.09, 51.505],
       zoom: 12,
+      attributionControl: false,
     });
 
     mapRef.current = map;
