@@ -1,1 +1,77 @@
-# Pydantic Settings (reads .env)
+from functools import lru_cache
+
+from pydantic import AliasChoices, Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    supabase_db_url: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("SUPABASE_DB_URL"),
+    )
+    database_url: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("DATABASE_URL"),
+    )
+    redis_url: str = Field(validation_alias=AliasChoices("REDIS_URL"))
+    secret_key: str = Field(validation_alias=AliasChoices("SECRET_KEY"))
+    openai_api_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("OPENAI_API_KEY"),
+    )
+    openai_model: str = Field(
+        default="gpt-4o",
+        validation_alias=AliasChoices("OPENAI_MODEL"),
+    )
+    openai_model_fast: str = Field(
+        default="gpt-4o-mini",
+        validation_alias=AliasChoices("OPENAI_MODEL_FAST"),
+    )
+    mapbox_access_token: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("MAPBOX_ACCESS_TOKEN"),
+    )
+    mapbox_style: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("MAPBOX_STYLE"),
+    )
+    vapid_public_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("VAPID_PUBLIC_KEY"),
+    )
+    vapid_private_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("VAPID_PRIVATE_KEY"),
+    )
+    vapid_contact_email: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("VAPID_CONTACT_EMAIL"),
+    )
+    activation_check_interval_minutes: int = Field(
+        default=15,
+        validation_alias=AliasChoices("ACTIVATION_CHECK_INTERVAL_MINUTES"),
+    )
+    max_opportunities_per_activation: int = Field(
+        default=3,
+        validation_alias=AliasChoices("MAX_OPPORTUNITIES_PER_ACTIVATION"),
+    )
+    log_level: str = Field(default="INFO", validation_alias=AliasChoices("LOG_LEVEL"))
+
+    @property
+    def effective_database_url(self) -> str:
+        if self.supabase_db_url:
+            return self.supabase_db_url
+        if self.database_url:
+            return self.database_url
+        raise ValueError("Set SUPABASE_DB_URL or DATABASE_URL.")
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
