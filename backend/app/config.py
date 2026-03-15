@@ -19,8 +19,14 @@ class Settings(BaseSettings):
         default=None,
         validation_alias=AliasChoices("DATABASE_URL"),
     )
-    redis_url: str = Field(validation_alias=AliasChoices("REDIS_URL"))
-    secret_key: str = Field(validation_alias=AliasChoices("SECRET_KEY"))
+    redis_url: str = Field(
+        default="redis://localhost:6379/0",
+        validation_alias=AliasChoices("REDIS_URL"),
+    )
+    secret_key: str = Field(
+        default="change-me-in-production",
+        validation_alias=AliasChoices("SECRET_KEY"),
+    )
     openai_api_key: str | None = Field(
         default=None,
         validation_alias=AliasChoices("OPENAI_API_KEY"),
