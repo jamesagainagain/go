@@ -55,7 +55,7 @@ export function GoAppView({ mode, setupContent, onSetupComplete }: GoAppViewProp
               Tell us about you
             </h2>
             <p className="text-white/50 text-sm mb-5">
-              Pick how you&apos;d like to share — questions, chat, or voice.
+              Pick how you&apos;d like to share - questions, chat, or voice.
             </p>
             {setupContent}
             {onSetupComplete && (
@@ -78,7 +78,7 @@ export function GoAppView({ mode, setupContent, onSetupComplete }: GoAppViewProp
                 Hey! 5 events for you right now
               </h2>
               <p className="text-white/50 text-sm mt-1">
-                Based on your interests — all within 15 min walk
+                Based on your interests - all within 15 min walk
               </p>
             </div>
 

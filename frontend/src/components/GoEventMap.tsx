@@ -90,7 +90,7 @@ export function GoEventMap({ events, selectedEventId }: GoEventMapProps) {
   if (!MAPBOX_TOKEN) {
     return (
       <div className="w-full h-full flex items-center justify-center bg-[#1c1c2e] text-white/40 text-sm">
-        Map unavailable — add NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+        Map unavailable - add NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
       </div>
     );
   }

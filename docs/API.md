@@ -1,4 +1,4 @@
-# FirstMove API — Unified Specification
+# FirstMove API - Unified Specification
 
 **Source of truth:** `docs/api-spec.yaml` (OpenAPI 3.0)
 

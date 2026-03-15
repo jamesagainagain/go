@@ -193,30 +193,30 @@ Sync note:
 The previously deferred backlog from the full-codebase scan has now been implemented
 and covered with tests:
 
-1. Event geo-filter correctness gap (`/events/nearby`) — **fixed now**
+1. Event geo-filter correctness gap (`/events/nearby`) - **fixed now**
 
 - `radius_km` is now enforced via PostGIS `ST_DWithin`.
 - Added regression test coverage in `tests/test_api/test_events_nearby_logic.py`.
 
-2. Venue coordinate mapping gap in API payloads — **fixed now**
+2. Venue coordinate mapping gap in API payloads - **fixed now**
 
 - Event and activation responses now map venue lat/lng from PostGIS location data.
 - Added regression test coverage in:
   - `tests/test_api/test_events_nearby_logic.py`
   - `tests/test_api/test_activation_mapping_logic.py`
 
-3. Webhook runtime hardening gap — **fixed now**
+3. Webhook runtime hardening gap - **fixed now**
 
 - Added HMAC signature verification (`X-Calendar-Signature`) for calendar webhooks.
 - Added bounded in-memory webhook queue (`deque(maxlen=500)`) to prevent unbounded growth.
 - Added tests for valid/invalid signature and malformed JSON handling.
 
-4. Task lock fail-open behavior under Redis failures — **fixed now**
+4. Task lock fail-open behavior under Redis failures - **fixed now**
 
 - Lock acquisition now fails safe (`False`) when Redis is unavailable.
 - Added task test covering Redis-unavailable lock path.
 
-5. Ingestion error observability granularity — **fixed now**
+5. Ingestion error observability granularity - **fixed now**
 
 - Normalization failures now produce per-record error entries
   (`normalize:<source>:<index>`) including title and parse reason.

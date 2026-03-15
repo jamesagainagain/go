@@ -19,30 +19,30 @@ export function FrictionPointsTab({ onSeeGoFixThis }: FrictionPointsTabProps) {
     <div
       className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-6 py-12"
       role="tabpanel"
-      id="tabpanel-1"
-      aria-labelledby="tab-1"
+      id="tabpanel-0"
+      aria-labelledby="tab-0"
     >
       <div className="flex max-w-2xl flex-col gap-3">
         {FRICTION_POINTS.map((point, i) => (
           <div
             key={point}
-            className="glow-box-subtle flex items-center gap-4 rounded-lg px-5 py-3 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]"
-            style={{ animationDelay: `${i * 100}ms` }}
+            className="liquid-glass-card flex items-center gap-4 rounded-lg px-5 py-3.5 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]"
+            style={{ animationDelay: `${i * 80}ms` }}
           >
-            <span className="gradient-text text-sm font-medium">{i + 1}</span>
-            <span className="text-xl text-slate-50">{point}</span>
+            <span className="text-sm font-medium text-stone-500">{i + 1}</span>
+            <span className="text-lg text-stone-700">{point}</span>
           </div>
         ))}
       </div>
       <div className="mt-12 w-full max-w-2xl pt-8">
-        <div className="gradient-underline mx-auto mb-8 h-px w-full opacity-30" />
-        <p className="text-center text-xl text-slate-400">
+        <div className="gradient-underline mx-auto mb-8 h-px w-full opacity-40" />
+        <p className="text-center text-lg text-slate-500">
           Your phone has zero friction points. The screen always wins.
         </p>
         <button
           type="button"
           onClick={onSeeGoFixThis}
-          className="glow-box mx-auto mt-6 flex items-center gap-2 rounded-xl px-6 py-3 text-lg font-semibold text-white transition hover:brightness-110"
+          className="tab-pill-active mx-auto mt-6 flex items-center gap-2 rounded-lg px-6 py-3 text-base font-medium text-stone-800 transition hover:opacity-90"
         >
           See go! fix this
           <span aria-hidden>→</span>

@@ -3,7 +3,7 @@
 const AGENTS = [
   {
     name: "Context",
-    description: "Time, location, calendar — is this a dead moment?",
+    description: "Time, location, calendar - is this a dead moment?",
   },
   {
     name: "Discovery",
@@ -28,20 +28,18 @@ export function AgentPipelineTab() {
     <div
       className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-6 py-12"
       role="tabpanel"
-      id="tabpanel-4"
-      aria-labelledby="tab-4"
+      id="tabpanel-3"
+      aria-labelledby="tab-3"
     >
-      <div className="flex flex-wrap items-stretch justify-center gap-4">
+      <div className="flex flex-wrap items-stretch justify-center gap-3">
         {AGENTS.map((agent, i) => (
           <div key={agent.name} className="flex items-center gap-3">
-            <div className="glow-box-subtle rounded-lg px-6 py-4">
-              <p className="gradient-text-bright font-bold">{agent.name}</p>
-              <p className="relative z-[1] mt-1 text-sm text-slate-400">
-                {agent.description}
-              </p>
+            <div className="liquid-glass-card rounded-lg px-5 py-4">
+              <p className="font-semibold text-stone-800">{agent.name}</p>
+              <p className="mt-1 text-sm text-stone-600">{agent.description}</p>
             </div>
             {i < AGENTS.length - 1 && (
-              <span className="gradient-text-warm text-2xl font-light" aria-hidden>
+              <span className="text-stone-500" aria-hidden>
                 →
               </span>
             )}

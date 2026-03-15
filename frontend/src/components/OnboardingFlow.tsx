@@ -166,7 +166,7 @@ export function OnboardingFlow({
         <div className="space-y-4">
           <h2 className="text-xl font-semibold">What interests you?</h2>
           <p className="text-sm text-gray-600">
-            Pick a few — we&apos;ll find things you&apos;ll love.
+            Pick a few - we&apos;ll find things you&apos;ll love.
           </p>
           <div className="flex flex-wrap gap-2">
             {INTEREST_CATEGORIES.map((cat) => (

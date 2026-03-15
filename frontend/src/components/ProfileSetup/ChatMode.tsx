@@ -52,7 +52,7 @@ export function ChatMode({ onComplete }: ChatModeProps) {
       <div className="flex-1 overflow-y-auto space-y-4 pb-4">
         {messages.length === 0 && (
           <p className="text-sm text-text-muted text-center py-8">
-            Say hi! Tell me what you&apos;re into — art, sport, food, music?
+            Say hi! Tell me what you&apos;re into - art, sport, food, music?
             I&apos;ll learn about you through conversation.
           </p>
         )}
