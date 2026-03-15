@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-bg-deep">
+    <div className="min-h-screen">
       <PhoneFrame>
         <div className="flex flex-col min-h-full">
           <SimulationController />

@@ -74,7 +74,7 @@ export default function Page() {
   );
 
   return (
-    <div className="min-h-screen bg-[#06060c] relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden">
       <AnimatePresence mode="wait">
         {/* ==================== LANDING ==================== */}
         {stage === "landing" && (
@@ -86,13 +86,6 @@ export default function Page() {
             transition={{ duration: 0.6 }}
             className="min-h-screen flex flex-col items-center justify-center px-6"
           >
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(245,158,11,0.08) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 80% 80%, rgba(167,139,250,0.05) 0%, transparent 40%)",
-              }}
-            />
             <main className="relative z-10 flex flex-col items-center text-center max-w-2xl">
               <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight">
                 Go
@@ -153,7 +146,7 @@ export default function Page() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2 }}
-            className="min-h-screen bg-black"
+            className="min-h-screen"
           />
         )}
 

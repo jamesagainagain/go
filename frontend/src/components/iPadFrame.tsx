@@ -12,14 +12,6 @@ export function IPadFrame({ children, screenOn = true, className = "" }: IPadFra
   return (
     <div className={`flex items-center justify-center min-h-screen p-4 md:p-8 ${className}`}>
       <div className="relative">
-        {/* Ambient glow behind iPad */}
-        <div
-          className="absolute inset-0 -m-12 rounded-[60px] blur-3xl opacity-30 pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)",
-          }}
-        />
-
         {/* iPad bezel */}
         <div
           className="relative overflow-hidden rounded-[28px] border-[10px] border-[#1a1a1f] shadow-2xl"
@@ -27,7 +19,7 @@ export function IPadFrame({ children, screenOn = true, className = "" }: IPadFra
             width: "min(820px, calc(100vw - 32px))",
             aspectRatio: "820 / 1130",
             boxShadow:
-              "0 0 0 2px #2a2a2f, 0 25px 60px -12px rgba(0,0,0,0.6), 0 0 100px rgba(245,158,11,0.08)",
+              "0 0 0 2px #2a2a2f, 0 25px 60px -12px rgba(0,0,0,0.6)",
           }}
         >
           {/* Front camera */}

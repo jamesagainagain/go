@@ -15,20 +15,12 @@ export function PhoneFrame({ children, className = "" }: PhoneFrameProps) {
         className={`hidden md:flex flex-col items-center justify-center min-h-screen p-8 ${className}`}
       >
         <div className="relative">
-          {/* Ambient glow behind phone */}
-          <div
-            className="absolute inset-0 -m-8 rounded-[60px] blur-3xl opacity-40"
-            style={{
-              background: "radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)",
-            }}
-          />
-
           {/* Phone bezel - iPhone 14 Pro proportions */}
           <div
             className="relative w-[375px] max-w-[90vw] overflow-hidden rounded-[47px] border-[12px] border-black shadow-2xl"
             style={{
-              boxShadow:
-                "0 0 0 3px #1a1a1a, 0 25px 50px -12px rgba(0,0,0,0.5), 0 0 80px rgba(245,158,11,0.1)",
+            boxShadow:
+              "0 0 0 3px #1a1a1a, 0 25px 50px -12px rgba(0,0,0,0.5)",
             }}
           >
             {/* Screen content area - safe area for notch and home indicator */}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { ParticleField } from "@/components/particle-field-1";
 
 export const metadata: Metadata = {
   title: "FirstMove - From screen to street",
@@ -31,8 +32,11 @@ export default function RootLayout({
       <head>
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className="bg-bg-deep text-text-primary font-sans">
-        {children}
+      <body className="bg-black text-text-primary font-sans">
+        <ParticleField />
+        <div className="relative z-10 min-h-screen">
+          {children}
+        </div>
       </body>
     </html>
   );

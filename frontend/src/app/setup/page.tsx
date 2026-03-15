@@ -35,7 +35,7 @@ export default function SetupPage() {
   };
 
   return (
-    <div className="ambient-bg min-h-screen px-4 py-8 md:py-12">
+    <div className="min-h-screen px-4 py-8 md:py-12">
       <div className="max-w-lg mx-auto">
         <h1 className="text-2xl font-bold text-text-primary mb-1">
           Tell us about you
