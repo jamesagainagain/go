@@ -14,3 +14,10 @@ select = ["E", "F", "I", "N", "W"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = [
+    "api: API endpoint tests",
+    "agents: Agent orchestration tests",
+    "services: Service layer tests",
+    "tasks: Celery/task runtime tests",
+]
