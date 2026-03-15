@@ -157,6 +157,55 @@ Pending tasks remain the same in intent:
 
 Task 12 must preserve the already-fixed baseline regressions as mandatory checks.
 
+## Deferred Bug Backlog (From Current Full-Codebase Scan)
+
+The following issues are known after Tasks 1-11 and are intentionally deferred into
+remaining tasks so they are fixed with the right test/observability coverage.
+
+1. Event geo-filter correctness gap (`/events/nearby`)  
+Current behavior does not apply a true radius filter and can return upcoming events
+regardless of `radius_km`.
+
+- Planned fix owner: **Task 12** (contract + regression tests) and **Task 14** (E2E smoke).
+- Required addition:
+  - Add API regression proving events outside radius are excluded.
+  - Add E2E check for location-sensitive browse behavior.
+
+2. Venue coordinate mapping gap in API payloads  
+`EventSummary.venue.lat/lng` and activation card venue coordinates currently use fallback
+or request coordinates rather than venue geospatial data.
+
+- Planned fix owner: **Task 12** (contract assertions) and **Task 14** (E2E payload checks).
+- Required addition:
+  - Add tests ensuring response venue coordinates map to stored venue location data.
+
+3. Webhook runtime hardening gap  
+Calendar webhook endpoint still lacks signature/header verification and currently stores
+normalized payloads in in-memory app state list (not bounded/persistent).
+
+- Planned fix owner: **Task 13**.
+- Required addition:
+  - Verify signed webhook headers and reject invalid signatures.
+  - Replace in-memory accumulation with bounded queue or durable enqueue path.
+
+4. Task lock fail-open behavior under Redis failures  
+Task lock acquisition currently returns success on Redis exception, which can permit
+duplicate concurrent task execution during infrastructure faults.
+
+- Planned fix owner: **Task 13**.
+- Required addition:
+  - Change lock strategy to fail-safe behavior with explicit degraded status.
+  - Add resilience test covering Redis-unavailable lock path.
+
+5. Ingestion error observability granularity  
+Normalization failures are captured at source-key level and may overwrite details for
+multiple bad records in the same source.
+
+- Planned fix owner: **Task 13**.
+- Required addition:
+  - Emit per-record structured error entries (source, title/id, parse failure reason).
+  - Add metrics for dropped/invalid records by source.
+
 ## Verification Commands
 
 Run from branch workspace:
