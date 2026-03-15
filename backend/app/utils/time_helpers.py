@@ -18,7 +18,10 @@ def parse_datetime(value: str | datetime | None) -> datetime | None:
     cleaned = value.strip()
     if cleaned.endswith("Z"):
         cleaned = cleaned[:-1] + "+00:00"
-    parsed = datetime.fromisoformat(cleaned)
+    try:
+        parsed = datetime.fromisoformat(cleaned)
+    except ValueError:
+        return None
     return ensure_utc(parsed)
 
 

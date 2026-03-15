@@ -30,6 +30,7 @@ router = APIRouter(prefix="/activations", tags=["activations"])
 
 LONDON_FALLBACK_LAT = 51.5074
 LONDON_FALLBACK_LNG = -0.1278
+FALLBACK_OPPORTUNITY_TITLE = "Take a short reset walk"
 
 
 def _extract_solo_count(text: str | None) -> int | None:
@@ -200,6 +201,36 @@ async def _find_candidate_opportunity(
     )
 
 
+async def _get_or_create_fallback_opportunity(*, session: AsyncSession) -> Opportunity:
+    now = datetime.now(UTC)
+    result = await session.execute(
+        select(Opportunity)
+        .where(
+            Opportunity.tier == OpportunityTier.SOLO_NUDGE,
+            Opportunity.title == FALLBACK_OPPORTUNITY_TITLE,
+            Opportunity.expires_at > now,
+        )
+        .order_by(Opportunity.expires_at.desc())
+        .limit(1)
+    )
+    existing = result.scalar_one_or_none()
+    if existing is not None:
+        return existing
+
+    fallback = Opportunity(
+        tier=OpportunityTier.SOLO_NUDGE,
+        title=FALLBACK_OPPORTUNITY_TITLE,
+        body="A 10-minute walk can reset your evening momentum.",
+        walk_minutes=10,
+        travel_description="10 min walk around your area",
+        social_proof_text="No planning required",
+        expires_at=now + timedelta(hours=24),
+    )
+    session.add(fallback)
+    await session.flush()
+    return fallback
+
+
 def _fallback_coordinates(current_user: User) -> tuple[float, float]:
     return (
         current_user.location_lat if current_user.location_lat is not None else LONDON_FALLBACK_LAT,
@@ -240,17 +271,7 @@ async def check_activations(
 
     candidate = await _find_candidate_opportunity(session=session, current_user=current_user)
     if candidate is None:
-        candidate = Opportunity(
-            tier=OpportunityTier.SOLO_NUDGE,
-            title="Take a short reset walk",
-            body="A 10-minute walk can reset your evening momentum.",
-            walk_minutes=10,
-            travel_description="10 min walk around your area",
-            social_proof_text="No planning required",
-            expires_at=datetime.now(UTC) + timedelta(hours=1),
-        )
-        session.add(candidate)
-        await session.flush()
+        candidate = await _get_or_create_fallback_opportunity(session=session)
 
     activation = Activation(
         user_id=current_user.id,

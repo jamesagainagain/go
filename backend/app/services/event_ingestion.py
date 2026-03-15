@@ -109,7 +109,11 @@ class EventIngestionService:
 
         normalized = []
         for event in raw_events:
-            normalized_event = await self.normalize_event(event)
+            try:
+                normalized_event = await self.normalize_event(event)
+            except Exception as error:  # noqa: BLE001
+                source_errors[f"normalize:{event.source_name.lower()}"] = str(error)
+                continue
             if normalized_event:
                 normalized.append(normalized_event)
         deduped = self.dedupe_events(normalized)

@@ -167,3 +167,10 @@ def test_calendar_webhook_validation(client: TestClient):
         json={"resource_id": "calendar-123", "event_type": "updated"},
     )
     assert valid_response.status_code == 200
+
+    malformed_response = client.post(
+        "/api/v1/webhooks/calendar",
+        content='{"resource_id":',
+        headers={"Content-Type": "application/json"},
+    )
+    assert malformed_response.status_code == 400

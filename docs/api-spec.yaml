@@ -322,7 +322,7 @@ components:
     # --- Auth ---
     RegisterRequest:
       type: object
-      required: [email]
+      required: [email, password]
       properties:
         email: { type: string, format: email }
         display_name: { type: string, maxLength: 100 }

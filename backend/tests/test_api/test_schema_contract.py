@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from pathlib import Path
 from uuid import uuid4
 
 import pytest
@@ -76,3 +77,11 @@ def test_openapi_includes_required_v1_routes():
         "/api/v1/webhooks/calendar",
     }
     assert required_paths.issubset(set(paths.keys()))
+
+
+def test_api_spec_register_request_requires_password():
+    spec_path = Path(__file__).resolve().parents[3] / "docs" / "api-spec.yaml"
+    spec_text = spec_path.read_text(encoding="utf-8")
+    register_block = spec_text.split("RegisterRequest:", maxsplit=1)[1]
+    register_block = register_block.split("LoginRequest:", maxsplit=1)[0]
+    assert "required: [email, password]" in register_block

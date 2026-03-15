@@ -125,6 +125,33 @@ async def test_provider_registry_and_retry_behavior():
     assert len(result.events) == 1
 
 
+@pytest.mark.services
+@pytest.mark.asyncio
+async def test_ingestion_skips_invalid_event_records_instead_of_failing_batch():
+    adapter = FakeAdapter(
+        "mixed",
+        [
+            RawEvent(
+                source_name="mixed",
+                title="Broken timestamp event",
+                start_time="not-a-date",
+            ),
+            RawEvent(
+                source_name="mixed",
+                title="Valid fallback event",
+                start_time=datetime.now(UTC) + timedelta(hours=1),
+                location_text="Shoreditch",
+            ),
+        ],
+    )
+    service = EventIngestionService(adapters=[adapter], geocoder=FakeGeocoder())
+
+    result = await service.fetch_normalized_events(city="london", radius_km=5, hours_ahead=6)
+
+    assert len(result.events) == 1
+    assert result.events[0].title == "Valid fallback event"
+
+
 def test_parse_cost_to_pence_handles_common_formats():
     assert parse_cost_to_pence("Free") == 0
     assert parse_cost_to_pence("5 GBP") == 500

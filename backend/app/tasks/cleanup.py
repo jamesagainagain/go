@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 from datetime import UTC, datetime, timedelta
 
-from sqlalchemy import delete
+from sqlalchemy import delete, exists, select
 
 from app.database import get_session_factory
 from app.models import Activation, Opportunity
@@ -27,7 +27,12 @@ async def _cleanup_async() -> tuple[int, int]:
         )
         opportunity_result = await session.execute(
             delete(Opportunity)
-            .where(Opportunity.expires_at < expired_opportunity_cutoff)
+            .where(
+                Opportunity.expires_at < expired_opportunity_cutoff,
+                ~exists(
+                    select(1).where(Activation.opportunity_id == Opportunity.id)
+                ),
+            )
             .returning(Opportunity.id)
         )
         await session.commit()

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from json import JSONDecodeError
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request, status
@@ -11,7 +12,14 @@ router = APIRouter(prefix="/webhooks", tags=["webhooks"])
 
 @router.post("/calendar")
 async def calendar_webhook(request: Request) -> dict[str, str]:
-    payload: Any = await request.json()
+    try:
+        payload: Any = await request.json()
+    except JSONDecodeError as error:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid webhook payload.",
+        ) from error
+
     if not isinstance(payload, dict):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
