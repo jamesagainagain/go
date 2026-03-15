@@ -291,6 +291,13 @@ paths:
       summary: Google Calendar change notification
       description: Receives calendar change webhooks from Google
       security: []  # Uses webhook verification, not Bearer
+      parameters:
+        - in: header
+          name: X-Calendar-Signature
+          required: true
+          schema:
+            type: string
+          description: HMAC SHA-256 signature for the raw payload body.
       requestBody:
         content:
           application/json:
@@ -302,6 +309,10 @@ paths:
           description: Webhook processed
         "400":
           description: Invalid webhook payload
+        "401":
+          description: Invalid or missing webhook signature
+        "503":
+          description: Webhook signing secret not configured
 
 components:
   securitySchemes:

@@ -2,7 +2,14 @@ from __future__ import annotations
 
 import pytest
 
-from app.tasks import cleanup, get_celery_app, ingest_events, run_activations
+import app.tasks as tasks_module
+from app.tasks import (
+    TaskLockBackendUnavailableError,
+    cleanup,
+    get_celery_app,
+    ingest_events,
+    run_activations,
+)
 
 
 @pytest.mark.tasks
@@ -79,3 +86,13 @@ def test_cleanup_task_reports_deleted_counts(monkeypatch: pytest.MonkeyPatch):
     assert result["status"] == "ok"
     assert result["deleted_activations"] == 2
     assert result["deleted_opportunities"] == 3
+
+
+@pytest.mark.tasks
+def test_task_lock_fails_safe_when_redis_unavailable(monkeypatch: pytest.MonkeyPatch):
+    def raise_on_connect(*args, **kwargs):  # noqa: ANN002, ANN003
+        raise RuntimeError("redis unavailable")
+
+    monkeypatch.setattr(tasks_module.Redis, "from_url", raise_on_connect)
+    with pytest.raises(TaskLockBackendUnavailableError):
+        tasks_module.acquire_task_lock("task-lock:test", ttl_seconds=60)

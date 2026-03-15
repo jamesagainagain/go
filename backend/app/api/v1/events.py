@@ -4,17 +4,66 @@ from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, Query
-from sqlalchemy import select
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 from app.database import get_db_session
-from app.models import Event, OpportunityTier, User
+from app.models import OpportunityTier, User
 from app.schemas.event import EventsNearbyResponse, EventSummary
 from app.schemas.opportunity import VenueSummary
 from app.utils.security import get_current_user
 
 router = APIRouter(prefix="/events", tags=["events"])
+
+
+async def _fetch_events_within_radius(
+    *,
+    session: AsyncSession,
+    lat: float,
+    lng: float,
+    radius_km: float,
+    limit: int,
+    now: datetime,
+) -> list[dict[str, object]]:
+    query = text(
+        """
+        SELECT
+            e.id,
+            e.title,
+            e.description,
+            e.starts_at,
+            e.ends_at,
+            e.cost_pence,
+            e.tags,
+            e.tier,
+            v.name AS venue_name,
+            v.address AS venue_address,
+            ST_Y(v.location::geometry) AS venue_lat,
+            ST_X(v.location::geometry) AS venue_lng
+        FROM events e
+        JOIN venues v ON v.id = e.venue_id
+        WHERE e.starts_at >= :now
+          AND v.location IS NOT NULL
+          AND ST_DWithin(
+            v.location,
+            ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography,
+            :radius_meters
+          )
+        ORDER BY e.starts_at ASC
+        LIMIT :limit
+        """
+    )
+    result = await session.execute(
+        query,
+        {
+            "now": now,
+            "lat": lat,
+            "lng": lng,
+            "radius_meters": radius_km * 1000,
+            "limit": limit,
+        },
+    )
+    return [dict(row) for row in result.mappings().all()]
 
 
 @router.get("/nearby", response_model=EventsNearbyResponse)
@@ -26,16 +75,16 @@ async def events_nearby(
     current_user: User = Depends(get_current_user),
     session: AsyncSession = Depends(get_db_session),
 ) -> EventsNearbyResponse:
-    del current_user, radius_km
+    del current_user
     now = datetime.now(UTC) - timedelta(hours=2)
-    result = await session.execute(
-        select(Event)
-        .where(Event.starts_at >= now)
-        .order_by(Event.starts_at.asc())
-        .limit(limit)
-        .options(selectinload(Event.venue))
+    events = await _fetch_events_within_radius(
+        session=session,
+        lat=lat,
+        lng=lng,
+        radius_km=radius_km,
+        limit=limit,
+        now=now,
     )
-    events = result.scalars().all()
 
     if not events:
         fallback_event = EventSummary(
@@ -53,25 +102,23 @@ async def events_nearby(
 
     summaries: list[EventSummary] = []
     for event in events:
-        venue_summary = None
-        if event.venue:
-            venue_summary = VenueSummary(
-                name=event.venue.name,
-                lat=lat,
-                lng=lng,
-                address=event.venue.address,
-            )
+        venue_summary = VenueSummary(
+            name=str(event["venue_name"]),
+            lat=float(event["venue_lat"]),
+            lng=float(event["venue_lng"]),
+            address=str(event["venue_address"]) if event["venue_address"] is not None else None,
+        )
         summaries.append(
             EventSummary(
-                id=event.id,
-                title=event.title,
-                description=event.description,
-                starts_at=event.starts_at,
-                ends_at=event.ends_at,
-                cost_pence=event.cost_pence,
-                tags=event.tags or [],
+                id=event["id"],
+                title=str(event["title"]),
+                description=event["description"],
+                starts_at=event["starts_at"],
+                ends_at=event["ends_at"],
+                cost_pence=event["cost_pence"],
+                tags=event["tags"] or [],
                 venue=venue_summary,
-                tier=event.tier,
+                tier=event["tier"],
             )
         )
 

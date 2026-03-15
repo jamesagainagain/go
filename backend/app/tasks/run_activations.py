@@ -7,7 +7,12 @@ from sqlalchemy import select
 
 from app.database import get_session_factory
 from app.models import User
-from app.tasks import acquire_task_lock, celery_app, release_task_lock
+from app.tasks import (
+    TaskLockBackendUnavailableError,
+    acquire_task_lock,
+    celery_app,
+    release_task_lock,
+)
 
 
 async def _load_candidate_user_ids(limit: int) -> list[str]:
@@ -46,10 +51,20 @@ def run_activation_checks(
 ) -> dict[str, object]:
     del self
     lock_key = "task-lock:run-activations"
-    if not acquire_task_lock(lock_key, ttl_seconds=600):
+    lock_acquired = False
+    try:
+        lock_acquired = acquire_task_lock(lock_key, ttl_seconds=600)
+    except TaskLockBackendUnavailableError as error:
+        raise RuntimeError("task_lock_backend_unavailable") from error
+
+    if not lock_acquired:
         return {"status": "skipped", "reason": "lock_active"}
 
     try:
         return asyncio.run(_run_activation_checks_async(limit=limit))
     finally:
-        release_task_lock(lock_key)
+        if lock_acquired:
+            try:
+                release_task_lock(lock_key)
+            except TaskLockBackendUnavailableError:
+                pass

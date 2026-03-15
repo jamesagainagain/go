@@ -9,6 +9,7 @@ from difflib import SequenceMatcher
 from typing import Protocol
 from uuid import UUID
 
+from geoalchemy2.elements import WKTElement
 from pydantic import BaseModel, Field
 from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -108,11 +109,13 @@ class EventIngestionService:
             raw_events.extend(fetched)
 
         normalized = []
-        for event in raw_events:
+        for index, event in enumerate(raw_events):
             try:
                 normalized_event = await self.normalize_event(event)
             except Exception as error:  # noqa: BLE001
-                source_errors[f"normalize:{event.source_name.lower()}"] = str(error)
+                source_key = f"normalize:{event.source_name.lower()}:{index}"
+                source_label = event.title.strip() or "<untitled>"
+                source_errors[source_key] = f"{source_label}: {error}"
                 continue
             if normalized_event:
                 normalized.append(normalized_event)
@@ -145,7 +148,7 @@ class EventIngestionService:
     async def normalize_event(self, raw_event: RawEvent) -> NormalizedEvent | None:
         starts_at = parse_datetime(raw_event.start_time)
         if starts_at is None:
-            return None
+            raise ValueError(f"Invalid start_time `{raw_event.start_time}`")
         ends_at = parse_datetime(raw_event.end_time)
 
         geocode_result: GeocodeResult | None = None
@@ -278,10 +281,18 @@ class EventIngestionService:
         venue_name = event.location_text[:255]
         result = await session.execute(select(Venue).where(Venue.name == venue_name))
         venue = result.scalar_one_or_none()
+        location_point = _build_point(event.lat, event.lng)
         if venue is None:
-            venue = Venue(name=venue_name, address=event.location_text, source_url=event.source_url)
+            venue = Venue(
+                name=venue_name,
+                address=event.location_text,
+                source_url=event.source_url,
+                location=location_point,
+            )
             session.add(venue)
             await session.flush()
+        elif venue.location is None and location_point is not None:
+            venue.location = location_point
         return venue.id
 
     def _normalize_tags(self, tags_raw: list[str] | None, text: str) -> list[str]:
@@ -353,3 +364,9 @@ def _event_richness(event: NormalizedEvent) -> int:
     if event.ends_at is not None:
         score += 1
     return score
+
+
+def _build_point(lat: float | None, lng: float | None) -> WKTElement | None:
+    if lat is None or lng is None:
+        return None
+    return WKTElement(f"POINT({lng} {lat})", srid=4326)

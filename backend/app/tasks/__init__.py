@@ -14,6 +14,10 @@ TASK_MODULES = [
 ]
 
 
+class TaskLockBackendUnavailableError(RuntimeError):
+    pass
+
+
 def create_celery_app() -> Celery:
     settings = get_settings()
     celery = Celery(
@@ -63,8 +67,10 @@ def acquire_task_lock(key: str, *, ttl_seconds: int = 900) -> bool:
     try:
         client = Redis.from_url(get_settings().redis_url, decode_responses=True)
         return bool(client.set(name=key, value="1", nx=True, ex=ttl_seconds))
-    except Exception:
-        return True
+    except Exception as error:
+        raise TaskLockBackendUnavailableError(
+            "Failed to connect to Redis while acquiring task lock."
+        ) from error
     finally:
         if client is not None:
             client.close()
@@ -75,8 +81,10 @@ def release_task_lock(key: str) -> None:
     try:
         client = Redis.from_url(get_settings().redis_url, decode_responses=True)
         client.delete(key)
-    except Exception:
-        return
+    except Exception as error:
+        raise TaskLockBackendUnavailableError(
+            "Failed to connect to Redis while releasing task lock."
+        ) from error
     finally:
         if client is not None:
             client.close()

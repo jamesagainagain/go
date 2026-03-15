@@ -7,7 +7,9 @@ from app.services.booking import build_commitment_action
 from app.services.calendar_sync import (
     CalendarWebhookError,
     DefaultCalendarProvider,
+    build_calendar_signature,
     normalize_calendar_webhook_payload,
+    verify_calendar_signature,
 )
 from app.services.notification import NoopNotificationProvider, validate_push_subscription
 
@@ -57,3 +59,27 @@ def test_calendar_provider_normalization_and_validation():
 
     with pytest.raises(CalendarWebhookError):
         normalize_calendar_webhook_payload({"event_type": "updated"})
+
+
+@pytest.mark.services
+def test_calendar_webhook_signature_verification():
+    payload = b'{"resource_id":"abc"}'
+    secret = "demo-secret"
+    signature = build_calendar_signature(payload, secret=secret)
+
+    assert (
+        verify_calendar_signature(
+            payload=payload,
+            signature_header=f"sha256={signature}",
+            secret=secret,
+        )
+        is True
+    )
+    assert (
+        verify_calendar_signature(
+            payload=payload,
+            signature_header="sha256=bad",
+            secret=secret,
+        )
+        is False
+    )

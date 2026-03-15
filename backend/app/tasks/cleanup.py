@@ -7,7 +7,12 @@ from sqlalchemy import delete, exists, select
 
 from app.database import get_session_factory
 from app.models import Activation, Opportunity
-from app.tasks import acquire_task_lock, celery_app, release_task_lock
+from app.tasks import (
+    TaskLockBackendUnavailableError,
+    acquire_task_lock,
+    celery_app,
+    release_task_lock,
+)
 
 
 async def _cleanup_async() -> tuple[int, int]:
@@ -52,7 +57,13 @@ async def _cleanup_async() -> tuple[int, int]:
 def cleanup_expired_records(self) -> dict[str, object]:  # noqa: ANN001
     del self
     lock_key = "task-lock:cleanup"
-    if not acquire_task_lock(lock_key, ttl_seconds=300):
+    lock_acquired = False
+    try:
+        lock_acquired = acquire_task_lock(lock_key, ttl_seconds=300)
+    except TaskLockBackendUnavailableError as error:
+        raise RuntimeError("task_lock_backend_unavailable") from error
+
+    if not lock_acquired:
         return {"status": "skipped", "reason": "lock_active"}
 
     try:
@@ -63,4 +74,8 @@ def cleanup_expired_records(self) -> dict[str, object]:  # noqa: ANN001
             "deleted_opportunities": deleted_opportunities,
         }
     finally:
-        release_task_lock(lock_key)
+        if lock_acquired:
+            try:
+                release_task_lock(lock_key)
+            except TaskLockBackendUnavailableError:
+                pass

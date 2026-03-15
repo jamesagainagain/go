@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
@@ -11,6 +12,7 @@ from fastapi.testclient import TestClient
 
 from app.config import get_settings
 from app.main import app
+from app.services.calendar_sync import build_calendar_signature
 
 BACKEND_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 TEST_DB_URL = os.environ.get(
@@ -40,6 +42,10 @@ def setup_live_db() -> Generator[None, None, None]:
     os.environ["SUPABASE_DB_URL"] = TEST_DB_URL
     os.environ["REDIS_URL"] = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
     os.environ["SECRET_KEY"] = os.environ.get("SECRET_KEY", "test-secret")
+    os.environ["CALENDAR_WEBHOOK_SECRET"] = os.environ.get(
+        "CALENDAR_WEBHOOK_SECRET",
+        "test-calendar-secret",
+    )
     get_settings.cache_clear()
 
     if _run_alembic("upgrade", "head") != 0:
@@ -66,6 +72,12 @@ def _register_user(client: TestClient) -> dict[str, str]:
         "email": email,
         "access_token": payload["access_token"],
     }
+
+
+def _calendar_headers(body: bytes) -> dict[str, str]:
+    secret = get_settings().calendar_webhook_secret
+    signature = build_calendar_signature(body, secret=secret)
+    return {"X-Calendar-Signature": f"sha256={signature}"}
 
 
 def test_activation_check_and_current(client: TestClient):
@@ -159,18 +171,34 @@ def test_push_subscribe_idempotent(client: TestClient):
 
 
 def test_calendar_webhook_validation(client: TestClient):
-    invalid_response = client.post("/api/v1/webhooks/calendar", json={"event_type": "updated"})
+    invalid_body = json.dumps({"event_type": "updated"}).encode("utf-8")
+    invalid_response = client.post(
+        "/api/v1/webhooks/calendar",
+        content=invalid_body,
+        headers={"Content-Type": "application/json", **_calendar_headers(invalid_body)},
+    )
     assert invalid_response.status_code == 400
 
+    valid_body = json.dumps(
+        {"resource_id": "calendar-123", "event_type": "updated"}
+    ).encode("utf-8")
     valid_response = client.post(
         "/api/v1/webhooks/calendar",
-        json={"resource_id": "calendar-123", "event_type": "updated"},
+        content=valid_body,
+        headers={"Content-Type": "application/json", **_calendar_headers(valid_body)},
     )
     assert valid_response.status_code == 200
 
+    unauthorized_response = client.post(
+        "/api/v1/webhooks/calendar",
+        json={"resource_id": "calendar-123", "event_type": "updated"},
+    )
+    assert unauthorized_response.status_code == 401
+
+    malformed_body = b'{"resource_id":'
     malformed_response = client.post(
         "/api/v1/webhooks/calendar",
-        content='{"resource_id":',
-        headers={"Content-Type": "application/json"},
+        content=malformed_body,
+        headers={"Content-Type": "application/json", **_calendar_headers(malformed_body)},
     )
     assert malformed_response.status_code == 400

@@ -150,6 +150,10 @@ async def test_ingestion_skips_invalid_event_records_instead_of_failing_batch():
 
     assert len(result.events) == 1
     assert result.events[0].title == "Valid fallback event"
+    assert len(result.source_errors) == 1
+    error_key, error_message = next(iter(result.source_errors.items()))
+    assert error_key.startswith("normalize:mixed:")
+    assert "Broken timestamp event" in error_message
 
 
 def test_parse_cost_to_pence_handles_common_formats():

@@ -68,6 +68,10 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("MAX_OPPORTUNITIES_PER_ACTIVATION"),
     )
     log_level: str = Field(default="INFO", validation_alias=AliasChoices("LOG_LEVEL"))
+    calendar_webhook_secret: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("CALENDAR_WEBHOOK_SECRET"),
+    )
 
     @property
     def effective_database_url(self) -> str:

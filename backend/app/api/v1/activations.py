@@ -5,7 +5,7 @@ from datetime import UTC, datetime, timedelta
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -42,17 +42,61 @@ def _extract_solo_count(text: str | None) -> int | None:
     return int(match.group(1))
 
 
-def _build_venue_summary(
+async def _load_venue_coordinates(
     *,
+    session: AsyncSession,
+    venue_id: UUID | None,
+    cache: dict[UUID, tuple[float | None, float | None]] | None = None,
+) -> tuple[float | None, float | None]:
+    if venue_id is None:
+        return None, None
+
+    if cache is not None and venue_id in cache:
+        return cache[venue_id]
+
+    result = await session.execute(
+        text(
+            """
+            SELECT
+                ST_Y(location::geometry) AS lat,
+                ST_X(location::geometry) AS lng
+            FROM venues
+            WHERE id = :venue_id
+              AND location IS NOT NULL
+            LIMIT 1
+            """
+        ),
+        {"venue_id": str(venue_id)},
+    )
+    row = result.mappings().first()
+    if not row:
+        if cache is not None:
+            cache[venue_id] = (None, None)
+        return None, None
+    lat_lng = (float(row["lat"]), float(row["lng"]))
+    if cache is not None:
+        cache[venue_id] = lat_lng
+    return lat_lng
+
+
+async def _build_venue_summary(
+    *,
+    session: AsyncSession,
     event: Event | None,
     fallback_lat: float,
     fallback_lng: float,
+    venue_coordinates_cache: dict[UUID, tuple[float | None, float | None]] | None = None,
 ) -> VenueSummary:
     if event and event.venue:
+        venue_lat, venue_lng = await _load_venue_coordinates(
+            session=session,
+            venue_id=event.venue.id,
+            cache=venue_coordinates_cache,
+        )
         return VenueSummary(
             name=event.venue.name,
-            lat=fallback_lat,
-            lng=fallback_lng,
+            lat=venue_lat if venue_lat is not None else fallback_lat,
+            lng=venue_lng if venue_lng is not None else fallback_lng,
             address=event.venue.address,
         )
     return VenueSummary(name="London Venue", lat=fallback_lat, lng=fallback_lng, address=None)
@@ -87,16 +131,19 @@ async def _to_opportunity_schema(
     opportunity: Opportunity,
     fallback_lat: float,
     fallback_lng: float,
+    venue_coordinates_cache: dict[UUID, tuple[float | None, float | None]] | None = None,
 ) -> OpportunitySchema:
     event = opportunity.event
     walk_minutes = opportunity.walk_minutes or 12
     starts_at = event.starts_at if event else opportunity.expires_at
     leave_by = starts_at - timedelta(minutes=walk_minutes)
     source_url = event.source_url if event else None
-    venue = _build_venue_summary(
+    venue = await _build_venue_summary(
+        session=session,
         event=event,
         fallback_lat=fallback_lat,
         fallback_lng=fallback_lng,
+        venue_coordinates_cache=venue_coordinates_cache,
     )
     social_proof = await _build_social_proof(session=session, opportunity=opportunity)
     return OpportunitySchema(
@@ -256,11 +303,13 @@ async def check_activations(
         if location_updated:
             await session.commit()
         fallback_lat, fallback_lng = _fallback_coordinates(current_user)
+        venue_coordinates_cache: dict[UUID, tuple[float | None, float | None]] = {}
         mapped = await _to_opportunity_schema(
             session=session,
             opportunity=pending_activation.opportunity,
             fallback_lat=fallback_lat,
             fallback_lng=fallback_lng,
+            venue_coordinates_cache=venue_coordinates_cache,
         )
         return ActivationCardResponse(
             activation_id=pending_activation.id,
@@ -289,11 +338,13 @@ async def check_activations(
         )
 
     fallback_lat, fallback_lng = _fallback_coordinates(current_user)
+    venue_coordinates_cache: dict[UUID, tuple[float | None, float | None]] = {}
     mapped = await _to_opportunity_schema(
         session=session,
         opportunity=hydrated_activation.opportunity,
         fallback_lat=fallback_lat,
         fallback_lng=fallback_lng,
+        venue_coordinates_cache=venue_coordinates_cache,
     )
     return ActivationCardResponse(
         activation_id=hydrated_activation.id,
@@ -313,11 +364,13 @@ async def get_current_activation(
         return {"activation_id": None, "opportunity": None}
 
     fallback_lat, fallback_lng = _fallback_coordinates(current_user)
+    venue_coordinates_cache: dict[UUID, tuple[float | None, float | None]] = {}
     mapped = await _to_opportunity_schema(
         session=session,
         opportunity=activation.opportunity,
         fallback_lat=fallback_lat,
         fallback_lng=fallback_lng,
+        venue_coordinates_cache=venue_coordinates_cache,
     )
     return ActivationCardResponse(
         activation_id=activation.id,
@@ -375,6 +428,7 @@ async def get_activation_history(
     activations = result.scalars().all()
 
     fallback_lat, fallback_lng = _fallback_coordinates(current_user)
+    venue_coordinates_cache: dict[UUID, tuple[float | None, float | None]] = {}
     items: list[ActivationHistoryItem] = []
     for activation in activations:
         mapped_opportunity = await _to_opportunity_schema(
@@ -382,6 +436,7 @@ async def get_activation_history(
             opportunity=activation.opportunity,
             fallback_lat=fallback_lat,
             fallback_lng=fallback_lng,
+            venue_coordinates_cache=venue_coordinates_cache,
         )
         items.append(
             ActivationHistoryItem(
