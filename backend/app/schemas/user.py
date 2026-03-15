@@ -109,6 +109,19 @@ class LocationUpdateRequest(BaseModel):
     lng: float
 
 
+class VoiceIntakeRequest(BaseModel):
+    transcript: str = Field(min_length=1, max_length=5000)
+    source: str = Field(default="elevenlabs", max_length=64)
+    confidence: float | None = Field(default=None, ge=0, le=1)
+
+
+class VoiceIntakeResponse(BaseModel):
+    status: str
+    source: str
+    inferred_preferences: list[Preference] = Field(default_factory=list)
+    profile: UserProfile
+
+
 class AuthResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"

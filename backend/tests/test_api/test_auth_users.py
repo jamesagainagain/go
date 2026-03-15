@@ -172,3 +172,29 @@ def test_update_rejects_duplicate_preference_categories(client: TestClient):
     )
     assert response.status_code == 422
     assert "Duplicate preference categories are not allowed" in response.text
+
+
+def test_voice_intake_updates_profile_for_agentic_chain(client: TestClient):
+    email = f"user-{uuid4()}@example.com"
+    register_payload = _register_user(client, email=email)
+    token = register_payload["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    intake_response = client.post(
+        "/api/v1/users/me/voice-intake",
+        headers=headers,
+        json={
+            "source": "elevenlabs",
+            "transcript": (
+                "I love live music and gallery nights. "
+                "I am happy going solo and I can walk around 3 kilometers."
+            ),
+        },
+    )
+    assert intake_response.status_code == 200
+    intake_payload = intake_response.json()
+    assert intake_payload["status"] == "ok"
+    assert intake_payload["inferred_preferences"]
+    assert "music" in [p["category"] for p in intake_payload["inferred_preferences"]]
+    assert intake_payload["profile"]["comfort_level"] == "solo_ok"
+    assert float(intake_payload["profile"]["willingness_radius_km"]) == pytest.approx(3.0, abs=0.2)
