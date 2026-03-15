@@ -1,1 +1,42 @@
-# Post-activation feedback
+from __future__ import annotations
+
+from datetime import UTC, datetime
+from uuid import UUID
+
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.database import get_db_session
+from app.models import Activation, User
+from app.schemas.activation import FeedbackRequest
+from app.utils.security import get_current_user
+
+router = APIRouter(prefix="/activations", tags=["activations"])
+
+
+@router.post("/{id}/feedback")
+async def post_feedback(
+    id: UUID,
+    payload: FeedbackRequest,
+    current_user: User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_db_session),
+) -> dict[str, str]:
+    result = await session.execute(
+        select(Activation).where(
+            Activation.id == id,
+            Activation.user_id == current_user.id,
+        )
+    )
+    activation = result.scalar_one_or_none()
+    if activation is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Activation not found")
+
+    activation.attended = payload.attended
+    activation.rating = payload.rating
+    activation.feedback_text = payload.feedback_text
+    if activation.responded_at is None:
+        activation.responded_at = datetime.now(UTC)
+
+    await session.commit()
+    return {"status": "ok"}

@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.models.enums import ActivationResponse, ActivationStage
 from app.schemas.opportunity import Opportunity
@@ -33,7 +33,7 @@ class ActivationRespondRequest(BaseModel):
 
 class FeedbackRequest(BaseModel):
     attended: bool
-    rating: int | None = None
+    rating: int | None = Field(default=None, ge=1, le=5)
     feedback_text: str | None = None
 
 

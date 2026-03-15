@@ -23,7 +23,7 @@ Current implementation remains aligned with the architecture documents:
 
 No core repository layout changes were introduced.
 
-## Completed Scope (Tasks 1-6)
+## Completed Scope (Tasks 1-11)
 
 - Task 1: branch bootstrap + pytest harness.
 - Task 2: FastAPI app bootstrap, config, DB wiring, health/ready endpoints.
@@ -31,6 +31,46 @@ No core repository layout changes were introduced.
 - Task 4: ORM domain model + UUID defaults + relational constraints.
 - Task 5: API schemas and contract checks.
 - Task 6: auth + user profile/location endpoints.
+- Task 7: activation/events/push/webhook APIs with integration tests.
+- Task 8: agent pipeline modules (context/discovery/social-proof/commitment/momentum)
+  and orchestrator tests.
+- Task 9: ingestion normalization, geocoding fallback, dedupe logic, provider registry,
+  and service tests.
+- Task 10: booking/notification/calendar provider abstractions + service tests.
+- Task 11: Celery app, beat schedules, lock-based reliability guards, and task tests.
+
+## Current Batch Delivered (Tasks 7-9)
+
+- New `/api/v1` routes now active:
+  - `/activations/check`, `/activations/current`, `/activations/{id}/respond`,
+    `/activations/{id}/feedback`, `/activations/history`
+  - `/events/nearby`
+  - `/push/subscribe`
+  - `/webhooks/calendar`
+- Added API integration coverage for activation/events/push/webhook flows:
+  `/Users/james/go/backend/tests/test_api/test_activation_endpoints.py`
+- Implemented agent runtime components:
+  - `app/agents/types.py`
+  - `app/agents/context_agent.py`
+  - `app/agents/discovery_agent.py`
+  - `app/agents/social_proof_agent.py`
+  - `app/agents/commitment_agent.py`
+  - `app/agents/momentum_agent.py`
+  - `app/agents/orchestrator.py`
+- Added agent branch tests:
+  `/Users/james/go/backend/tests/test_agents/test_orchestrator.py`
+- Implemented ingestion services and utilities:
+  - `app/services/event_ingestion.py`
+  - `app/services/geocoding.py`
+  - `app/utils/geo.py`
+  - `app/utils/time_helpers.py`
+  - `app/utils/llm.py`
+- Added ingestion tests:
+  `/Users/james/go/backend/tests/test_services/test_event_ingestion.py`
+- Added delivery abstraction tests:
+  `/Users/james/go/backend/tests/test_services/test_delivery_services.py`
+- Added task runtime tests:
+  `/Users/james/go/backend/tests/test_tasks/test_celery_tasks.py`
 
 ## Baseline Bugfixes Implemented Now (Not Deferred)
 
@@ -106,15 +146,10 @@ The synthetic dataset is structured for a clear demo flow:
 This directly supports the motivation doc goal: reducing activation friction from
 screen-time to real-world action with visible social confidence cues.
 
-## Remaining Execution (Tasks 7-15)
+## Remaining Execution (Tasks 12-15)
 
 Pending tasks remain the same in intent:
 
-- Task 7: activation/events/push/webhook APIs.
-- Task 8: LangGraph agent runtime path.
-- Task 9: ingestion/enrichment/dedupe runtime.
-- Task 10: notification/booking/calendar service abstractions.
-- Task 11: Celery workers + schedules + reliability controls.
 - Task 12: full regression and contract matrix.
 - Task 13: production hardening and resilience.
 - Task 14: end-to-end verification and release gate.

@@ -57,3 +57,22 @@ def test_register_request_requires_password():
 def test_openapi_register_request_requires_password():
     required_fields = app.openapi()["components"]["schemas"]["RegisterRequest"]["required"]
     assert "password" in required_fields
+
+
+def test_openapi_includes_required_v1_routes():
+    paths = app.openapi()["paths"]
+    required_paths = {
+        "/api/v1/auth/register",
+        "/api/v1/auth/login",
+        "/api/v1/users/me",
+        "/api/v1/users/me/location",
+        "/api/v1/activations/check",
+        "/api/v1/activations/current",
+        "/api/v1/activations/{id}/respond",
+        "/api/v1/activations/{id}/feedback",
+        "/api/v1/activations/history",
+        "/api/v1/events/nearby",
+        "/api/v1/push/subscribe",
+        "/api/v1/webhooks/calendar",
+    }
+    assert required_paths.issubset(set(paths.keys()))
