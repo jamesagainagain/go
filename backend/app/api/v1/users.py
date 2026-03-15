@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import delete, select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -74,7 +75,20 @@ async def update_me(
                 )
             )
 
-    await session.commit()
+    try:
+        await session.commit()
+    except IntegrityError as error:
+        await session.rollback()
+        if "uq_user_preferences_user_category" in str(error.orig):
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Duplicate preference categories are not allowed.",
+            ) from error
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid request data.",
+        ) from error
+
     result = await session.execute(
         select(User).options(selectinload(User.preferences)).where(User.id == current_user.id)
     )

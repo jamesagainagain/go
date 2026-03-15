@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -18,6 +19,24 @@ from app.schemas.user import (
 from app.utils.security import create_access_token, hash_password, verify_password
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+
+
+def _map_integrity_error_to_http(error: IntegrityError) -> HTTPException:
+    message = str(error.orig)
+    if "users_email_key" in message:
+        return HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Email already registered",
+        )
+    if "uq_user_preferences_user_category" in message:
+        return HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Duplicate preference categories are not allowed.",
+        )
+    return HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="Invalid request data.",
+    )
 
 
 def _to_user_profile(user: User) -> UserProfile:
@@ -53,25 +72,30 @@ async def register(
     user = User(
         email=str(payload.email),
         display_name=payload.display_name,
-        password_hash=hash_password(payload.password) if payload.password else None,
+        password_hash=hash_password(payload.password),
         comfort_level=payload.comfort_level or ComfortLevel.SOLO_OK,
         timezone=payload.timezone,
     )
     session.add(user)
-    await session.flush()
+    try:
+        await session.flush()
 
-    if payload.preferences:
-        for pref in payload.preferences:
-            session.add(
-                UserPreference(
-                    user_id=user.id,
-                    category=pref.category,
-                    weight=pref.weight,
-                    explicit=pref.explicit,
+        if payload.preferences:
+            for pref in payload.preferences:
+                session.add(
+                    UserPreference(
+                        user_id=user.id,
+                        category=pref.category,
+                        weight=pref.weight,
+                        explicit=pref.explicit,
+                    )
                 )
-            )
 
-    await session.commit()
+        await session.commit()
+    except IntegrityError as error:
+        await session.rollback()
+        raise _map_integrity_error_to_http(error) from error
+
     result = await session.execute(
         select(User).options(selectinload(User.preferences)).where(User.id == user.id)
     )

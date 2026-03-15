@@ -83,6 +83,32 @@ def test_register_and_conflict(client: TestClient):
     assert second_response.status_code == 409
 
 
+def test_register_requires_password(client: TestClient):
+    email = f"user-{uuid4()}@example.com"
+    response = client.post(
+        "/api/v1/auth/register",
+        json={"email": email},
+    )
+    assert response.status_code == 422
+
+
+def test_register_rejects_duplicate_preference_categories(client: TestClient):
+    email = f"user-{uuid4()}@example.com"
+    response = client.post(
+        "/api/v1/auth/register",
+        json={
+            "email": email,
+            "password": "password123",
+            "preferences": [
+                {"category": "art", "weight": 0.8, "explicit": True},
+                {"category": "ART", "weight": 0.2, "explicit": False},
+            ],
+        },
+    )
+    assert response.status_code == 422
+    assert "Duplicate preference categories are not allowed" in response.text
+
+
 def test_login_success_and_invalid_credentials(client: TestClient):
     email = f"user-{uuid4()}@example.com"
     _register_user(client, email=email)
@@ -126,3 +152,23 @@ def test_me_update_and_location(client: TestClient):
     )
     assert location_response.status_code == 200
     assert location_response.json()["status"] == "ok"
+
+
+def test_update_rejects_duplicate_preference_categories(client: TestClient):
+    email = f"user-{uuid4()}@example.com"
+    register_payload = _register_user(client, email=email)
+    token = register_payload["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    response = client.patch(
+        "/api/v1/users/me",
+        headers=headers,
+        json={
+            "preferences": [
+                {"category": "music", "weight": 0.9, "explicit": True},
+                {"category": " Music ", "weight": 0.1, "explicit": False},
+            ]
+        },
+    )
+    assert response.status_code == 422
+    assert "Duplicate preference categories are not allowed" in response.text

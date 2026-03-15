@@ -4,6 +4,7 @@ from uuid import uuid4
 import pytest
 from pydantic import ValidationError
 
+from app.main import app
 from app.schemas.activation import ActivationCardResponse, NoOpportunityResponse
 from app.schemas.user import RegisterRequest
 
@@ -46,3 +47,13 @@ def test_no_opportunity_response_accepts_null_fields():
 def test_register_request_requires_email():
     with pytest.raises(ValidationError):
         RegisterRequest.model_validate({"password": "secret1234"})
+
+
+def test_register_request_requires_password():
+    with pytest.raises(ValidationError):
+        RegisterRequest.model_validate({"email": "demo@example.com"})
+
+
+def test_openapi_register_request_requires_password():
+    required_fields = app.openapi()["components"]["schemas"]["RegisterRequest"]["required"]
+    assert "password" in required_fields

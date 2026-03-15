@@ -6,7 +6,7 @@ from redis.asyncio import Redis
 
 from app.api.v1 import api_router
 from app.config import get_settings
-from app.database import check_database_connection
+from app.database import check_database_connection, dispose_engine
 
 
 async def _build_redis_client() -> Redis:
@@ -20,7 +20,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     try:
         yield
     finally:
-        await app.state.redis.aclose()
+        redis_client: Redis | None = getattr(app.state, "redis", None)
+        if redis_client is not None:
+            await redis_client.aclose()
+        await dispose_engine()
 
 
 def create_app() -> FastAPI:

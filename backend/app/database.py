@@ -48,6 +48,14 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
         yield session
 
 
+async def dispose_engine() -> None:
+    global _engine, _session_factory
+    if _engine is not None:
+        await _engine.dispose()
+    _engine = None
+    _session_factory = None
+
+
 async def check_database_connection() -> bool:
     try:
         engine = get_engine()
