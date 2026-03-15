@@ -1,0 +1,26 @@
+# Deploy to Railway / Fly.io
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Add Railway or Fly.io deployment steps here
+      # Example for Railway:
+      # - uses: railwayapp/railway-deploy@v1
+      #   with:
+      #     railway_token: ${{ secrets.RAILWAY_TOKEN }}
+      # Example for Fly.io:
+      # - uses: superfly/flyctl-actions/setup-flyctl@master
+      # - run: flyctl deploy --remote-only
+      #   env:
+      #     FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Deploy placeholder
+        run: echo "Configure deployment for Railway or Fly.io"
