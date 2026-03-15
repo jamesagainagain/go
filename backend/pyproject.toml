@@ -20,4 +20,5 @@ markers = [
     "agents: Agent orchestration tests",
     "services: Service layer tests",
     "tasks: Celery/task runtime tests",
+    "integration: tests requiring live infrastructure",
 ]

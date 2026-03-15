@@ -21,6 +21,7 @@ depends_on: Sequence[str] | None = None
 
 
 def upgrade() -> None:
+    op.execute("CREATE EXTENSION IF NOT EXISTS pgcrypto")
     op.execute("CREATE EXTENSION IF NOT EXISTS postgis")
 
     comfort_level_enum = postgresql.ENUM(
@@ -51,16 +52,17 @@ def upgrade() -> None:
         name="activation_response",
     )
 
-    comfort_level_enum.create(op.get_bind(), checkfirst=True)
-    activation_stage_enum.create(op.get_bind(), checkfirst=True)
-    opportunity_tier_enum.create(op.get_bind(), checkfirst=True)
-    activation_response_enum.create(op.get_bind(), checkfirst=True)
-
     op.create_table(
         "users",
-        sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
+        sa.Column(
+            "id",
+            postgresql.UUID(as_uuid=True),
+            nullable=False,
+            server_default=sa.text("gen_random_uuid()"),
+        ),
         sa.Column("email", sa.String(length=255), nullable=False),
         sa.Column("display_name", sa.String(length=100), nullable=True),
+        sa.Column("password_hash", sa.Text(), nullable=True),
         sa.Column("location_lat", sa.Float(), nullable=True),
         sa.Column("location_lng", sa.Float(), nullable=True),
         sa.Column("location_updated_at", sa.DateTime(timezone=True), nullable=True),
@@ -101,13 +103,19 @@ def upgrade() -> None:
 
     op.create_table(
         "user_preferences",
-        sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
+        sa.Column(
+            "id",
+            postgresql.UUID(as_uuid=True),
+            nullable=False,
+            server_default=sa.text("gen_random_uuid()"),
+        ),
         sa.Column("user_id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column("category", sa.String(length=64), nullable=False),
         sa.Column("weight", sa.Float(), nullable=False, server_default=sa.text("0.5")),
         sa.Column("explicit", sa.Boolean(), nullable=False, server_default=sa.text("true")),
         sa.ForeignKeyConstraint(["user_id"], ["users.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
+        sa.UniqueConstraint("user_id", "category", name="uq_user_preferences_user_category"),
     )
     op.create_index(
         "ix_user_preferences_user_category",
@@ -118,10 +126,19 @@ def upgrade() -> None:
 
     op.create_table(
         "venues",
-        sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
+        sa.Column(
+            "id",
+            postgresql.UUID(as_uuid=True),
+            nullable=False,
+            server_default=sa.text("gen_random_uuid()"),
+        ),
         sa.Column("name", sa.String(length=255), nullable=False),
         sa.Column("address", sa.Text(), nullable=True),
-        sa.Column("location", Geography(geometry_type="POINT", srid=4326), nullable=True),
+        sa.Column(
+            "location",
+            Geography(geometry_type="POINT", srid=4326, spatial_index=False),
+            nullable=True,
+        ),
         sa.Column("venue_type", sa.String(length=64), nullable=True),
         sa.Column("capacity_estimate", sa.Integer(), nullable=True),
         sa.Column("vibe_tags", postgresql.ARRAY(sa.String(length=64)), nullable=True),
@@ -138,7 +155,12 @@ def upgrade() -> None:
 
     op.create_table(
         "events",
-        sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
+        sa.Column(
+            "id",
+            postgresql.UUID(as_uuid=True),
+            nullable=False,
+            server_default=sa.text("gen_random_uuid()"),
+        ),
         sa.Column("venue_id", postgresql.UUID(as_uuid=True), nullable=True),
         sa.Column("title", sa.String(length=255), nullable=False),
         sa.Column("description", sa.Text(), nullable=True),
@@ -166,7 +188,12 @@ def upgrade() -> None:
 
     op.create_table(
         "opportunities",
-        sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
+        sa.Column(
+            "id",
+            postgresql.UUID(as_uuid=True),
+            nullable=False,
+            server_default=sa.text("gen_random_uuid()"),
+        ),
         sa.Column("event_id", postgresql.UUID(as_uuid=True), nullable=True),
         sa.Column("tier", opportunity_tier_enum, nullable=False),
         sa.Column("title", sa.String(length=255), nullable=False),
@@ -175,7 +202,11 @@ def upgrade() -> None:
         sa.Column("travel_description", sa.Text(), nullable=True),
         sa.Column("social_proof_text", sa.Text(), nullable=True),
         sa.Column("expires_at", sa.DateTime(timezone=True), nullable=False),
-        sa.Column("location", Geography(geometry_type="POINT", srid=4326), nullable=True),
+        sa.Column(
+            "location",
+            Geography(geometry_type="POINT", srid=4326, spatial_index=False),
+            nullable=True,
+        ),
         sa.Column(
             "created_at",
             sa.DateTime(timezone=True),
@@ -195,7 +226,12 @@ def upgrade() -> None:
 
     op.create_table(
         "activations",
-        sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
+        sa.Column(
+            "id",
+            postgresql.UUID(as_uuid=True),
+            nullable=False,
+            server_default=sa.text("gen_random_uuid()"),
+        ),
         sa.Column("user_id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column("opportunity_id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column(

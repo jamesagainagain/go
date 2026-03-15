@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     try:
         yield
     finally:
-        await app.state.redis.close()
+        await app.state.redis.aclose()
 
 
 def create_app() -> FastAPI:
